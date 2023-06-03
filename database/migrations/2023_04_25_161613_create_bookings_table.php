@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignId('senderaddress_id')->constrained();
             $table->foreignId('receiver_id')->constrained();
             $table->foreignId('receiveraddress_id')->constrained();
-            $table->foreignId('boxtype_id')->constrained();
+            $table->foreignId('boxtype_id');
             $table->foreignId('servicetype_id')->constrained();
             $table->foreignId('agent_id')->constrained();
             $table->foreignId('zone_id')->constrained();
