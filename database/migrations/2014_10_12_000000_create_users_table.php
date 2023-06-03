@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('postal_code');
             $table->date('birth_date');
             $table->string('file_doc')->nullable();
-            $table->string('mobile_no')->unique();
+            $table->string('mobile_no');
             $table->string('home_no')->nullable();
             $table->date('date_hire');
             $table->boolean('is_active')->default(1);
