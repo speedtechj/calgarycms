@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('provincephil_id')->constrained('provincephils');
             $table->string('name');
-            $table->foreignId('zone_id')->constrained('zone');
+            $table->foreignId('zone_id');
             $table->timestamps();
         });
     }
