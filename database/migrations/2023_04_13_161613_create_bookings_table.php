@@ -1,0 +1,58 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('bookings', function (Blueprint $table) {
+            $table->id();
+            $table->string('booking_invoice');
+            $table->string('manual_invoice')->nullable();
+            $table->foreignId('sender_id')->constrained();
+            $table->foreignId('senderaddress_id')->constrained();
+            $table->foreignId('receiver_id')->constrained();
+            $table->foreignId('receiveraddress_id')->constrained();
+            $table->foreignId('boxtype_id')->constrained();
+            $table->foreignId('servicetype_id')->constrained();
+            $table->foreignId('agent_id')->constrained();
+            $table->foreignId('zone_id')->constrained();
+            $table->foreignId('branch_id')->constrained();
+            $table->foreignId('batch_id')->constrained();
+            $table->date('booking_date');
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            $table->foreignId('discount_id')->nullable();
+            $table->boolean('is_pickup')->default(0);
+            $table->unsignedBigInteger('total_price');
+            $table->unsignedBigInteger('irregular_length')->nullable();
+            $table->unsignedBigInteger('irregular_width')->nullable();
+            $table->unsignedBigInteger('irregular_height')->nullable();
+            $table->unsignedBigInteger('total_inches')->nullable();
+            $table->boolean('is_paid')->default(0);
+            $table->unsignedBigInteger('payment_balance');
+            $table->BigInteger('refund_amount')->nullable();
+            $table->string('dimension')->virtualAs('concat(irregular_length, \' \', irregular_width, \' \', irregular_height)');
+            $table->foreignId('user_id')->constrained();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('bookings');
+    }
+};
