@@ -21,7 +21,7 @@ class Booking extends Model
     }
     public function discount()
     {
-        return $this->belongsTo(discount::class);
+        return $this->belongsTo(Discount::class);
     }
     public function boxtype()
     {
