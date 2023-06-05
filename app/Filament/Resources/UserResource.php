@@ -97,7 +97,8 @@ class UserResource extends Resource
                             ->password()
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->hidden(fn (User $user) => $user->exists)),
                             Forms\Components\Select::make('roles')
                             ->multiple()
                             ->relationship('roles', 'name')
