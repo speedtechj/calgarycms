@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use Pages\EditUser;
 use App\Models\User;
 use Filament\Tables;
 use App\Models\Provincecan;
@@ -98,7 +99,7 @@ class UserResource extends Resource
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
                             ->maxLength(255)
-                            ->hidden(fn (User $user) => $user->exists)),
+                            ->hiddenOn(Pages\EditUser::class),
                             Forms\Components\Select::make('roles')
                             ->multiple()
                             ->relationship('roles', 'name')
