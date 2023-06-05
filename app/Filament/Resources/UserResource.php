@@ -95,7 +95,6 @@ class UserResource extends Resource
                             ->label('Date Hire'),
                         Forms\Components\TextInput::make('password')
                             ->password()
-
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
                             ->maxLength(255),
@@ -108,7 +107,7 @@ class UserResource extends Resource
                             ->multiple()
                             ->enableDownload()
                             ->disk('public')
-                            ->directory('branch')
+                            ->directory('user')
                             ->visibility('private')
                             ->enableOpen(),
                         Forms\Components\Select::make('branch_id')
