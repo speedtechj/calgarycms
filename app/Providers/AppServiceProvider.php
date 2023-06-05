@@ -33,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
                 if(auth()->user()){
                     Filament::registerUserMenuItems([
                         'account' => UserMenuItem::make()
-                        ->label('User Profile')
                         ->url(UserResource::getUrl('edit',['record' => auth()->user()])),
                         // ...
                     ]);
