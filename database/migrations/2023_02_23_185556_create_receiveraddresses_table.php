@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('receiveraddresses', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('receiver_id')->constrained();
             $table->string('address');
             $table->foreignId('provincephil_id')->constrained();
             $table->foreignId('cityphil_id')->constrained();
             $table->foreignId('barangayphil_id')->constrained();
             $table->string('zip_code')->nullable();
             $table->integer('loczone')->nullable();
-            $table->foreignId('receiver_id')->constrained();
             $table->timestamps();
         });
     }
