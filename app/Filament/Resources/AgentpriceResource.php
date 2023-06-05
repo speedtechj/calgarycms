@@ -37,7 +37,7 @@ class AgentpriceResource extends Resource
                     ->required(),
                 Select::make('servicetype_id')
                     ->label('Servicetype')
-                    ->options(Servicetype::where('id',2)->pluck('description', 'id'))
+                    ->options(Servicetype::where('id',1)->pluck('description', 'id'))
                     ->searchable(),
                 Select::make('boxtype_id')
                     ->relationship('boxtype', 'id')
