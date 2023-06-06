@@ -89,7 +89,6 @@ class AgentResource extends Resource
                         ->enableOpen(),
                         Toggle::make('agent_type')->label('In-House Agent'),
                     Forms\Components\MarkdownEditor::make('note')
-                        ->required()
                         ->maxLength(65535)->columnSpan('full'),
                 ])->columns(3)
 
