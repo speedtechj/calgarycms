@@ -39,6 +39,7 @@ class AgentResource extends Resource
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('address')
+                        ->label('Address')
                         ->required()
                         ->maxLength(255),
                     Select::make('provincecan_id')
@@ -100,30 +101,73 @@ class AgentResource extends Resource
         return $table
             ->columns([
 
-                Tables\Columns\TextColumn::make('first_name'),
-                Tables\Columns\TextColumn::make('last_name'),
-                Tables\Columns\TextColumn::make('address'),
-                Tables\Columns\TextColumn::make('provincecan.name'),
-                Tables\Columns\TextColumn::make('citycan.name'),
-                Tables\Columns\TextColumn::make('postal_code'),
-                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('first_name')
+                ->label('First Name')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
+                Tables\Columns\TextColumn::make('last_name')
+                ->label('Last Name')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
+                Tables\Columns\TextColumn::make('address')
+                ->label('Address')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
+                Tables\Columns\TextColumn::make('provincecan.name')
+                ->label('Province')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
+                Tables\Columns\TextColumn::make('citycan.name')
+                ->label('City')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
+                Tables\Columns\TextColumn::make('postal_code')
+                ->label('Postal Code')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
+                Tables\Columns\TextColumn::make('email')
+                ->label('Email')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('date_of_birth')
-                    ->date(),
-                Tables\Columns\TextColumn::make('filedoc'),
-                Tables\Columns\TextColumn::make('mobile_no'),
-                Tables\Columns\TextColumn::make('home_no'),
+                ->label('Date of Birth')
+                ->searchable()
+                ->sortable()
+                ->date()
+                ->toggleable($isToggledHiddenByDefault = true),
+                Tables\Columns\TextColumn::make('mobile_no')
+                ->label('Mobile No.')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
+                Tables\Columns\TextColumn::make('home_no')
+                ->label('Home No.')
+                ->searchable()
+                ->sortable()
+                ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('date_hired')
-                    ->date(),
+                ->date()
+                ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('note'),
                 IconColumn::make('agent_type')->label('In-House Agent')->boolean(),
                 Tables\Columns\TextColumn::make('user_id')
+                ->toggleable($isToggledHiddenByDefault = true)
                 ->label('Encoder')
                 ->getStateUsing(function(Model $record) {
                     return $record->user->first_name ." " .$record->user->last_name;
                 }),
                 Tables\Columns\TextColumn::make('created_at')
+                ->toggleable($isToggledHiddenByDefault = true)
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
+                ->toggleable($isToggledHiddenByDefault = true)
                     ->dateTime(),
             ])
             ->filters([
