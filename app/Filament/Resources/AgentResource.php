@@ -158,8 +158,11 @@ class AgentResource extends Resource
                     ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('mobile_no')
                 ->formatStateUsing(function (string $state) {
+                    if($state != null){
+                    
                     $formattedNumber = "(" . substr($state, 0, 3) . ") " . substr($state, 3, 3) . "-" . substr($state, 6);
                     return $formattedNumber;
+                    }
                 })
                     ->label('Mobile No.')
                     ->searchable()
