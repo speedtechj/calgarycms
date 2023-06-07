@@ -3,8 +3,10 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use TextInput\Mask;
 use Filament\Tables;
 use App\Models\Agent;
+use App\Models\Citycan;
 use App\Models\Provincecan;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
@@ -13,9 +15,14 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\AgentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AgentResource\RelationManagers;
@@ -62,6 +69,7 @@ class AgentResource extends Resource
                             return $province->citycan->pluck('name', 'id');
                         }),
                     Forms\Components\TextInput::make('postal_code')
+                        ->mask(fn ($mask) => $mask->pattern('a0a 0a0'))
                         ->required()
                         ->maxLength(255),
 
@@ -76,11 +84,13 @@ class AgentResource extends Resource
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('mobile_no')
+                        ->mask(fn ($mask) => $mask->pattern('(000)000-0000'))
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('home_no')
+                        ->mask(fn ($mask) => $mask->pattern('(000)000-0000'))
                         ->maxLength(255),
-                        Forms\Components\FileUpload::make('filedoc')
+                    Forms\Components\FileUpload::make('filedoc')
                         ->label('Document Attachements')
                         ->multiple()
                         ->enableDownload()
@@ -88,7 +98,7 @@ class AgentResource extends Resource
                         ->directory('agent')
                         ->visibility('private')
                         ->enableOpen(),
-                        Toggle::make('agent_type')->label('In-House Agent'),
+                    Toggle::make('agent_type')->label('In-House Agent'),
                     Forms\Components\MarkdownEditor::make('note')
                         ->maxLength(65535)->columnSpan('full'),
                 ])->columns(3)
@@ -102,72 +112,85 @@ class AgentResource extends Resource
             ->columns([
 
                 Tables\Columns\TextColumn::make('first_name')
-                ->label('First Name')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->label('First Name')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('last_name')
-                ->label('Last Name')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->label('Last Name')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('address')
-                ->label('Address')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->label('Address')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('provincecan.name')
-                ->label('Province')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->label('Province')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('citycan.name')
-                ->label('City')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->label('City')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('postal_code')
-                ->label('Postal Code')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->formatStateUsing(function (string $state) {
+                        $formattedpostal = substr($state, 0, 3) . " " . substr($state, 3, 3);
+                        return $formattedpostal;
+                    })
+                    ->label('Postal Code')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('email')
-                ->label('Email')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('date_of_birth')
-                ->label('Date of Birth')
-                ->searchable()
-                ->sortable()
-                ->date()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->label('Date of Birth')
+                    ->searchable()
+                    ->sortable()
+                    ->date()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('mobile_no')
-                ->label('Mobile No.')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                ->formatStateUsing(function (string $state) {
+                    $formattedNumber = "(" . substr($state, 0, 3) . ") " . substr($state, 3, 3) . "-" . substr($state, 6);
+                    return $formattedNumber;
+                })
+                    ->label('Mobile No.')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('home_no')
-                ->label('Home No.')
-                ->searchable()
-                ->sortable()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->label('Home No.')
+                    ->searchable()
+                    ->sortable()
+                    ->formatStateUsing(function (string $state) {
+                        $formattedNumber = "(" . substr($state, 0, 3) . ") " . substr($state, 3, 3) . "-" . substr($state, 6);
+                        return $formattedNumber;
+                    })
+                    
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('date_hired')
-                ->date()
-                ->toggleable($isToggledHiddenByDefault = true),
+                    ->date()
+                    ->toggleable($isToggledHiddenByDefault = true),
                 Tables\Columns\TextColumn::make('note'),
                 IconColumn::make('agent_type')->label('In-House Agent')->boolean(),
                 Tables\Columns\TextColumn::make('user_id')
-                ->toggleable($isToggledHiddenByDefault = true)
-                ->label('Encoder')
-                ->getStateUsing(function(Model $record) {
-                    return $record->user->first_name ." " .$record->user->last_name;
-                }),
+                    ->toggleable($isToggledHiddenByDefault = true)
+                    ->label('Encoder')
+                    ->getStateUsing(function (Model $record) {
+                        return $record->user->first_name . " " . $record->user->last_name;
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
-                ->toggleable($isToggledHiddenByDefault = true)
+                    ->toggleable($isToggledHiddenByDefault = true)
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                ->toggleable($isToggledHiddenByDefault = true)
+                    ->toggleable($isToggledHiddenByDefault = true)
                     ->dateTime(),
             ])
             ->filters([
