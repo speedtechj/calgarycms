@@ -172,8 +172,10 @@ class AgentResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->formatStateUsing(function (string $state) {
-                        $formattedNumber = "(" . substr($state, 0, 3) . ") " . substr($state, 3, 3) . "-" . substr($state, 6);
-                        return $formattedNumber;
+                        if($state != null){
+                            $formattedNumber = "(" . substr($state, 0, 3) . ") " . substr($state, 3, 3) . "-" . substr($state, 6);
+                            return $formattedNumber;
+                            }
                     })
                     
                     ->toggleable($isToggledHiddenByDefault = true),
