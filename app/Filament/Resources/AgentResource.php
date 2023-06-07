@@ -159,7 +159,6 @@ class AgentResource extends Resource
                 Tables\Columns\TextColumn::make('mobile_no')
                 ->formatStateUsing(function (string $state) {
                     if($state != null){
-                    
                     $formattedNumber = "(" . substr($state, 0, 3) . ") " . substr($state, 3, 3) . "-" . substr($state, 6);
                     return $formattedNumber;
                     }
