@@ -97,6 +97,8 @@ class AgentResource extends Resource
                         ->disk('public')
                         ->directory('agent')
                         ->visibility('private')
+                        ->minSize(512)
+                        ->maxSize(1024)
                         ->enableOpen(),
                     Toggle::make('agent_type')->label('In-House Agent'),
                     Forms\Components\MarkdownEditor::make('note')
