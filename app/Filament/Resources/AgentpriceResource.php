@@ -48,6 +48,9 @@ class AgentpriceResource extends Resource
                     ->searchable(),
 
                 Forms\Components\TextInput::make('price')
+                    ->prefix('$')
+                    ->numeric()
+                    ->maxValue(42949672.95)
                     ->required(),
                 Forms\Components\Textarea::make('note')
                     ->maxLength(65535),
@@ -62,7 +65,7 @@ class AgentpriceResource extends Resource
                 Tables\Columns\TextColumn::make('servicetype.description'),
                 Tables\Columns\TextColumn::make('boxtype.description'),
                 Tables\Columns\TextColumn::make('zone.description'),
-                Tables\Columns\TextColumn::make('price'),
+                Tables\Columns\TextColumn::make('price')->money('USD'),
                 Tables\Columns\TextColumn::make('note'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
