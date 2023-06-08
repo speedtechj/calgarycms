@@ -31,13 +31,13 @@ class AgentpriceResource extends Resource
             ->schema([
                 Forms\Components\Select::make('agent_id')
                     ->label('Agent Name')
-                    ->options(Agent::where('agent_type','0')->pluck('full_name', 'id'))
+                    ->options(Agent::where('agent_type', '0')->pluck('full_name', 'id'))
                     ->searchable()
                     ->preload()
                     ->required(),
                 Select::make('servicetype_id')
                     ->label('Servicetype')
-                    ->options(Servicetype::where('id',1)->pluck('description', 'id'))
+                    ->options(Servicetype::where('id', 1)->pluck('description', 'id'))
                     ->searchable(),
                 Select::make('boxtype_id')
                     ->relationship('boxtype', 'id')
@@ -61,16 +61,38 @@ class AgentpriceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('agent.full_name'),
-                Tables\Columns\TextColumn::make('servicetype.description'),
-                Tables\Columns\TextColumn::make('boxtype.description'),
-                Tables\Columns\TextColumn::make('zone.description'),
-                Tables\Columns\TextColumn::make('price')->money('USD'),
-                Tables\Columns\TextColumn::make('note'),
+                Tables\Columns\TextColumn::make('agent.full_name')
+                    ->label('Agent Name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('servicetype.description')
+                    ->label('Service Type')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('boxtype.description')
+                    ->label('Box Type')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('zone.description'
+                    ->label('Location')
+                    ->searchable()
+                    ->sortable()),
+                Tables\Columns\TextColumn::make('price')->money('USD')
+                    ->label('Price')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('note')
+                    ->label('Note')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->searchable()
+                    ->sortable()
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
