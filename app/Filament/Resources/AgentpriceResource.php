@@ -11,6 +11,7 @@ use App\Models\Servicetype;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Tables\Filters\SelectFilter;
@@ -96,9 +97,11 @@ class AgentpriceResource extends Resource
                     ->sortable(),
             ])
             ->filters([
+                SelectFilter::make('agent_id')->label('Agent Name')
+                    ->relationship('agent', 'full_name', fn (Builder $query) => $query->where('agent_type', '0')),
                 SelectFilter::make('zone_id')->relationship('zone', 'description')->label('Area'),
                 SelectFilter::make('servicetype_id')->relationship('servicetype', 'description')->label('Service'),
-        
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
