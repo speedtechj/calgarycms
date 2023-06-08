@@ -139,31 +139,28 @@ class BookingRelationManager extends RelationManager
                                         $height = $get('irregular_height');
                                         $totalinches = $get('total_inches');
                                         $agentid = $get('agent_id');
-                                        dump($state);
-                                        if ($agentid != null) {
-                                            $agent_id = Agent::find($get('agent_id'));
-                                            $agent_type = $agent_id->agent_type;
-                                            if ($agent_type == 0 || $agent_type == null) {
-                                                $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
-                                            } else {
-                                                $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                        if ($state == 1){
+                                            if ($agentid != null) {
+                                                $agent_id = Agent::find($get('agent_id'));
+                                                $agent_type = $agent_id->agent_type;
+                                                if ($agent_type == 0 || $agent_type == null) {
+                                                    $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
+                                                } else {
+                                                    $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                                }
+                                                $set('total_price', $price);
                                             }
-                                            $set('total_price', $price);
                                         }else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
-                                           
+                                            $set('agent_id', null);
+                                            $set('start_time', null);
+                                            $set('end_time', null);
                                         }
-
-                                        // if ($state == '2') {
-                                        //     $set('is_pickup', false);
-                                        //     $set('start_time', time());
-                                        //     $set('end_time', time());
-                                        // }
                                     })
                                     ->reactive(),
                                
-                                Forms\Components\Select::make('agentid')
+                                Forms\Components\Select::make('agent_id')
                                     ->label('Agent Name')
                                     ->relationship('agent', 'id')
                                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
@@ -182,41 +179,40 @@ class BookingRelationManager extends RelationManager
                                         $width = $get('irregular_width');
                                         $height = $get('irregular_height');
                                         $totalinches = $get('total_inches');
-                                        $agentid = $get('agent_id');
+                                        $agentid = $state;
                                         if ($agentid != null) {
-                                            $agent_id = Agent::find($get('agent_id'));
+                                            $agent_id = Agent::find($state);
                                             $agent_type = $agent_id->agent_type;
                                             if ($agent_type == 0 || $agent_type == null) {
                                                 $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
-                                            $set('total_price', $price);
+                                           
+                                            $set('total_price', $price / 100);
+                                            $set('agent_id', $state);
+                                           
                                         }
-
-                                        if ($state == '2') {
-                                            $set('is_pickup', false);
-                                            $set('start_time', time());
-                                            $set('end_time', time());
-                                        }
-                                        $set('agent_id', $state);
+                                           
+                                        
                                     })
                                     ->dehydrated(false),
                                     Hidden::make('agent_id')->disabled(),
                                 Forms\Components\DatePicker::make('booking_date')
                                     ->required(),
-                                Forms\Components\TimePicker::make('starttime')
+                                Forms\Components\TimePicker::make('start_time')
                                 ->dehydrated(false)
                                 ->withoutSeconds()
                                 ->required()
                                 ->hidden(fn (\Closure $get) => $get('servicetype_id') == '2')
                                 ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
+                                 
                                     $set('start_time', $state);
                                     
                                    
                                 }),
                                 Hidden::make('start_time')->disabled(),
-                                Forms\Components\TimePicker::make('endtime')
+                                Forms\Components\TimePicker::make('end_time')
                                 ->dehydrated(false)
                                 ->withoutSeconds()
                                 ->required()
@@ -244,6 +240,7 @@ class BookingRelationManager extends RelationManager
                             Card::make()->schema([
 
                                 Select::make('boxtype_id')
+                                ->prefix('$')
                                     ->searchable()
                                     ->preload()
                                     ->relationship('boxtype', 'id')
@@ -276,7 +273,7 @@ class BookingRelationManager extends RelationManager
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
-                                            $set('total_price', $price);
+                                            $set('total_price', $price / 100);
                                             
                                         }else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
@@ -512,7 +509,7 @@ class BookingRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->mutateFormDataUsing(function (array $data): array {
-
+                       
                         $data['user_id'] = auth()->id();
                         $data['branch_id'] = 1;
                         $data['payment_balance'] = $data['total_price'];
@@ -521,10 +518,8 @@ class BookingRelationManager extends RelationManager
                             $data['is_paid'] = 1;
                         }
                         return $data;
-                    })
-                    // ->before(function () {
-                    //    dd('hello');
-                    // })
+                    }),
+                   
 
 
 
@@ -533,7 +528,12 @@ class BookingRelationManager extends RelationManager
 
 
                 Tables\Actions\EditAction::make()
-                    ->after(function (Booking $record, array $data) {
+                ->afterFormFilled(function (Booking $record, array $data) {
+                   $data['starttime'] = $record->start_time;
+                   $data['endtime'] = $record->end_time;
+                   return $data;
+                })
+                ->after(function (Booking $record, array $data) {
                         $booking_payment = Bookingpayment::where('booking_id', $record->id)->sum('payment_amount');
                         if ($record->is_paid != 0) {
 

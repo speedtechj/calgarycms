@@ -70,7 +70,8 @@ class ZonepriceResource extends Resource
                     }),
                 Tables\Columns\TextColumn::make('zone.description')
                     ->label('Area'),
-                Tables\Columns\TextColumn::make('price'),
+                Tables\Columns\TextColumn::make('price')->money('USD')
+                    ->label('Price'),
                 Tables\Columns\TextColumn::make('boxtype.total_box')
                     ->label('Total Number Box'),
                 Tables\Columns\TextColumn::make('branch.business_name'),

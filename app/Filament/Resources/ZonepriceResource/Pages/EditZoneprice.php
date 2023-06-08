@@ -9,6 +9,16 @@ use Filament\Resources\Pages\EditRecord;
 class EditZoneprice extends EditRecord
 {
     protected static string $resource = ZonepriceResource::class;
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['price'] = $data['price'] / 100;
+        return $data;
+    }
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['price'] = $data['price'] * 100;
+        return $data;
+    }
 
     protected function getActions(): array
     {
