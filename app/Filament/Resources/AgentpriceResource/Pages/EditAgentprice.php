@@ -21,4 +21,8 @@ class EditAgentprice extends EditRecord
         $data['price'] = $data['price'] * 100;
         return $data;
     }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
