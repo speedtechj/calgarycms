@@ -79,7 +79,7 @@ class AgentpriceResource extends Resource
                     ->label('Location')
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('price')->money('USD')
+                Tables\Columns\TextColumn::make('price')->money('USD',shouldConvert:true)
                     ->label('Price')
                     ->searchable()
                     ->sortable(),
