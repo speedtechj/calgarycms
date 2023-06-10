@@ -240,7 +240,6 @@ class BookingRelationManager extends RelationManager
                             Card::make()->schema([
 
                                 Select::make('boxtype_id')
-                                ->prefix('$')
                                     ->searchable()
                                     ->preload()
                                     ->relationship('boxtype', 'id')
