@@ -114,8 +114,9 @@ class Booking extends Model
 
         if ($boxtype_id != 4) {
             return $price->price  * $quantity + $regular_extended_charges - $discount;
-            //  dump($price->price - $discount);
+            
         } else {
+           
             return $price->price  * $quantity * $irregular_extracharges - $discount;
         }
 

@@ -296,9 +296,11 @@ class BookingRelationManager extends RelationManager
 
                                 Forms\Components\TextInput::make('irregular_length')
                                     ->label('Length')
+                                    ->mask(fn (TextInput\Mask $mask) => $mask
                                     ->numeric()
-                                    ->minValue(1)
-                                    ->maxValue(100)
+                                    ->minValue(19) // Set the minimum value that the number can be.
+                                    ->maxValue(1000) // Set the maximum value that the number can be.
+                                    )
                                     ->required()
                                     ->reactive()
                                     ->hidden(fn (\Closure $get) => $get('boxtype_id') !== '4')
@@ -323,11 +325,18 @@ class BookingRelationManager extends RelationManager
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             $set('total_price', $price);
+                                        }else {
+                                            $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                            $set('total_price', $price);
                                         }
                                     }),
                                 Forms\Components\TextInput::make('irregular_width')
                                     ->label('Width')
+                                    ->mask(fn (TextInput\Mask $mask) => $mask
                                     ->numeric()
+                                    ->minValue(19) // Set the minimum value that the number can be.
+                                    ->maxValue(1000) // Set the maximum value that the number can be.
+                                    )
                                     ->required()
                                     ->reactive()
                                     ->hidden(fn (\Closure $get) => $get('boxtype_id') !== '4')
@@ -350,15 +359,20 @@ class BookingRelationManager extends RelationManager
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
+                                            $set('total_price', $price);
+                                        }else {
+                                            $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
                                     }),
                                 Forms\Components\TextInput::make('irregular_height')
                                     ->label('Height')
                                     ->required()
+                                    ->mask(fn (TextInput\Mask $mask) => $mask
                                     ->numeric()
-                                    ->minValue(1)
-                                    ->maxValue(100)
+                                    ->minValue(34) // Set the minimum value that the number can be.
+                                    ->maxValue(1000) // Set the maximum value that the number can be.
+                                    )
                                     ->hidden(fn (\Closure $get) => $get('boxtype_id') !== '4')
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
@@ -381,6 +395,9 @@ class BookingRelationManager extends RelationManager
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
+                                            $set('total_price', $price);
+                                        }else {
+                                            $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
                                     }),
@@ -551,15 +568,6 @@ class BookingRelationManager extends RelationManager
             ->actions([
 
                 Tables\Actions\EditAction::make()
-                // ->mutateRecordDataUsing(function (array $data) {
-                //     dump($data);
-                //     $data['total_price'] = $data['total_price'] / 100;
-                //     return $data;
-                // })
-                // ->mutateFormDataUsing(function (array $data) {
-                //     $data['total_price'] = $data['total_price'] * 100;
-                //     return $data;
-                // })
                 ->after(function (Booking $record, array $data) {
                        if($data['servicetype_id'] == 2){
                             $record->update([
