@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -10,6 +11,10 @@ class Booking extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $casts = [
+        'total_price' => MoneyCast::class,
+        'payment_balance' => MoneyCast::class,
+         ];
     protected static function booted()
     {
         static::creating(function ($invoice) {
@@ -100,6 +105,7 @@ class Booking extends Model
         if (!$price) {
             return 0;
         }
+       
 
         $discount = $discount ? Discount::find($discount)->discount_amount : 0;
         $quantity = $boxtype_id ? Boxtype::find($boxtype_id)->total_box : 0;
@@ -107,9 +113,10 @@ class Booking extends Model
         $irregular_extracharges = ($length && $width && $height) ? $length * $width * $height / 9720 : 0;
 
         if ($boxtype_id != 4) {
-            return $price->price * $quantity + $regular_extended_charges - $discount;
+            return $price->price  * $quantity + $regular_extended_charges - $discount;
+            //  dump($price->price - $discount);
         } else {
-            return $price->price * $quantity * $irregular_extracharges - $discount;
+            return $price->price  * $quantity * $irregular_extracharges - $discount;
         }
 
        
@@ -130,7 +137,7 @@ class Booking extends Model
                 $query->where('agent_id', $agent_id);
             })
             ->first();
-
+            
         if ($price == null) {
             return 0;
         }

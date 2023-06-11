@@ -151,11 +151,12 @@ class BookingRelationManager extends RelationManager
                                                 $set('total_price', $price);
                                             }
                                         }else {
+                                        
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
-                                            $set('agent_id', null);
                                             $set('start_time', null);
                                             $set('end_time', null);
+                                            
                                         }
                                     })
                                     ->reactive(),
@@ -182,16 +183,21 @@ class BookingRelationManager extends RelationManager
                                         $agentid = $state;
                                         if ($agentid != null) {
                                             $agent_id = Agent::find($state);
+                                            
                                             $agent_type = $agent_id->agent_type;
                                             if ($agent_type == 0 || $agent_type == null) {
                                                 $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
+                                                $set('total_price', $price);
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                                $set('total_price', $price);
                                             }
                                            
-                                            $set('total_price', $price / 100);
-                                            $set('agent_id', $state);
                                            
+                                           
+                                        } else {
+                                            $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                            $set('total_price', $price);
                                         }
                                            
                                         
@@ -256,14 +262,14 @@ class BookingRelationManager extends RelationManager
                                         $height = $get('irregular_height');
                                         $totalinches = $get('total_inches');
                                         $agentid = $get('agent_id');
-                                        if ($boxtype_id == 4) {
-                                            $length = 0;
-                                            $width = 0;
-                                            $height = 0;
-                                        }
-                                        if ($boxtype_id == 9) {
-                                            $totalinches = 0;
-                                        }
+                                        // if ($boxtype_id == 4) {
+                                        //     $length = 0;
+                                        //     $width = 0;
+                                        //     $height = 0;
+                                        // }
+                                        // if ($boxtype_id == 9) {
+                                        //     $totalinches = 0;
+                                        // }
                                         if ($agentid != null) {
                                             $agent_id = Agent::find($get('agent_id'));
                                             $agent_type = $agent_id->agent_type;
@@ -272,7 +278,7 @@ class BookingRelationManager extends RelationManager
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
-                                            $set('total_price', $price / 100);
+                                            $set('total_price', $price);
                                             
                                         }else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
@@ -407,6 +413,7 @@ class BookingRelationManager extends RelationManager
                                     }),
                                 Forms\Components\TextInput::make('manual_invoice'),
                                 Forms\Components\Select::make('discount_id')
+                                    ->helperText('')
                                     ->relationship('discount', 'code')
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
@@ -425,14 +432,31 @@ class BookingRelationManager extends RelationManager
                                             $agent_type = $agent_id->agent_type;
                                             if ($agent_type == 0 || $agent_type == null) {
                                                 $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
+                                                
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             if ($price < 0) {
-                                                Filament::notify('danger', 'Price cannot be less thant 0');
+                                                
+                                                Filament::notify('danger', 'Price cannot be less than 0');
+                                                $set('discount_id', null);
+                                                
                                             } else {
                                                 $set('total_price', $price);
                                             }
+                                        } else {
+                                            
+                                            $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                            // dump($price->price);
+                                            if ($price < 0) {
+                                                
+                                                Filament::notify('danger', 'Price cannot be less than 0');
+                                                $set('discount_id', null);
+                                            } else {
+                                               
+                                                $set('total_price', $price);
+                                            }
+                                            
                                         }
                                     }),
                                 Forms\Components\TextInput::make('total_price')
@@ -494,11 +518,11 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
                 Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
                 Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount'),
-                Tables\Columns\TextColumn::make('total_price'),
+                Tables\Columns\TextColumn::make('total_price')->money('USD',shouldConvert: true),
                 Tables\Columns\IconColumn::make('is_paid')
                     ->label('Paid')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('payment_balance')->label('Balance'),
+                Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD',shouldConvert: true),
                 Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
@@ -514,9 +538,9 @@ class BookingRelationManager extends RelationManager
                         $data['branch_id'] = 1;
                         $data['payment_balance'] = $data['total_price'];
                         $data['zone_id'] = Receiveraddress::find($data['receiveraddress_id'])->loczone;
-                        if ($data['total_price'] == 0) {
-                            $data['is_paid'] = 1;
-                        }
+                        // if ($data['total_price'] == 0) {
+                        //     $data['is_paid'] = 1;
+                        // }
                         return $data;
                     }),
                    
@@ -526,14 +550,23 @@ class BookingRelationManager extends RelationManager
             ])
             ->actions([
 
-
                 Tables\Actions\EditAction::make()
-                ->afterFormFilled(function (Booking $record, array $data) {
-                   $data['starttime'] = $record->start_time;
-                   $data['endtime'] = $record->end_time;
-                   return $data;
-                })
+                // ->mutateRecordDataUsing(function (array $data) {
+                //     dump($data);
+                //     $data['total_price'] = $data['total_price'] / 100;
+                //     return $data;
+                // })
+                // ->mutateFormDataUsing(function (array $data) {
+                //     $data['total_price'] = $data['total_price'] * 100;
+                //     return $data;
+                // })
                 ->after(function (Booking $record, array $data) {
+                       if($data['servicetype_id'] == 2){
+                            $record->update([
+                                'agent_id' => null,
+                                
+                            ]);
+                       }
                         $booking_payment = Bookingpayment::where('booking_id', $record->id)->sum('payment_amount');
                         if ($record->is_paid != 0) {
 
@@ -545,14 +578,33 @@ class BookingRelationManager extends RelationManager
                                     'is_paid' => 0
                                 ]);
                             } else {
+                                $refund_sum = Bookingrefund::where('booking_id', $record->id)->sum('payment_amount');
+                                if (!$refund_sum){
+                                   
+                                    $record->update([
+                                        'refund_amount' => $booking_payment - $record->total_price,
+    
+                                    ]);
+                                }else {
+                                    if($record->total_price > $booking_payment ){
+                                        $record->update([
+                                            'refund_amount' => $booking_payment - $record->total_price - $refund_sum,
+        
+                                        ]);
+                                    }else {
+                                        $payment_balance =  $record->total_price + $refund_sum - $booking_payment ;
                                 $record->update([
-                                    'refund_amount' => $booking_payment - $record->total_price,
-
+                                    'payment_balance' => $payment_balance,
+                                    'is_paid' => 0
                                 ]);
+                                    }
+                                    
+                                }
+                                
                             }
                         } else {
 
-                            if ($record->total_price = $booking_payment) {
+                            if ($record->total_price == $booking_payment) {
                                 $record->update([
                                     'is_paid' => 1
                                 ]);
