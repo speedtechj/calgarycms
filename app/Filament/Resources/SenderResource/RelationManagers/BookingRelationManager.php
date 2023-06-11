@@ -550,6 +550,13 @@ class BookingRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->after(function (Booking $record, array $data) {
+                        if($record->boxtype_id !=4){
+                            $record->update([
+                                'irregular_width' => null,
+                                'irregular_length' => null,
+                                'irregular_height' => null,
+                            ]);
+                        };
                         if ($data['servicetype_id'] == 2) {
                             $record->update([
                                 'agent_id' => null,
