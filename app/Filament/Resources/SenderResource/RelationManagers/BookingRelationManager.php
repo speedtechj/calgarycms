@@ -116,7 +116,7 @@ class BookingRelationManager extends RelationManager
                                             $set('total_price', $price);
                                         }
                                     })
-                                   
+
 
                             ])->columns(2)
                         ]),
@@ -139,7 +139,7 @@ class BookingRelationManager extends RelationManager
                                         $height = $get('irregular_height');
                                         $totalinches = $get('total_inches');
                                         $agentid = $get('agent_id');
-                                        if ($state == 1){
+                                        if ($state == 1) {
                                             if ($agentid != null) {
                                                 $agent_id = Agent::find($get('agent_id'));
                                                 $agent_type = $agent_id->agent_type;
@@ -150,17 +150,16 @@ class BookingRelationManager extends RelationManager
                                                 }
                                                 $set('total_price', $price);
                                             }
-                                        }else {
-                                        
+                                        } else {
+
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                             $set('start_time', null);
                                             $set('end_time', null);
-                                            
                                         }
                                     })
                                     ->reactive(),
-                               
+
                                 Forms\Components\Select::make('agent_id')
                                     ->label('Agent Name')
                                     ->relationship('agent', 'id')
@@ -183,7 +182,7 @@ class BookingRelationManager extends RelationManager
                                         $agentid = $state;
                                         if ($agentid != null) {
                                             $agent_id = Agent::find($state);
-                                            
+
                                             $agent_type = $agent_id->agent_type;
                                             if ($agent_type == 0 || $agent_type == null) {
                                                 $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
@@ -192,41 +191,33 @@ class BookingRelationManager extends RelationManager
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                                 $set('total_price', $price);
                                             }
-                                           
-                                           
-                                           
                                         } else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
-                                           
-                                        
                                     })
                                     ->dehydrated(false),
-                                    Hidden::make('agent_id')->disabled(),
+                                Hidden::make('agent_id')->disabled(),
                                 Forms\Components\DatePicker::make('booking_date')
                                     ->required(),
                                 Forms\Components\TimePicker::make('start_time')
-                                ->dehydrated(false)
-                                ->withoutSeconds()
-                                ->required()
-                                ->hidden(fn (\Closure $get) => $get('servicetype_id') == '2')
-                                ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
-                                 
-                                    $set('start_time', $state);
-                                    
-                                   
-                                }),
+                                    ->dehydrated(false)
+                                    ->withoutSeconds()
+                                    ->required()
+                                    ->hidden(fn (\Closure $get) => $get('servicetype_id') == '2')
+                                    ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
+
+                                        $set('start_time', $state);
+                                    }),
                                 Hidden::make('start_time')->disabled(),
                                 Forms\Components\TimePicker::make('end_time')
-                                ->dehydrated(false)
-                                ->withoutSeconds()
-                                ->required()
-                                ->hidden(fn (\Closure $get) => $get('servicetype_id') == '2')
-                                ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
-                                    $set('end_time', $state);
-                                   
-                                }),
+                                    ->dehydrated(false)
+                                    ->withoutSeconds()
+                                    ->required()
+                                    ->hidden(fn (\Closure $get) => $get('servicetype_id') == '2')
+                                    ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
+                                        $set('end_time', $state);
+                                    }),
                                 Hidden::make('end_time')->disabled(),
                                 Select::make('batch_id')
                                     ->label('Batch')
@@ -279,27 +270,26 @@ class BookingRelationManager extends RelationManager
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             $set('total_price', $price);
-                                            
-                                        }else {
+                                        } else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
-                                            
                                         }
                                         // if ($state == '2') {
                                         //     $set('is_pickup', false);
                                         //     $set('start_time', time());
                                         //     $set('end_time', time());
                                         // }
-                                       
+
                                     }),
 
 
                                 Forms\Components\TextInput::make('irregular_length')
                                     ->label('Length')
-                                    ->mask(fn (TextInput\Mask $mask) => $mask
-                                    ->numeric()
-                                    ->minValue(19) // Set the minimum value that the number can be.
-                                    ->maxValue(1000) // Set the maximum value that the number can be.
+                                    ->mask(
+                                        fn (TextInput\Mask $mask) => $mask
+                                            ->numeric()
+                                            ->minValue(19) // Set the minimum value that the number can be.
+                                            ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
                                     ->required()
                                     ->reactive()
@@ -325,17 +315,18 @@ class BookingRelationManager extends RelationManager
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             $set('total_price', $price);
-                                        }else {
+                                        } else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
                                     }),
                                 Forms\Components\TextInput::make('irregular_width')
                                     ->label('Width')
-                                    ->mask(fn (TextInput\Mask $mask) => $mask
-                                    ->numeric()
-                                    ->minValue(19) // Set the minimum value that the number can be.
-                                    ->maxValue(1000) // Set the maximum value that the number can be.
+                                    ->mask(
+                                        fn (TextInput\Mask $mask) => $mask
+                                            ->numeric()
+                                            ->minValue(19) // Set the minimum value that the number can be.
+                                            ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
                                     ->required()
                                     ->reactive()
@@ -360,7 +351,7 @@ class BookingRelationManager extends RelationManager
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             $set('total_price', $price);
-                                        }else {
+                                        } else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
@@ -368,10 +359,11 @@ class BookingRelationManager extends RelationManager
                                 Forms\Components\TextInput::make('irregular_height')
                                     ->label('Height')
                                     ->required()
-                                    ->mask(fn (TextInput\Mask $mask) => $mask
-                                    ->numeric()
-                                    ->minValue(34) // Set the minimum value that the number can be.
-                                    ->maxValue(1000) // Set the maximum value that the number can be.
+                                    ->mask(
+                                        fn (TextInput\Mask $mask) => $mask
+                                            ->numeric()
+                                            ->minValue(34) // Set the minimum value that the number can be.
+                                            ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
                                     ->hidden(fn (\Closure $get) => $get('boxtype_id') !== '4')
                                     ->reactive()
@@ -396,7 +388,7 @@ class BookingRelationManager extends RelationManager
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             $set('total_price', $price);
-                                        }else {
+                                        } else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
@@ -449,31 +441,28 @@ class BookingRelationManager extends RelationManager
                                             $agent_type = $agent_id->agent_type;
                                             if ($agent_type == 0 || $agent_type == null) {
                                                 $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
-                                                
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             if ($price < 0) {
-                                                
+
                                                 Filament::notify('danger', 'Price cannot be less than 0');
                                                 $set('discount_id', null);
-                                                
                                             } else {
                                                 $set('total_price', $price);
                                             }
                                         } else {
-                                            
+
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             // dump($price->price);
                                             if ($price < 0) {
-                                                
+
                                                 Filament::notify('danger', 'Price cannot be less than 0');
                                                 $set('discount_id', null);
                                             } else {
-                                               
+
                                                 $set('total_price', $price);
                                             }
-                                            
                                         }
                                     }),
                                 Forms\Components\TextInput::make('total_price')
@@ -535,11 +524,11 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
                 Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
                 Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount'),
-                Tables\Columns\TextColumn::make('total_price')->money('USD',shouldConvert: true),
+                Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
                 Tables\Columns\IconColumn::make('is_paid')
                     ->label('Paid')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD',shouldConvert: true),
+                Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
@@ -550,35 +539,25 @@ class BookingRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\CreateAction::make()
                     ->mutateFormDataUsing(function (array $data): array {
-                       
+
                         $data['user_id'] = auth()->id();
                         $data['branch_id'] = 1;
                         $data['payment_balance'] = $data['total_price'];
                         $data['zone_id'] = Receiveraddress::find($data['receiveraddress_id'])->loczone;
-                        // if ($data['total_price'] == 0) {
-                        //     $data['is_paid'] = 1;
-                        // }
                         return $data;
                     }),
-                   
-
-
-
             ])
             ->actions([
-
                 Tables\Actions\EditAction::make()
-                ->after(function (Booking $record, array $data) {
-                       if($data['servicetype_id'] == 2){
+                    ->after(function (Booking $record, array $data) {
+                        if ($data['servicetype_id'] == 2) {
                             $record->update([
                                 'agent_id' => null,
-                                
+
                             ]);
-                       }
+                        }
                         $booking_payment = Bookingpayment::where('booking_id', $record->id)->sum('payment_amount');
                         if ($record->is_paid != 0) {
-
-
                             if ($record->total_price > $booking_payment) {
                                 $payment_balance = $record->total_price - $booking_payment;
                                 $record->update([
@@ -587,31 +566,28 @@ class BookingRelationManager extends RelationManager
                                 ]);
                             } else {
                                 $refund_sum = Bookingrefund::where('booking_id', $record->id)->sum('payment_amount');
-                                if (!$refund_sum){
-                                   
+                                if (!$refund_sum) {
+
                                     $record->update([
                                         'refund_amount' => $booking_payment - $record->total_price,
-    
+
                                     ]);
-                                }else {
-                                    if($record->total_price > $booking_payment ){
+                                } else {
+                                    if ($record->total_price > $booking_payment) {
                                         $record->update([
                                             'refund_amount' => $booking_payment - $record->total_price - $refund_sum,
-        
+
                                         ]);
-                                    }else {
-                                        $payment_balance =  $record->total_price + $refund_sum - $booking_payment ;
-                                $record->update([
-                                    'payment_balance' => $payment_balance,
-                                    'is_paid' => 0
-                                ]);
+                                    } else {
+                                        $payment_balance =  $record->total_price + $refund_sum - $booking_payment;
+                                        $record->update([
+                                            'payment_balance' => $payment_balance,
+                                            'is_paid' => 0
+                                        ]);
                                     }
-                                    
                                 }
-                                
                             }
                         } else {
-
                             if ($record->total_price == $booking_payment) {
                                 $record->update([
                                     'is_paid' => 1
@@ -629,13 +605,13 @@ class BookingRelationManager extends RelationManager
                     }),
                 Tables\Actions\DeleteAction::make(),
                 ActionGroup::make([
-                    
+
                     Tables\Actions\Action::make('print')
-                    ->url(fn (Booking $record)=> route( 'barcode.pdf.download', $record))
-                    ->openUrlInNewTab(),
+                        ->url(fn (Booking $record) => route('barcode.pdf.download', $record))
+                        ->openUrlInNewTab(),
                     Tables\Actions\Action::make('barcode')
-                    ->url(fn (Booking $record)=> route( 'barcode1.pdf.download', $record))
-                    ->openUrlInNewTab(),
+                        ->url(fn (Booking $record) => route('barcode1.pdf.download', $record))
+                        ->openUrlInNewTab(),
                     Tables\Actions\Action::make('Payment')->label('Received Payment')
                         ->color('success')
                         ->icon('heroicon-o-currency-dollar')
