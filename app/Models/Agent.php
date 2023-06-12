@@ -23,4 +23,7 @@ class Agent extends Model
     public function provincecan(){
         return $this->belongsTo(Provincecan::class);
     }
+    public function booking(){
+        return $this->hasMany(Booking::class);
+    }
 }

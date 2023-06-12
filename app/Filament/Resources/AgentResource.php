@@ -26,6 +26,7 @@ use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\AgentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AgentResource\RelationManagers;
+use App\Filament\Resources\AgentResource\RelationManagers\BookingRelationManager;
 
 class AgentResource extends Resource
 {
@@ -213,7 +214,7 @@ class AgentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            BookingRelationManager::class,
         ];
     }
 
