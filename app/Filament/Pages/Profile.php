@@ -9,6 +9,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Illuminate\Support\Facades\Auth;
 
 class Profile extends Page implements HasForms
 {
