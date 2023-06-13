@@ -470,6 +470,7 @@ class BookingRelationManager extends RelationManager
                                     ->required()
                                     ->numeric()
                                     ->disabled(),
+                                MarkdownEditor::make('note')->label('Notes')->columnSpan('full'),
                             ])->columns(2),
                         ]),
 
