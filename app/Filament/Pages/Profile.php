@@ -73,7 +73,7 @@ class Profile extends Page implements HasForms
     protected function getBreadcrumbs(): array
     {
         return [
-            url()->current() => 'Uawe/Profile',
+            url()->current() => 'User/Profile',
         ];
     }
 
