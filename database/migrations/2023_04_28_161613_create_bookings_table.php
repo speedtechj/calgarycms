@@ -41,6 +41,7 @@ return new class extends Migration
             $table->unsignedBigInteger('payment_balance');
             $table->BigInteger('refund_amount')->nullable();
             $table->string('dimension')->virtualAs('concat(irregular_length, \' \', irregular_width, \' \', irregular_height)');
+            $table->text('note')->nullable();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
