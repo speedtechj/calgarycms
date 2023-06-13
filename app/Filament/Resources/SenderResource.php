@@ -53,7 +53,7 @@ class SenderResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                    MarkdownEditor::make('remark')
+                MarkdownEditor::make('remark')
                     ->label('Note'),
             ]);
     }
@@ -63,45 +63,45 @@ class SenderResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('full_name')
-                ->label('Full Name')
-                ->searchable()
-                ->toggleable()
-                ->sortable()
-                ->weight('bold'),
+                    ->label('Full Name')
+                    ->searchable()
+                    ->toggleable()
+                    ->sortable()
+                    ->weight('bold'),
                 Tables\Columns\TextColumn::make('mobile_no')
-                ->searchable()
-                ->toggleable()
-                ->sortable(),
+                    ->searchable()
+                    ->toggleable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('home_no')
-                ->searchable()
-                ->toggleable()
-                ->sortable(),
+                    ->searchable()
+                    ->toggleable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('email')
-                ->searchable()
-                ->toggleable()
-                ->sortable(),
+                    ->searchable()
+                    ->toggleable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('remark')
-                ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('branch.business_name')
-                ->searchable()
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->sortable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user_id')->label('Created By')
-                ->searchable()
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->sortable()
-                ->getStateUsing(function(Model $record) {
-                    return $record->user->first_name ." " .$record->user->last_name;
-                }),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
+                    ->getStateUsing(function (Model $record) {
+                        return $record->user->first_name . " " . $record->user->last_name;
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
-                ->searchable()
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                ->searchable()
-                ->toggleable(isToggledHiddenByDefault: true)
-                ->sortable()
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable()
                     ->dateTime(),
             ])
             ->filters([
@@ -112,8 +112,8 @@ class SenderResource extends Resource
                     Tables\Actions\EditAction::make()->label('Edit'),
                     Tables\Actions\DeleteAction::make()->label('Delete'),
                 ]),
-                
-                
+
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
@@ -123,13 +123,13 @@ class SenderResource extends Resource
     public static function getRelations(): array
     {
         return [
-           SenderaddressRelationManager::class,
-           ReceiverRelationManager::class,
-           BookingRelationManager::class,
-           BookingpaymentRelationManager::class,
-           BookingrefundRelationManager::class,
-           PackinglistRelationManager::class,
-           
+            BookingRelationManager::class,
+            BookingpaymentRelationManager::class,
+            BookingrefundRelationManager::class,
+            SenderaddressRelationManager::class,
+            ReceiverRelationManager::class,
+            PackinglistRelationManager::class,
+
         ];
     }
 

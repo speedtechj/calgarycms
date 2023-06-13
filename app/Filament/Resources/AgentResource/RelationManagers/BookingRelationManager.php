@@ -5,6 +5,7 @@ namespace App\Filament\Resources\AgentResource\RelationManagers;
 use Closure;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Sender;
 use App\Models\Booking;
 use App\Models\Packinglist;
 use App\Models\Paymenttype;
@@ -24,6 +25,7 @@ use Filament\Tables\Columns\BadgeColumn;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\SenderResource;
 use Filament\Forms\Components\TextInput\Mask;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -54,7 +56,10 @@ class BookingRelationManager extends RelationManager
                 ->label('Manual Invoice')
                 ->sortable()
                 ->searchable(),
-
+                Tables\Columns\TextColumn::make('sender.full_name')->label('Sender')
+                ->sortable()
+                ->searchable()
+                ->url(fn (Booking $record) => SenderResource::getUrl('edit', ['record' => $record->sender])),
             Tables\Columns\TextColumn::make('receiver.full_name')->label('Receiver')
                 ->sortable()
                 ->searchable(),
@@ -78,8 +83,8 @@ class BookingRelationManager extends RelationManager
                 ->label('Is Pickup')
                 ->boolean(),
             Tables\Columns\TextColumn::make('zone.description'),
-            Tables\Columns\TextColumn::make('booking_date')->label('Pickup/Dropoff Date'),
-            Tables\Columns\TextColumn::make('start_time')->label('Pickup/Dropoff Time')
+            Tables\Columns\TextColumn::make('booking_date')->label('Pickup'),
+            Tables\Columns\TextColumn::make('start_time')->label('Pickup Time')
                 ->getStateUsing(function (Model $record) {
                     return $record->start_time . " - " . $record->end_time;
                 }),
@@ -104,14 +109,18 @@ class BookingRelationManager extends RelationManager
             ->actions([
                 ActionGroup::make([
 
-                    Tables\Actions\Action::make('print')
+                    Tables\Actions\Action::make('print')->label('Print Invoice')
+                    ->icon('heroicon-o-printer')
+                    ->color('success') 
                         ->url(fn (Booking $record) => route('barcode.pdf.download', $record))
                         ->openUrlInNewTab(),
-                    Tables\Actions\Action::make('barcode')
+                    Tables\Actions\Action::make('barcode')->label('Print Barcode')
+                    ->icon('heroicon-o-qrcode')
+                    ->color('danger')
                         ->url(fn (Booking $record) => route('barcode1.pdf.download', $record))
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('Payment')->label('Received Payment')
-                        ->color('success')
+                        ->color('warning')
                         ->icon('heroicon-o-currency-dollar')
                         ->hidden(fn (Booking $record) => $record->is_paid == 1)
                         ->form([
