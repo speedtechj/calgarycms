@@ -33,20 +33,37 @@ class Bookingexport implements ShouldAutoSize, FromQuery, WithMapping, WithHeadi
     }
     public function map($booking): array
     {
+        // dd($booking->senderaddress->citycan->name);
         return [
-            $booking->servicetype->description,
-            $booking->boxtype->description,
+            $booking->sender->full_name,
+            $booking->senderaddress->address,
+            $booking->senderaddress->provincecan->name,
+            $booking->senderaddress->citycan->name,
+            $booking->senderaddress->postal_code,
+            $booking->sender->mobile_no,
+            $booking->sender->home_no,
+            $booking->start_time,
+            $booking->end_time,
             $booking->zone->description,
-            $booking->total_amount,
+            $booking->boxtype->description,
+            $booking->total_price,
             $booking->note,             
         ];
     }
     public function headings(): array
     {
         return [
-            'Service',
-            'Box',
-            'Area',
+            'Full Name',
+            'Address',
+            'Province',
+            'City',
+            'Postal Code',
+            'Mobile No',
+            'Home No',
+            'start Time',
+            'end Time',
+            'Location',
+            'Box Type',
             'Price',
             'Note',
         ];

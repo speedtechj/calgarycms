@@ -41,9 +41,7 @@ class BookingRelationManager extends RelationManager
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-               
-            ]);
+            ->schema([]);
     }
 
     public static function table(Table $table): Table
@@ -51,56 +49,56 @@ class BookingRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('booking_invoice')
-                ->label('Invoice')
-                ->sortable()
-                ->searchable(),
-            Tables\Columns\TextColumn::make('manual_invoice')
-                ->label('Manual Invoice')
-                ->sortable()
-                ->searchable(),
+                    ->label('Invoice')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('manual_invoice')
+                    ->label('Manual Invoice')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('sender.full_name')->label('Sender')
-                ->sortable()
-                ->searchable()
-                ->url(fn (Booking $record) => SenderResource::getUrl('edit', ['record' => $record->sender])),
-            Tables\Columns\TextColumn::make('receiver.full_name')->label('Receiver')
-                ->sortable()
-                ->searchable(),
-            Tables\Columns\BadgeColumn::make('servicetype.description')->label('Type of Service')
-                ->color(static function ($state): string {
-                    if ($state === 'Pickup') {
-                        return 'success';
-                    }
+                    ->sortable()
+                    ->searchable()
+                    ->url(fn (Booking $record) => SenderResource::getUrl('edit', ['record' => $record->sender])),
+                Tables\Columns\TextColumn::make('receiver.full_name')->label('Receiver')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\BadgeColumn::make('servicetype.description')->label('Type of Service')
+                    ->color(static function ($state): string {
+                        if ($state === 'Pickup') {
+                            return 'success';
+                        }
 
-                    return 'info';
-                }),
-            Tables\Columns\TextColumn::make('boxtype.description'),
-            Tables\Columns\TextColumn::make('batch.id')
-                ->label('Batch Number')
-                ->sortable()
-                ->searchable()
-                ->getStateUsing(function (Model $record) {
-                    return $record->batch->batchno . " " . $record->batch->batch_year;
-                }),
-            Tables\Columns\IconColumn::make('is_pickup')
-                ->label('Is Pickup')
-                ->boolean(),
-            Tables\Columns\TextColumn::make('zone.description'),
-            Tables\Columns\TextColumn::make('booking_date')->label('Pickup'),
-            Tables\Columns\TextColumn::make('start_time')->label('Pickup Time')
-                ->getStateUsing(function (Model $record) {
-                    return $record->start_time . " - " . $record->end_time;
-                }),
-            Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
-            Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
-            Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount'),
-            Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
-            Tables\Columns\IconColumn::make('is_paid')
-                ->label('Paid')
-                ->boolean(),
-            Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
-            Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
-            Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
-            Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
+                        return 'info';
+                    }),
+                Tables\Columns\TextColumn::make('boxtype.description'),
+                Tables\Columns\TextColumn::make('batch.id')
+                    ->label('Batch Number')
+                    ->sortable()
+                    ->searchable()
+                    ->getStateUsing(function (Model $record) {
+                        return $record->batch->batchno . " " . $record->batch->batch_year;
+                    }),
+                Tables\Columns\IconColumn::make('is_pickup')
+                    ->label('Is Pickup')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('zone.description'),
+                Tables\Columns\TextColumn::make('booking_date')->label('Pickup'),
+                Tables\Columns\TextColumn::make('start_time')->label('Pickup Time')
+                    ->getStateUsing(function (Model $record) {
+                        return $record->start_time . " - " . $record->end_time;
+                    }),
+                Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
+                Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
+                Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount'),
+                Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
+                Tables\Columns\IconColumn::make('is_paid')
+                    ->label('Paid')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
+                Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
+                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
+                Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
             ])
             ->filters([
                 //
@@ -112,13 +110,13 @@ class BookingRelationManager extends RelationManager
                 ActionGroup::make([
 
                     Tables\Actions\Action::make('print')->label('Print Invoice')
-                    ->icon('heroicon-o-printer')
-                    ->color('success') 
+                        ->icon('heroicon-o-printer')
+                        ->color('success')
                         ->url(fn (Booking $record) => route('barcode.pdf.download', $record))
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('barcode')->label('Print Barcode')
-                    ->icon('heroicon-o-qrcode')
-                    ->color('danger')
+                        ->icon('heroicon-o-qrcode')
+                        ->color('danger')
                         ->url(fn (Booking $record) => route('barcode1.pdf.download', $record))
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('Payment')->label('Received Payment')
@@ -305,10 +303,9 @@ class BookingRelationManager extends RelationManager
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('Export')->label('Export')
+                Tables\Actions\BulkAction::make('xls')->label('Export to Excel')
                     ->icon('heroicon-o-document-download')
-                    ->action(fn(Collection $records) => (new Bookingexport($records))->download('booking.xlsx')),
-                   
+                    ->action(fn (Collection $records) => (new Bookingexport($records))->download('booking.xlsx')),
             ]);
-    }    
+    }
 }
