@@ -29,7 +29,7 @@ class Profile extends Page implements HasForms
     public function mount()
     {
         $this->form->fill([
-            'name' => auth()->user()->name,
+            'name' => auth()->user()->first_name . ' ' . auth()->user()->last_name,
             'email' => auth()->user()->email,
         ]);
     }
@@ -39,7 +39,7 @@ class Profile extends Page implements HasForms
         $this->form->getState();
 
         $state = array_filter([
-            'name' => $this->name,
+            // 'name' => $this->name,
             'email' => $this->email,
             'password' => $this->new_password ? Hash::make($this->new_password) : null,
         ]);
@@ -82,6 +82,8 @@ class Profile extends Page implements HasForms
                 ->columns(2)
                 ->schema([
                     TextInput::make('name')
+                        ->label('Full Name')
+                        ->dehydrated(false)
                         ->required(),
                     TextInput::make('email')
                         ->label('Email Address')
