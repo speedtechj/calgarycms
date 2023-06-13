@@ -88,7 +88,8 @@ class Profile extends Page implements HasForms
                         ->required(),
                     TextInput::make('email')
                         ->label('Email Address')
-                        ->required(),
+                        ->required()
+                        
                 ]),
             Section::make('Update Password')
                 ->columns(2)
