@@ -17,6 +17,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "maatwebsite/excel": "^3.1",
         "mikehaertl/phpwkhtmltopdf": "^2.5",
         "milon/barcode": "^10.0"
     },

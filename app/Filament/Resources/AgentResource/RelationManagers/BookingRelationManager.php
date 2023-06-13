@@ -13,6 +13,7 @@ use App\Models\Packlistitem;
 use Filament\Resources\Form;
 use App\Models\Bookingrefund;
 use Filament\Resources\Table;
+use App\Exports\Bookingexport;
 use App\Models\Bookingpayment;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\Select;
@@ -26,6 +27,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\SenderResource;
+use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\TextInput\Mask;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -303,7 +305,10 @@ class BookingRelationManager extends RelationManager
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\BulkAction::make('Export')->label('Export')
+                    ->icon('heroicon-o-document-download')
+                    ->action(fn(Collection $records) => (new Bookingexport($records))->download('booking.xlsx')),
+                   
             ]);
     }    
 }
