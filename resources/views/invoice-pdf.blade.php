@@ -27,8 +27,7 @@
 .page[size="A4"]{
 
     width: 21cm;
-    height: 34.4cm;
-   
+    height: 34.4cm;  
 
 }
 
@@ -38,11 +37,11 @@
     height: 100px;
     width: 180px;
     top: -30px;
-    left: -50px;
+    align-items:center;
 }
 #top-right-content{
     position: absolute;
-    top: 5px;
+    top: -15px;
     right: 10px;
 
 }
@@ -54,7 +53,7 @@
 
     text-align: center;
     position: relative;
-    top: 105px;
+    top: 70px;
 }
 #head p{
     font-size: medium;
@@ -65,29 +64,32 @@
 
     border: 1px solid;
     position: relative;
-    top:  87px;
+    top:  52px;
     width: 49%;
     height: 252px;
     left: 12px;
     text-align: center;
+    border-collapse:collapse;
 }
 #table2{
     border: 1px solid;
     position: relative;
-    top:  -165px;
+    top:  -200px;
     width: 49%;
     height: 252px;
-    left: 397px;
+    left: 399px;
     text-align: center;
+    border-collapse:collapse;
 }
 .table{
 
     font-size: small;
+    border-collapse:collapse;
 
 }
 #itemize{
 
-    top: -128px;
+    top: -200px;
     left: 10px;
     position: relative;
 
@@ -100,28 +102,52 @@
 
     border: 1px solid;
     position: relative;
-    top:  -135px;
+    top:  -210px;
     width: 98%;
     left: 10px;
     font-size: small;
     text-align: center;
+    border-collapse:collapse;
     
 
 }
-#table3, th{
-    font-weight: bold;
-}
+
 #table3,th,td{
     border:  1px solid;
     
 }
+#itemize2{
+
+top: -200px;
+left: 10px;
+position: relative;
+
+}
+#itemize2 p{
+font-size: medium;
+font-weight: bold;
+}
+#table4{
+
+border: 1px solid;
+position: relative;
+top:  -210px;
+width: 98%;
+left: 10px;
+font-size: small;
+text-align: center;
+border-collapse:collapse;
+
+}
+
+
 #right-content{
    display: block;
    position: relative;
    width: 47%;
    float: left;
    right: -10px;
-   top: -135px;
+   top: -60px;
    
    
 }
@@ -141,7 +167,7 @@
    width: 47%;
    float: right;
    right: -10px;
-   top: -90px;
+   top: -60px;
    font-size:small;
    
 }
@@ -199,7 +225,7 @@ top: 165px;
 
 #page1-footer{
     position: absolute;
-    bottom: 45px;
+    bottom: 80px;
     left: 0px;
    
 
@@ -209,8 +235,8 @@ top: 165px;
 }
 #page1-footer2{
     position: absolute;
-    bottom: 45px;
-    left:210px;   
+    bottom: 80px;
+    left:200px;   
 
 }
 #page1-footer2 p{
@@ -234,6 +260,14 @@ top: 165px;
     font-size: x-large;
 }
 
+#payment-mode{
+    position:absolute;
+    top:580px;
+    font-size:medium;
+    left: 10px;
+    font-family:arial;
+    
+}
   
   </style>
     
@@ -247,8 +281,8 @@ top: 165px;
          <img src="{{ public_path("/image002.png") }}" alt="logo"  />
          </div>
          <div id="top-right-content">
-            <p>BATCH#._______________________</p>
-            <p>TRACKING#.____________________</p>
+           <p>INVOICE#. {{$record->booking_invoice}}</p>
+           <p>DROPOFF. {{ $record->booking_date }}</p>
         </div>
         <div id="head">
             <p>THIS INVOICE IS SUBJECT TO THE TERMS AND CONDITIONS PRINTED ON THE REVERSE</p>
@@ -261,85 +295,88 @@ top: 165px;
                   <th colspan="3">SENDER INFORMATION</th> 
                 </tr>
                 <tr>
-                  <td>COMPLETE NAME</td>
-                  <td>ADDRESS</td>
+                  <th>COMPLETE NAME</th>
+                  <th>ADDRESS</th>
+                  <th>POSTAL CODE</th>
                 </tr>
                 <tr>
                    
                         
                     <td>{{ $record->sender->full_name}}</td>
                     <td>{{ $record->senderaddress->address }}</td>
+                    <td>{{$record->senderaddress->postal_code}}</td>
                 
                 </tr>
                 <tr>
-                  <td>CITY</td>
-                  <td>PROVINCE</td>
-                  <td>POSTAL CODE</td>
+                  <th>CITY</th>
+                  <th>PROVINCE</th>
+                  <th>MOBILE NUMBER 1</th>
+                  
                 </tr>
                 <tr>
                     <td>{{ $temp->name }}</td>
                     <td>{{ $temp->provincecan->name }}</td>
-                    <td></td>
+                    <td>{{ $record->sender->mobile_no }}</td> 
+                    
                 </tr>
                 <tr>
-                  <td>MOBILE NUMBER 1</td>          
-                  <td>LANDLINE NUMBER</td>
+                            
+                  <th>LANDLINE NUMBER</th>
+                  <th colspan="2">EMAIL</th> 
                 </tr>
                 <tr>
-                    <td>{{ $record->sender->mobile_no }}</td>          
+                            
                     <td>{{ $record->sender->home_no }}</td>
+                    <td colspan="2">{{ $record->sender->email }}</td>
                   </tr>
-                <tr>
-                    <td style="font-weight: bold;">EMAIL:</td> 
-                </tr>
-                <tr>         
-                    <td>{{ $record->sender->email }}</td>
-                  </tr>
+              
               </table>
         </div>
               <div class="table">
               <table id="table2">
                 <tr>
-                  <th colspan="4">RECIEVER INFORMATION</th> 
+                  <th colspan="4">RECEIVER INFORMATION</th> 
                 </tr>
                 <tr>
-                  <td>COMPLETE NAME</td>
-                  <td>ADDRESS</td>
+                  <th>COMPLETE NAME</th>
+                  <th>ADDRESS</th>
+                  <th>BRGY</th>  
+                  <th>CITY</th>
 
                 </tr>
                 <tr>
                     <td>{{ $record->receiver->full_name}}</td>
                     <td>{{ $record->receiveraddress->address}}</td>
+                    <td>{{ $record->receiveraddress->barangayphil->name}}</td>  
+                    <td>{{ $temp2->name }}</td>
   
                   </tr>
                 <tr>
-                  <td>BRGY</td>  
-                  <td>CITY</td>
-                  <td>PROVINCE</td>
-                  <td>ZIP CODE</td>
+                  
+                  <th>PROVINCE</th>
+                  <th>ZIP CODE</th>
+                  <th>MOBILE NUMBER 1</th>
+                  <th>LANDLINE NUMBER</th>
                 </tr>
                 <tr>
-                    <td></td>  
-                    <td>{{ $temp2->name }}</td>
+                    
                     <td>{{ $temp2->provincephil->name }}</td>
-                    <td>10008</td>
+                    <td>{{ $record->receiveraddress->zip_code}}</td> 
+                    <td>{{$record->receiver->mobile_no}}</td> 
+                    <td>{{$record->receiver->home_no}}</td>
                   </tr>
                 <tr>
-                  <td>MOBILE NUMBER 1</td>
-                  <td>LANDLINE NUMBER</td>
+                  
+                 
+                  <th colspan="4">EMAIL</th>  
                   
                 </tr>
                 <tr>
-                    <td>{{$record->receiver->mobile_no}}</td>
-                    <td>{{$record->receiver->home_no}}</td>
+                   
+                <td colspan="4">{{ $record->receiver->email}}</td> 
                     
                   </tr>
-                <tr>
-                    <td style="font-weight: bold;">EMAIL:</td> 
-                </tr>
-                <tr>
-                    <td >{{ $record->receiver->email}}</td> 
-                </tr>
+               
               </table>
 
 
@@ -350,28 +387,58 @@ top: 165px;
              <table id="table3">
                        
                             <tr>
-                              <th rowspan="2" >Quantity</th>
-                              <th rowspan="2" >Unit of <br> Measure</th>
-                              <th rowspan="2" >Goods <br>Description</th>
-                              <th colspan="2">Please Mark </th> 
+                              <th>Quantity</th>
+                              <th>Goods <br>Description</th>
+                             
                             </tr>
+                            
                             <tr>
-                              <th >New </th>
-                              <th >Used</th>
+                               <td>1</td> 
+                               <td>electronic</td>
+                             </tr>
+                            <tr>
+                            <tr>
+                               <td>1</td> 
+                               <td>electronic</td>
+                             </tr>
+                            <tr>
+                            <tr>
+                               <td>1</td> 
+                               <td>electronic</td>
+                             </tr>
+                             
+                            <tr>
+                              <td style="font-weight: bold;">Total Value: </td><td>100</td>
                             </tr>
-                            <tr>
-                                <td>Quantity</th>
-                                <td>Unit of <br> Measure</td>
-                                <td>Goods <br>Description</td>
-                                <td>Please Mark </td>
-                                <td>yes</td> 
-                              </tr>
-                            <tr>
-                              <td style="font-weight: bold;">Total Value: </td>
-                            </tr>
+                            
                             
                  
              </table>
+             <div id="itemize2">
+                    <P> DESCRIPTION OF PACKAGES AND GOODS</P>
+            </div>
+            <div class="table">
+             <table id="table4">
+                       
+                            <tr>
+                              <th>PRODUCT CODE</th>
+                              <th>DESCRIPTION</th>
+                              <th>PRICE</th>
+                              <th>TOTAL </th> 
+                            </tr>
+                            
+                            <tr>
+                                <td>{{ $record->booking_invoice }}</td>
+                                <td>{{ $record->servicetype->description}}</td>
+                                <td>{{ $record->total_price }}</td>
+                                <td>{{ $record->total_price }} </td>
+                               
+                              </tr>
+                           
+                            
+                 
+             </table>
+             </div>
 
             <div id="right-content">
                 <h4>OWNER’S/SHIPPER’S RISK FORM</h4>
@@ -390,6 +457,33 @@ top: 165px;
                     Shipper, as stated at the face of this Owner’s/Shipper’s Risk Form who is of legal
                     age, with address stated as the corresponding 
                     </p>
+            </div>
+            <div id="payment-mode">
+            <h3>MODE OF PAYMENT</h3>
+             <label class="container">CASH
+             <input type="checkbox" >
+             <span class="checkmark"></span>
+             </label>
+            <label class="container">DEBIT
+            <input type="checkbox">
+            <span class="checkmark"></span>
+                </label>
+            <label class="container">CHEQUE
+                <input type="checkbox">
+            <span class="checkmark"></span>
+                </label>
+                    <label class="container">MASTER CARD
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label>
+              <label class="container">VISA CARD
+                <input type="checkbox">
+                <span class="checkmark"></span>
+              </label><br>
+              <label class="container">E TRANSFER to calgary@forexcargodeals.com <input type="checkbox">
+                <span class="checkmark"></span>
+                
+              </label>
             </div>
             <div id="right">
                 <p><span style="font-weight: bold;">FOREX CARGO TRAVEL &amp;
