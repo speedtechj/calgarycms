@@ -17,6 +17,7 @@ class ServicetypeResource extends Resource
 {
     protected static ?string $model = Servicetype::class;
     protected static ?string $navigationGroup = 'Settings';
+    protected static bool $shouldRegisterNavigation = false;
 
     protected static ?string $navigationIcon = 'heroicon-o-truck';
 
