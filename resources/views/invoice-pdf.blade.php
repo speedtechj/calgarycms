@@ -20,6 +20,7 @@
     position: relative;
     box-shadow: gray;
     background-color: white;
+    font-style:arial;
 
 }
 
@@ -56,7 +57,7 @@
     top: 70px;
 }
 #head p{
-    font-size: medium;
+    font-size: small;
     font-weight: bold;
 }
 
@@ -147,12 +148,12 @@ border-collapse:collapse;
    width: 47%;
    float: left;
    right: -10px;
-   top: -60px;
+   top: -80px;
    
    
 }
 #right-content p{
-    font-size:small;
+    font-size:11px;
     font-weight: normal;
 }
 #right-content h4{
@@ -167,8 +168,8 @@ border-collapse:collapse;
    width: 47%;
    float: right;
    right: -10px;
-   top: -60px;
-   font-size:small;
+   top: -80px;
+   font-size:11px;
    
 }
 
@@ -179,6 +180,7 @@ border-collapse:collapse;
     position: relative;
     box-shadow: gray;
     background-color: white;
+    font-style:arial;
 
 }
 .page-break[size="A4"]{
@@ -194,7 +196,7 @@ border-collapse:collapse;
     position: relative;
     width: 55%;
     left: -5%;
-    font-size: small;
+    font-size: 11px;
     top: 143px;
     text-align: left;
  
@@ -207,7 +209,7 @@ border-collapse:collapse;
     float: right;
    right: -7%;
    top: 133px;
-   font-size: small;
+   font-size: 11px;
    text-align: left;
 
  }
@@ -220,7 +222,7 @@ top: 165px;
  }
 #footer p{
     font-weight: bold;
-    font-size: medium;
+    font-size: 11px;
 }
 
 #page1-footer{
@@ -245,7 +247,7 @@ top: 165px;
 #sender{
     position: absolute;
     top: 20px;
-    font-size: small;
+    font-size: 11px;
 
 }
 #date{
