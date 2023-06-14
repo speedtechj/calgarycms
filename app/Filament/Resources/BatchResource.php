@@ -21,7 +21,7 @@ class BatchResource extends Resource
     protected static ?string $model = Batch::class;
 
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-list';
 
     public static function form(Form $form): Form
     {

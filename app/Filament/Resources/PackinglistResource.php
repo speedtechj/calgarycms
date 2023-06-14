@@ -20,7 +20,7 @@ class PackinglistResource extends Resource
     protected static ?string $model = Packinglist::class;
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-view-list';
 
     public static function form(Form $form): Form
     {

@@ -21,7 +21,7 @@ class BarangayphilResource extends Resource
     public static ?string $label = 'Philippines Barangay';
     protected static ?string $model = Barangayphil::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-location-marker';
 
     public static function form(Form $form): Form
     {

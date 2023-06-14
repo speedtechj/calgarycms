@@ -18,7 +18,7 @@ class ZoneResource extends Resource
     protected static ?string $model = Zone::class;
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-location-marker';
 
     public static function form(Form $form): Form
     {

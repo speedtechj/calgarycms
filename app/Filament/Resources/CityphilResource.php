@@ -23,7 +23,7 @@ class CityphilResource extends Resource
     public static ?string $label = 'Philippines Citys/Towns';
     protected static ?string $model = Cityphil::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-location-marker';
 
     public static function form(Form $form): Form
     {

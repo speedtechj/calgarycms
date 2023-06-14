@@ -25,7 +25,7 @@ class ZonepriceResource extends Resource
     protected static ?string $model = Zoneprice::class;
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     public static function form(Form $form): Form
     {

@@ -25,7 +25,7 @@ class AgentpriceResource extends Resource
     protected static ?string $model = Agentprice::class;
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-cash';
 
     public static function form(Form $form): Form
     {

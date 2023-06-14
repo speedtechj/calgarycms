@@ -18,7 +18,7 @@ class ServicetypeResource extends Resource
     protected static ?string $model = Servicetype::class;
     protected static ?string $navigationGroup = 'Settings';
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
 
     public static function form(Form $form): Form
     {
