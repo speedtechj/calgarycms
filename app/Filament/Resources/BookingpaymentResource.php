@@ -18,6 +18,8 @@ class BookingpaymentResource extends Resource
     protected static ?string $model = Bookingpayment::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Settings';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

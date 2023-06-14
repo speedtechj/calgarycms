@@ -18,6 +18,8 @@ class BookingrefundResource extends Resource
     protected static ?string $model = Bookingrefund::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static bool $shouldRegisterNavigation = false;
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {
