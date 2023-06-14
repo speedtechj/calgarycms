@@ -616,10 +616,12 @@ class BookingRelationManager extends RelationManager
 
                     Tables\Actions\Action::make('print')
                         ->label('Print Invoice')
+                        ->color('warning')
                         ->icon('heroicon-o-printer')
                         ->url(fn (Booking $record) => route('barcode.pdf.download', $record))
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('barcode')
+                        ->color('success')
                         ->icon('heroicon-o-qrcode')
                         ->label('Print Barcode')
                         ->url(fn (Booking $record) => route('barcode1.pdf.download', $record))
