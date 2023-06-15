@@ -287,7 +287,7 @@ class BookingRelationManager extends RelationManager
                                     ->label('Length')
                                     ->mask(
                                         fn (TextInput\Mask $mask) => $mask
-                                            ->numeric()
+                                            // ->numeric()
                                             ->minValue(19) // Set the minimum value that the number can be.
                                             ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
@@ -324,7 +324,7 @@ class BookingRelationManager extends RelationManager
                                     ->label('Width')
                                     ->mask(
                                         fn (TextInput\Mask $mask) => $mask
-                                            ->numeric()
+                                            // ->numeric()
                                             ->minValue(19) // Set the minimum value that the number can be.
                                             ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
@@ -361,7 +361,7 @@ class BookingRelationManager extends RelationManager
                                     ->required()
                                     ->mask(
                                         fn (TextInput\Mask $mask) => $mask
-                                            ->numeric()
+                                            // ->numeric()
                                             ->minValue(34) // Set the minimum value that the number can be.
                                             ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
