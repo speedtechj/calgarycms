@@ -286,12 +286,8 @@ class BookingRelationManager extends RelationManager
                                 Forms\Components\TextInput::make('irregular_length')
                                     ->label('Length')
                                     ->numeric()
-                                    ->mask(
-                                        fn (TextInput\Mask $mask) => $mask
-                                            ->numeric()
-                                            ->minValue(19) // Set the minimum value that the number can be.
-                                            ->maxValue(1000) // Set the maximum value that the number can be.
-                                    )
+                                    ->minValue(19)
+                                    ->maxValue(100)
                                     ->required()
                                     ->reactive()
                                     ->hidden(fn (\Closure $get) => $get('boxtype_id') !== '4')
@@ -324,12 +320,8 @@ class BookingRelationManager extends RelationManager
                                 Forms\Components\TextInput::make('irregular_width')
                                     ->label('Width')
                                     ->numeric()
-                                    ->mask(
-                                        fn (TextInput\Mask $mask) => $mask
-                                            ->numeric()
-                                            ->minValue(19) // Set the minimum value that the number can be.
-                                            ->maxValue(1000) // Set the maximum value that the number can be.
-                                    )
+                                    ->minValue(19)
+                                    ->maxValue(100)
                                     ->required()
                                     ->reactive()
                                     ->hidden(fn (\Closure $get) => $get('boxtype_id') !== '4')
@@ -362,15 +354,8 @@ class BookingRelationManager extends RelationManager
                                     ->label('Height')
                                     ->numeric()
                                     ->minValue(34)
-    ->maxValue(100)
+                                    ->maxValue(100)
                                     ->required()
-
-                                    // ->mask(
-                                    //     fn (TextInput\Mask $mask) => $mask
-                                    //         ->numeric()
-                                    //         ->minValue(34) // Set the minimum value that the number can be.
-                                    //         ->maxValue(1000) // Set the maximum value that the number can be.
-                                    // )
                                     ->hidden(fn (\Closure $get) => $get('boxtype_id') !== '4')
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
