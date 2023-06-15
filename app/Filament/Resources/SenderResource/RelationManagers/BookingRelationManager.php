@@ -322,6 +322,7 @@ class BookingRelationManager extends RelationManager
                                     }),
                                 Forms\Components\TextInput::make('irregular_width')
                                     ->label('Width')
+                                    ->numeric()
                                     ->mask(
                                         fn (TextInput\Mask $mask) => $mask
                                             // ->numeric()
