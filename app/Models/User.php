@@ -49,7 +49,7 @@ class User extends Authenticatable implements  FilamentUser, HasName
     }
     public function canAccessFilament(): bool
     {
-        return true;
+        return str_ends_with($this->is_active, true);
     }
 
     public function branch(){
