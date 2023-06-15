@@ -71,15 +71,17 @@ class UserResource extends Resource
                                 return $province->citycan->pluck('name', 'id');
                             }),
                         Forms\Components\TextInput::make('postal_code')
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('a0a 0a0'))
                             ->required()
                             ->maxLength(255)
                             ->label('Postal Code'),
                         Forms\Components\TextInput::make('mobile_no')
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000)000-0000'))
                             ->required()
                             ->maxLength(255)
                             ->label('Mobile Number'),
                         Forms\Components\TextInput::make('home_no')
-                            ->tel()
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000)000-0000'))
                             ->maxLength(255)
                             ->label('Home Number'),
                         Forms\Components\TextInput::make('email')
@@ -113,6 +115,7 @@ class UserResource extends Resource
                             ->visibility('private')
                             ->enableOpen(),
                         Forms\Components\Select::make('branch_id')
+                            ->required()
                             ->relationship('branch', 'business_name'),
                         Toggle::make('is_active')->label('Active'),
                         MarkdownEditor::make('note')
