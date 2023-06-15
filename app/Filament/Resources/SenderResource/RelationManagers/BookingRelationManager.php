@@ -361,7 +361,7 @@ class BookingRelationManager extends RelationManager
                                 Forms\Components\TextInput::make('irregular_height')
                                     ->label('Height')
                                     ->numeric()
-                                    ->minValue(19)
+                                    ->minValue(34)
     ->maxValue(100)
                                     ->required()
 
