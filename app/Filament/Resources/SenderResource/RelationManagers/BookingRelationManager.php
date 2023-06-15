@@ -361,13 +361,16 @@ class BookingRelationManager extends RelationManager
                                 Forms\Components\TextInput::make('irregular_height')
                                     ->label('Height')
                                     ->numeric()
+                                    ->minValue(19)
+    ->maxValue(100)
                                     ->required()
-                                    ->mask(
-                                        fn (TextInput\Mask $mask) => $mask
-                                            ->numeric()
-                                            ->minValue(34) // Set the minimum value that the number can be.
-                                            ->maxValue(1000) // Set the maximum value that the number can be.
-                                    )
+
+                                    // ->mask(
+                                    //     fn (TextInput\Mask $mask) => $mask
+                                    //         ->numeric()
+                                    //         ->minValue(34) // Set the minimum value that the number can be.
+                                    //         ->maxValue(1000) // Set the maximum value that the number can be.
+                                    // )
                                     ->hidden(fn (\Closure $get) => $get('boxtype_id') !== '4')
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
