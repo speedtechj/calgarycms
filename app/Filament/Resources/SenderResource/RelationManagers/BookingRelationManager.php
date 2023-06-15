@@ -325,7 +325,7 @@ class BookingRelationManager extends RelationManager
                                     ->numeric()
                                     ->mask(
                                         fn (TextInput\Mask $mask) => $mask
-                                            // ->numeric()
+                                            ->numeric()
                                             ->minValue(19) // Set the minimum value that the number can be.
                                             ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
