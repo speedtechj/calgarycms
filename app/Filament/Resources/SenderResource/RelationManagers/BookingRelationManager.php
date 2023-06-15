@@ -285,9 +285,10 @@ class BookingRelationManager extends RelationManager
 
                                 Forms\Components\TextInput::make('irregular_length')
                                     ->label('Length')
+                                    ->numeric()
                                     ->mask(
                                         fn (TextInput\Mask $mask) => $mask
-                                            // ->numeric()
+                                            ->numeric()
                                             ->minValue(19) // Set the minimum value that the number can be.
                                             ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
@@ -359,10 +360,11 @@ class BookingRelationManager extends RelationManager
                                     }),
                                 Forms\Components\TextInput::make('irregular_height')
                                     ->label('Height')
+                                    ->numeric()
                                     ->required()
                                     ->mask(
                                         fn (TextInput\Mask $mask) => $mask
-                                            // ->numeric()
+                                            ->numeric()
                                             ->minValue(34) // Set the minimum value that the number can be.
                                             ->maxValue(1000) // Set the maximum value that the number can be.
                                     )
