@@ -409,6 +409,9 @@ class BookingRelationManager extends RelationManager
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             $set('total_price', $price);
+                                        }else {
+                                            $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                            $set('total_price', $price);
                                         }
                                     }),
                                 Forms\Components\TextInput::make('manual_invoice'),
