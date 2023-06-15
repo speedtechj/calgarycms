@@ -14,6 +14,7 @@ use App\Models\Boxtype;
 use App\Models\Citycan;
 use App\Models\Receiver;
 use App\Models\Zoneprice;
+use App\Models\Packinglist;
 use App\Models\Paymenttype;
 use App\Models\Servicetype;
 use App\Models\Packlistitem;
@@ -22,12 +23,12 @@ use App\Models\Bookingrefund;
 use App\Models\Senderaddress;
 use Filament\Resources\Table;
 use App\Models\Bookingpayment;
-use App\Models\Packinglist;
 use Filament\Facades\Filament;
 use App\Models\Receiveraddress;
 use App\Policies\BoxtypePolicy;
 use Psy\VersionUpdater\SelfUpdate;
 use Filament\Forms\Components\Card;
+use Filament\Tables\Filters\Filter;
 use App\Policies\PacklistitemPolicy;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -527,9 +528,10 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
-            ])
+                Tables\Columns\TextColumn::make('notes')->label('Notes'),
+            ])->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
@@ -805,6 +807,6 @@ class BookingRelationManager extends RelationManager
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])->reorderable('created_at');
     }
 }

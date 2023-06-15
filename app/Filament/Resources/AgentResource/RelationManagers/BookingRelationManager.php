@@ -102,7 +102,7 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
             ])
             ->filters([
-                Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
+                Filter::make('is_paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
                 Filter::make('booking_date')
                     ->form([
                         Forms\Components\DatePicker::make('pickup_from'),
