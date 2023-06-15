@@ -16,6 +16,7 @@ use Filament\Resources\Table;
 use App\Exports\Bookingexport;
 use App\Models\Bookingpayment;
 use Filament\Facades\Filament;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -101,7 +102,23 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
             ])
             ->filters([
-                //
+                Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
+                Filter::make('booking_date')
+                    ->form([
+                        Forms\Components\DatePicker::make('pickup_from'),
+                        Forms\Components\DatePicker::make('pickup_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['pickup_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['pickup_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '<=', $date),
+                            );
+                    })
             ])
             ->headerActions([
                 // 
