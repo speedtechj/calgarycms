@@ -106,12 +106,14 @@ class Booking extends Model
             return 0;
         }
        
-
+        if ($boxtype_id != 9){
+            $totalinches = null;
+        }
         $discount = $discount ? Discount::find($discount)->discount_amount : 0;
         $quantity = $boxtype_id ? Boxtype::find($boxtype_id)->total_box : 0;
         $regular_extended_charges = $totalinches ? $totalinches * 6 : 0;
         $irregular_extracharges = ($length && $width && $height) ? $length * $width * $height / 9720 : 0;
-
+        // dump($totalinches);
         if ($boxtype_id != 4) {
             return $price->price  * $quantity + $regular_extended_charges - $discount;
             

@@ -254,14 +254,6 @@ class BookingRelationManager extends RelationManager
                                         $height = $get('irregular_height');
                                         $totalinches = $get('total_inches');
                                         $agentid = $get('agent_id');
-                                        // if ($boxtype_id == 4) {
-                                        //     $length = 0;
-                                        //     $width = 0;
-                                        //     $height = 0;
-                                        // }
-                                        // if ($boxtype_id == 9) {
-                                        //     $totalinches = 0;
-                                        // }
                                         if ($agentid != null) {
                                             $agent_id = Agent::find($get('agent_id'));
                                             $agent_type = $agent_id->agent_type;
@@ -275,15 +267,7 @@ class BookingRelationManager extends RelationManager
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
-                                        // if ($state == '2') {
-                                        //     $set('is_pickup', false);
-                                        //     $set('start_time', time());
-                                        //     $set('end_time', time());
-                                        // }
-
                                     }),
-
-
                                 Forms\Components\TextInput::make('irregular_length')
                                     ->suffix('inches')
                                     ->label('Length')
@@ -550,6 +534,11 @@ class BookingRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->after(function (Booking $record, array $data) {
+                        if ($record->boxtype_id != 9){
+                            $record->update([
+                                'total_incehs' => null,
+                            ]);
+                        }
                         if($record->boxtype_id !=4){
                             $record->update([
                                 'irregular_width' => null,
