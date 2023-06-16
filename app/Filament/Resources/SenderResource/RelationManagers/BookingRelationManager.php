@@ -536,7 +536,7 @@ class BookingRelationManager extends RelationManager
                     ->after(function (Booking $record, array $data) {
                         if ($record->boxtype_id != 9){
                             $record->update([
-                                'total_incehs' => null,
+                                'total_inches' => null,
                             ]);
                         }
                         if($record->boxtype_id !=4){
