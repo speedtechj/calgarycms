@@ -285,7 +285,7 @@ class BookingRelationManager extends RelationManager
 
 
                                 Forms\Components\TextInput::make('irregular_length')
-                                    ->helperText('Unit measure by inches')
+                                    ->suffix('inches')
                                     ->label('Length')
                                     ->numeric()
                                     ->minValue(19)
@@ -321,7 +321,7 @@ class BookingRelationManager extends RelationManager
                                     }),
                                 Forms\Components\TextInput::make('irregular_width')
                                     ->label('Width')
-                                    ->helperText('Unit measure by inches')
+                                    ->suffix('inches')
                                     ->numeric()
                                     ->minValue(19)
                                     ->maxValue(100)
