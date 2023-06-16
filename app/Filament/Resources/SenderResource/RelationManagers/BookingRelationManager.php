@@ -355,7 +355,7 @@ class BookingRelationManager extends RelationManager
                                     }),
                                 Forms\Components\TextInput::make('irregular_height')
                                     ->label('Height')
-                                    ->helperText('Unit measure by inches')
+                                    ->suffix('inches')
                                     ->numeric()
                                     ->minValue(34)
                                     ->maxValue(100)
