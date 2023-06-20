@@ -3,9 +3,11 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\Zone;
 use Filament\Tables;
 use App\Models\Branch;
 use App\Models\Discount;
+use App\Models\Servicetype;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
@@ -26,13 +28,23 @@ class DiscountResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('servicetype_id')
+                    ->label('Service Type')
+                    ->options(Servicetype::all()->pluck('description', 'id'))
+                    ->required(),
+                    Forms\Components\Select::make('zone_id')
+                    ->label('Location')
+                    ->options(Zone::all()->pluck('description', 'id'))
+                    ->required(),
                 Forms\Components\TextInput::make('code')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('discount_amount')
+                    ->prefix('$')
                     ->required(),
 
 
@@ -47,6 +59,8 @@ class DiscountResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('servicetype.description'),
+                Tables\Columns\TextColumn::make('zone.description'),
                 Tables\Columns\TextColumn::make('code'),
                 Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\TextColumn::make('discount_amount'),

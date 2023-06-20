@@ -15,5 +15,11 @@ class Discount extends Model
     public function branch(){
         return $this->belongsTo(Branch::class);
     }
+    public function servicetype(){
+        return $this->belongsTo(Servicetype::class);
+    }
+    public function zone(){
+        return $this->belongsTo(Zone::class);
+    }
 
 }
