@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('discounts', function (Blueprint $table) {
-            $table->foreignId('servicetype_id')->constrained()->after('user_id');
-            $table->foreignId('zone_id')->constrained()->after('servicetype_id');
+            $table->foreignId('servicetype_id')->reference('id')->on('servicetypes')->constrained()->after('user_id');
+            $table->foreignId('zone_id')->reference('id')->on('servicetypes')->constrained()->after('servicetype_id');
         });
     }
 
