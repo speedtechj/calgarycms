@@ -54,6 +54,7 @@ class AgentdiscountResource extends Resource
                     ->required()
                     ->maxLength(191),
                 Forms\Components\TextInput::make('discount_amount')
+                    ->prefix('$')
                     ->required(),
             ]);
     }
@@ -74,7 +75,7 @@ class AgentdiscountResource extends Resource
                 Tables\Columns\TextColumn::make('branch.business_name'),
                 Tables\Columns\TextColumn::make('code'),
                 Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('discount_amount'),
+                Tables\Columns\TextColumn::make('discount_amount')->money('USD',shouldConvert:true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')

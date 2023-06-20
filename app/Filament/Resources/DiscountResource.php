@@ -63,8 +63,8 @@ class DiscountResource extends Resource
                 Tables\Columns\TextColumn::make('zone.description'),
                 Tables\Columns\TextColumn::make('code'),
                 Tables\Columns\TextColumn::make('description'),
-                Tables\Columns\TextColumn::make('discount_amount'),
-
+                Tables\Columns\TextColumn::make('discount_amount')
+                ->money('usd',shouldConvert:true),
                 Tables\Columns\TextColumn::make('branch.business_name')
                 ->label('Branch'),
                 Tables\Columns\TextColumn::make('user_id')
