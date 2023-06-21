@@ -8,10 +8,12 @@ use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
 use App\Models\Agent;
+use App\Models\Agentdiscount;
 use App\Models\Batch;
 use App\Models\Booking;
 use App\Models\Boxtype;
 use App\Models\Citycan;
+use App\Models\Discount;
 use App\Models\Receiver;
 use App\Models\Zoneprice;
 use App\Models\Packinglist;
@@ -152,6 +154,7 @@ class BookingRelationManager extends RelationManager
                                                 $set('total_price', $price);
                                             }
                                         } else {
+                                            
 
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
@@ -404,8 +407,26 @@ class BookingRelationManager extends RelationManager
                                     }),
                                 Forms\Components\TextInput::make('manual_invoice'),
                                 Forms\Components\Select::make('discount_id')
-                                    ->helperText('')
-                                    ->relationship('discount', 'code')
+                                    ->options(function( callable $get){          
+                                        $loczone = Receiveraddress::find($get('receiveraddress_id'));
+                                        if($loczone){
+                                            $zone_id = $loczone->loczone;
+                                            $agent_id = Agent::find($get('agent_id'));
+                                            if ($agent_id != null) {
+                                                $agent_type = $agent_id->agent_type;
+                                                if (!$agent_type) {
+                                                    return Agentdiscount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->where('agent_id', $get('agent_id'))->get()->pluck('code', 'id');
+                                                } else {
+                                                    return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->get()->pluck('code', 'id');
+                                                }
+                                            } else {
+                                                return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->get()->pluck('code', 'id');
+                                            }
+
+                                        }
+                                        
+                                       
+                                    })
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
                                         $loczone = Receiveraddress::find($get('receiveraddress_id'));
