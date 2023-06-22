@@ -417,12 +417,12 @@ class BookingRelationManager extends RelationManager
                                             if ($agent_id != null) {
                                                 $agent_type = $agent_id->agent_type;
                                                 if (!$agent_type) {
-                                                                return Agentdiscount::where('zone_id', $zone_id)->where('agent_id' ,$get('agent_id'))->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
+                                                                return Agentdiscount::where('zone_id', $zone_id)->where('is_active',true)->where('agent_id' ,$get('agent_id'))->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
                                                             } else {
-                                                                return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
+                                                                return Discount::where('zone_id', $zone_id)->where('is_active',true)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
                                                             }
                                             }else {
-                                                return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
+                                                return Discount::where('zone_id', $zone_id)->where('is_active',true)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
                                             }
                                            
                                             
