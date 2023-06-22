@@ -126,6 +126,7 @@ class Booking extends Model
     }
     public function agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agent_id, $totalinches)
     {
+       
         $price = Agentprice::with(['servicetype', 'zone', 'boxtype', 'agent'])
             ->whereHas('servicetype', function ($query) use ($service_id) {
                 $query->where('servicetype_id', $service_id);
