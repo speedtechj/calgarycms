@@ -154,12 +154,13 @@ class BookingRelationManager extends RelationManager
                                                 $set('total_price', $price);
                                             }
                                         } else {
-                                            
+
 
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                             $set('start_time', null);
                                             $set('end_time', null);
+                                            $set('agent_id', null);
                                         }
                                     })
                                     ->reactive(),
@@ -400,32 +401,52 @@ class BookingRelationManager extends RelationManager
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
                                             $set('total_price', $price);
-                                        }else {
+                                        } else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
                                     }),
                                 Forms\Components\TextInput::make('manual_invoice'),
                                 Forms\Components\Select::make('discount_id')
-                                    ->options(function( callable $get){          
-                                        $loczone = Receiveraddress::find($get('receiveraddress_id'));
-                                        if($loczone){
+                                    ->options(function (callable $get) {
+                                        if ($get('boxtype_id') != null) {
+                                            $loczone = Receiveraddress::find($get('receiveraddress_id'));
                                             $zone_id = $loczone->loczone;
                                             $agent_id = Agent::find($get('agent_id'));
+                                            
                                             if ($agent_id != null) {
                                                 $agent_type = $agent_id->agent_type;
                                                 if (!$agent_type) {
-                                                    return Agentdiscount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->where('agent_id', $get('agent_id'))->get()->pluck('code', 'id');
-                                                } else {
-                                                    return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->get()->pluck('code', 'id');
-                                                }
-                                            } else {
-                                                return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->get()->pluck('code', 'id');
+                                                                return Agentdiscount::where('zone_id', $zone_id)->where('agent_id' ,$get('agent_id'))->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
+                                                            } else {
+                                                                return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
+                                                            }
+                                            }else {
+                                                return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
                                             }
+                                           
+                                            
+                                            // if ($loczone) {
+                                            //     //check if the location zone
+                                            //    
+                                            //     $agent_id = Agent::find($get('agent_id'));
+                                            //     if ($agent_id != null) {
+                                            //         //check if agent is exsit
+                                            //         $agent_type = $agent_id->agent_type;
 
+                                            //         if (!$agent_type) {
+                                            //             return Agentdiscount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->where('agent_id', $get('agent_id')->where('boxtype_id', $get('boxtype_id')))->get()->pluck('code', 'id');
+                                            //         } else {
+                                            //             return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id')->where('boxtype_id', $get('boxtype_id')))->get()->pluck('code', 'id');
+                                            //         }
+                                            //     }else {
+                                            //         return Discount::where('zone_id', $zone_id)
+                                            //         ->where('servicetype_id', $get('servicetype_id')
+                                            //         ->where('boxtype_id', $get('boxtype_id')))
+                                            //         ->get()->pluck('code', 'id');
+                                            //     }
+                                            // }
                                         }
-                                        
-                                       
                                     })
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
@@ -555,12 +576,12 @@ class BookingRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->after(function (Booking $record, array $data) {
-                        if ($record->boxtype_id != 9){
+                        if ($record->boxtype_id != 9) {
                             $record->update([
                                 'total_inches' => null,
                             ]);
                         }
-                        if($record->boxtype_id !=4){
+                        if ($record->boxtype_id != 4) {
                             $record->update([
                                 'irregular_width' => null,
                                 'irregular_length' => null,
