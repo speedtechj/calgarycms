@@ -25,5 +25,8 @@ class Discount extends Model
     public function zone(){
         return $this->belongsTo(Zone::class);
     }
+    public function boxtype(){
+        return $this->belongsTo(Boxtype::class);
+    }
 
 }

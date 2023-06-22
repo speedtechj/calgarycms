@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('discounts', function (Blueprint $table) {
-            $table->foreignId('boxtype_id')->reference('id')->on('boxtypes')->constrained()->after('zone_id');
+            $table->foreignId('boxtype_id')->nullable()->reference('id')->on('boxtypes')->constrained()->after('zone_id');
             $table->boolean('is_active')->default(true)->after('boxtype_id');
         });
     }

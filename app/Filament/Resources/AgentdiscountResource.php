@@ -7,12 +7,14 @@ use App\Models\Zone;
 use Filament\Tables;
 use App\Models\Agent;
 use App\Models\Branch;
+use App\Models\Boxtype;
 use App\Models\Servicetype;
 use Filament\Resources\Form;
 use App\Models\Agentdiscount;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -43,6 +45,10 @@ class AgentdiscountResource extends Resource
                     ->label('Location')
                     ->options(Zone::all()->pluck('description', 'id'))
                     ->required(),
+                    Forms\Components\Select::make('boxtype_id')
+                    ->label('Box Type')
+                    ->options(Boxtype::all()->pluck('description', 'id'))
+                    ->required(),
                     Forms\Components\Select::make('branch_id')
                     ->label('Branch')
                     ->options(Branch::all()->pluck('business_name', 'id'))
@@ -56,6 +62,7 @@ class AgentdiscountResource extends Resource
                 Forms\Components\TextInput::make('discount_amount')
                     ->prefix('$')
                     ->required(),
+                    Toggle::make('is_active')
             ]);
     }
 
@@ -66,6 +73,7 @@ class AgentdiscountResource extends Resource
                 Tables\Columns\TextColumn::make('agent.full_name'),
                 Tables\Columns\TextColumn::make('servicetype.description'),
                 Tables\Columns\TextColumn::make('zone.description'),
+                Tables\Columns\TextColumn::make('boxtype.description'),
                 Tables\Columns\TextColumn::make('user.id')
                 ->label('Created By')
                 ->getStateUsing(function (Model $record) {

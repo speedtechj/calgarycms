@@ -6,11 +6,13 @@ use Filament\Forms;
 use App\Models\Zone;
 use Filament\Tables;
 use App\Models\Branch;
+use App\Models\Boxtype;
 use App\Models\Discount;
 use App\Models\Servicetype;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\DiscountResource\Pages;
@@ -32,9 +34,13 @@ class DiscountResource extends Resource
                     ->label('Service Type')
                     ->options(Servicetype::all()->pluck('description', 'id'))
                     ->required(),
-                    Forms\Components\Select::make('zone_id')
+                Forms\Components\Select::make('zone_id')
                     ->label('Location')
                     ->options(Zone::all()->pluck('description', 'id'))
+                    ->required(),
+                Forms\Components\Select::make('boxtype_id')
+                    ->label('Box Type')
+                    ->options(Boxtype::all()->pluck('description', 'id'))
                     ->required(),
                 Forms\Components\TextInput::make('code')
                     ->required()
@@ -42,16 +48,14 @@ class DiscountResource extends Resource
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->maxLength(255),
-
                 Forms\Components\TextInput::make('discount_amount')
                     ->prefix('$')
                     ->required(),
-
-
-                    Forms\Components\Select::make('branch_id')
+                Forms\Components\Select::make('branch_id')
                     ->label('Branch')
                     ->options(Branch::all()->pluck('business_name', 'id'))
                     ->required(),
+                    Forms\Components\Toggle::make('is_active')
             ]);
     }
 
@@ -61,19 +65,20 @@ class DiscountResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('servicetype.description'),
                 Tables\Columns\TextColumn::make('zone.description'),
+                Tables\Columns\TextColumn::make('boxtype.description'),
                 Tables\Columns\TextColumn::make('code'),
                 Tables\Columns\TextColumn::make('description'),
                 Tables\Columns\TextColumn::make('discount_amount')
-                ->money('usd',shouldConvert:true),
+                    ->money('usd', shouldConvert: true),
                 Tables\Columns\TextColumn::make('branch.business_name')
-                ->label('Branch'),
+                    ->label('Branch'),
                 Tables\Columns\TextColumn::make('user_id')
-                ->label('Encoder')
-                ->searchable()
-                ->sortable()
-                ->getStateUsing(function(Model $record) {
-                    return $record->user->first_name ." " .$record->user->last_name;
-                }),
+                    ->label('Encoder')
+                    ->searchable()
+                    ->sortable()
+                    ->getStateUsing(function (Model $record) {
+                        return $record->user->first_name . " " . $record->user->last_name;
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')

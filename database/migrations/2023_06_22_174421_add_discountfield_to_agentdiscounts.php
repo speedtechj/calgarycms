@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('_agentdiscounts', function (Blueprint $table) {
-            $table->foreignId('boxtype_id')->reference('id')->on('boxtypes')->constrained()->after('zone_id');
+        Schema::table('agentdiscounts', function (Blueprint $table) {
+            $table->foreignId('boxtype_id')->nullable()->reference('id')->on('boxtypes')->constrained()->after('zone_id');
             $table->boolean('is_active')->default(true)->after('boxtype_id');
         });
     }
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('_agentdiscounts', function (Blueprint $table) {
+        Schema::table('agentdiscounts', function (Blueprint $table) {
             $table->dropColumn('boxtype_id');
             $table->dropColumn('is_active');
         });
