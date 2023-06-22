@@ -151,7 +151,7 @@ class Booking extends Model
         // Only calculate these when needed
         $regular_extended_charges = $totalinches ? $totalinches * 6 : 0;
         $irregular_extracharges = ($length && $width && $height) ? $length * $width * $height  / 9720 : 0;
-        $discount = $discount ? Discount::find($discount)->discount_amount : 0;
+        $discount = $discount ? Agentdiscount::find($discount)->discount_amount : 0;
         $quantity = $boxtype_id ? Boxtype::find($boxtype_id)->total_box : 0;
 
         if ($boxtype_id != 4) {
