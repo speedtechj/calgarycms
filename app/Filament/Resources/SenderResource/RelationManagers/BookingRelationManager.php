@@ -161,7 +161,7 @@ class BookingRelationManager extends RelationManager
                                             $set('start_time', null);
                                             $set('end_time', null);
                                             $set('agent_id', null);
-                                            // $set('discount_id', null);
+                                            $set('discount_id', null);
                                         }
                                     })
                                     ->reactive(),
