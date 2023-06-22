@@ -143,6 +143,7 @@ class BookingRelationManager extends RelationManager
                                         $totalinches = $get('total_inches');
                                         $agentid = $get('agent_id');
                                         if ($state == 1) {
+                                            
                                             if ($agentid != null) {
                                                 $agent_id = Agent::find($get('agent_id'));
                                                 $agent_type = $agent_id->agent_type;
@@ -152,6 +153,7 @@ class BookingRelationManager extends RelationManager
                                                     $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                                 }
                                                 $set('total_price', $price);
+                                               
                                             }
                                         } else {
 
@@ -161,7 +163,7 @@ class BookingRelationManager extends RelationManager
                                             $set('start_time', null);
                                             $set('end_time', null);
                                             $set('agent_id', null);
-                                            $set('discount_id', null);
+                                           
                                         }
                                     })
                                     ->reactive(),
@@ -259,6 +261,7 @@ class BookingRelationManager extends RelationManager
                                         $height = $get('irregular_height');
                                         $totalinches = $get('total_inches');
                                         $agentid = $get('agent_id');
+                                        $set('discount_id', null);
                                         if ($agentid != null) {
                                             $agent_id = Agent::find($get('agent_id'));
                                             $agent_type = $agent_id->agent_type;
