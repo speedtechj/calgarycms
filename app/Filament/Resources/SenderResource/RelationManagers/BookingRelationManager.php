@@ -426,26 +426,6 @@ class BookingRelationManager extends RelationManager
                                             }
                                            
                                             
-                                            // if ($loczone) {
-                                            //     //check if the location zone
-                                            //    
-                                            //     $agent_id = Agent::find($get('agent_id'));
-                                            //     if ($agent_id != null) {
-                                            //         //check if agent is exsit
-                                            //         $agent_type = $agent_id->agent_type;
-
-                                            //         if (!$agent_type) {
-                                            //             return Agentdiscount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id'))->where('agent_id', $get('agent_id')->where('boxtype_id', $get('boxtype_id')))->get()->pluck('code', 'id');
-                                            //         } else {
-                                            //             return Discount::where('zone_id', $zone_id)->where('servicetype_id', $get('servicetype_id')->where('boxtype_id', $get('boxtype_id')))->get()->pluck('code', 'id');
-                                            //         }
-                                            //     }else {
-                                            //         return Discount::where('zone_id', $zone_id)
-                                            //         ->where('servicetype_id', $get('servicetype_id')
-                                            //         ->where('boxtype_id', $get('boxtype_id')))
-                                            //         ->get()->pluck('code', 'id');
-                                            //     }
-                                            // }
                                         }
                                     })
                                     ->reactive()
