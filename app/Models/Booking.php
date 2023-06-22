@@ -148,7 +148,9 @@ class Booking extends Model
         if ($boxtype_id != 9){
             $totalinches = null;
         }
-
+        if($discount == null){
+            $discount = 0;
+        }
         // Only calculate these when needed
         $regular_extended_charges = $totalinches ? $totalinches * 6 : 0;
         $irregular_extracharges = ($length && $width && $height) ? $length * $width * $height  / 9720 : 0;
