@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AgentdiscountResource\Pages;
@@ -129,7 +130,8 @@ class AgentdiscountResource extends Resource
                 ->toggleable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('zone_id')->relationship('zone', 'description')->label('Area'),
+                SelectFilter::make('servicetype_id')->relationship('servicetype', 'description')->label('Service'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
