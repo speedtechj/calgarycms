@@ -128,7 +128,7 @@ class AgentdiscountResource extends Resource
                     ->searchable()
                 ->sortable()
                 ->toggleable(),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('zone_id')->relationship('zone', 'description')->label('Area'),
                 SelectFilter::make('servicetype_id')->relationship('servicetype', 'description')->label('Service'),

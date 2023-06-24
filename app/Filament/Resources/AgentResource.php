@@ -199,7 +199,7 @@ class AgentResource extends Resource
                 Tables\Columns\TextColumn::make('updated_at')
                     ->toggleable($isToggledHiddenByDefault = true)
                     ->dateTime(),
-            ])
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
