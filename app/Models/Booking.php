@@ -28,6 +28,10 @@ class Booking extends Model
     {
         return $this->belongsTo(Discount::class);
     }
+    public function agentdiscount()
+    {
+        return $this->belongsTo(Agentdiscount::class);
+    }
     public function boxtype()
     {
         return $this->belongsTo(Boxtype::class);

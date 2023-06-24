@@ -103,6 +103,7 @@ class BookingRelationManager extends RelationManager
                                         $zone_id = $loczone->loczone;
                                         $boxtype_id = $get('boxtype_id');
                                         $discount = $get('discount_id');
+                                        $agentdiscount = $get('agentdiscount_id');
                                         $length = $get('irregular_length');
                                         $width = $get('irregular_width');
                                         $height = $get('irregular_height');
@@ -112,7 +113,7 @@ class BookingRelationManager extends RelationManager
                                             $agent_id = Agent::find($get('agent_id'));
                                             $agent_type = $agent_id->agent_type;
                                             if ($agent_type == 0 || $agent_type == null) {
-                                                $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
+                                                $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $agentdiscount, $length, $width, $height, $agentid, $totalinches);
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             }
@@ -143,7 +144,7 @@ class BookingRelationManager extends RelationManager
                                         $totalinches = $get('total_inches');
                                         $agentid = $get('agent_id');
                                         if ($state == 1) {
-                                            
+
                                             if ($agentid != null) {
                                                 $agent_id = Agent::find($get('agent_id'));
                                                 $agent_type = $agent_id->agent_type;
@@ -153,7 +154,6 @@ class BookingRelationManager extends RelationManager
                                                     $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                                 }
                                                 $set('total_price', $price);
-                                               
                                             }
                                         } else {
 
@@ -163,7 +163,7 @@ class BookingRelationManager extends RelationManager
                                             $set('start_time', null);
                                             $set('end_time', null);
                                             $set('agent_id', null);
-                                           
+                                            $set('is_agent', 0);
                                         }
                                     })
                                     ->reactive(),
@@ -195,17 +195,19 @@ class BookingRelationManager extends RelationManager
                                             if ($agent_type == 0 || $agent_type == null) {
                                                 $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $agentid, $totalinches);
                                                 $set('total_price', $price);
+                                                $set('is_agent', 1);
                                             } else {
                                                 $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                                 $set('total_price', $price);
+                                                $set('is_agent', 0);
                                             }
                                         } else {
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
-                                    })
-                                    ->dehydrated(false),
-                                Hidden::make('agent_id')->disabled(),
+                                    }),
+                                    // ->dehydrated(false),
+                                // Hidden::make('is_agent'),
                                 Forms\Components\DatePicker::make('booking_date')
                                     ->required(),
                                 Forms\Components\TimePicker::make('start_time')
@@ -251,6 +253,8 @@ class BookingRelationManager extends RelationManager
                                     ->reactive()
                                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->description} {$record->dimension}")
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
+                                        $set('discount_id', null);
+                                        $set('agentdiscount_id', null);
                                         $loczone = Receiveraddress::find($get('receiveraddress_id'));
                                         $zone_id = $loczone->loczone;
                                         $service_id = $get('servicetype_id');
@@ -261,7 +265,7 @@ class BookingRelationManager extends RelationManager
                                         $height = $get('irregular_height');
                                         $totalinches = $get('total_inches');
                                         $agentid = $get('agent_id');
-                                        $set('discount_id', null);
+
                                         if ($agentid != null) {
                                             $agent_id = Agent::find($get('agent_id'));
                                             $agent_type = $agent_id->agent_type;
@@ -272,6 +276,7 @@ class BookingRelationManager extends RelationManager
                                             }
                                             $set('total_price', $price);
                                         } else {
+
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
@@ -411,27 +416,78 @@ class BookingRelationManager extends RelationManager
                                         }
                                     }),
                                 Forms\Components\TextInput::make('manual_invoice'),
-                                Forms\Components\Select::make('discount_id')
+                    
+                                Forms\Components\Select::make('agentdiscount_id')
+                                    ->label('Agent Discount /Promo')
                                     ->options(function (callable $get) {
                                         if ($get('boxtype_id') != null) {
                                             $loczone = Receiveraddress::find($get('receiveraddress_id'));
                                             $zone_id = $loczone->loczone;
                                             $agent_id = Agent::find($get('agent_id'));
-                                            
-                                            if ($agent_id != null) {
+                                            if ($agent_id != null){
                                                 $agent_type = $agent_id->agent_type;
-                                                if (!$agent_type) {
-                                                                return Agentdiscount::where('zone_id', $zone_id)->where('is_active',true)->where('agent_id' ,$get('agent_id'))->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
-                                                            } else {
-                                                                return Discount::where('zone_id', $zone_id)->where('is_active',true)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
-                                                            }
-                                            }else {
-                                                return Discount::where('zone_id', $zone_id)->where('is_active',true)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
+                                            if (!$agent_type) {
+                                                return Agentdiscount::where('zone_id', $zone_id)->where('is_active', true)->where('agent_id', $get('agent_id'))->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
+                                            } else {
+                                                return Discount::where('zone_id', $zone_id)->where('is_active', true)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
                                             }
-                                           
+                                            }
                                             
                                         }
                                     })
+                                    ->hidden(fn (\Closure $get) => $get('is_agent') == '0')
+                                    ->reactive()
+                                    ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
+                                        $loczone = Receiveraddress::find($get('receiveraddress_id'));
+                                        $zone_id = $loczone->loczone;
+                                        $service_id = $get('servicetype_id');
+                                        $boxtype_id = $get('boxtype_id');
+                                        $agentdiscount = $get('agentdiscount_id');
+                                        $discount = $get('discount_id');
+                                        $length = $get('irregular_length');
+                                        $width = $get('irregular_width');
+                                        $height = $get('irregular_height');
+                                        $totalinches = $get('total_inches');
+                                        $agentid = $get('agent_id');
+                                        if ($agentid != null) {
+                                            $agent_id = Agent::find($get('agent_id'));
+                                            $agent_type = $agent_id->agent_type;
+                                            if ($agent_type == 0 || $agent_type == null) {
+                                                $price = $booking->agentprices($service_id, $zone_id, $boxtype_id, $agentdiscount, $length, $width, $height, $agentid, $totalinches);
+                                            } else {
+                                                $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                            }
+                                            if ($price < 0) {
+
+                                                Filament::notify('danger', 'Price cannot be less than 0');
+                                                $set('discount_id', null);
+                                            } else {
+                                                $set('total_price', $price);
+                                            }
+                                        } else {
+
+                                            $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
+                                            // dump($price->price);
+                                            if ($price < 0) {
+
+                                                Filament::notify('danger', 'Price cannot be less than 0');
+                                                $set('discount_id', null);
+                                            } else {
+
+                                                $set('total_price', $price);
+                                            }
+                                        }
+                                    }),
+                                Forms\Components\Select::make('discount_id')
+                                    ->label('Discount /Promo')
+                                    ->options(function (callable $get) {
+                                        if ($get('boxtype_id') != null) {
+                                            $loczone = Receiveraddress::find($get('receiveraddress_id'));
+                                            $zone_id = $loczone->loczone;
+                                            return Discount::where('zone_id', $zone_id)->where('is_active', true)->where('servicetype_id', $get('servicetype_id'))->where('boxtype_id', $get('boxtype_id'))->get()->pluck('code', 'id');
+                                        }
+                                    })
+                                    ->hidden(fn (\Closure $get) => $get('is_agent') == '1' )
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
                                         $loczone = Receiveraddress::find($get('receiveraddress_id'));
@@ -532,7 +588,8 @@ class BookingRelationManager extends RelationManager
                     }),
                 Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
                 Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
-                Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount'),
+                Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount')->money('USD', shouldConvert: true),
+                Tables\Columns\TextColumn::make('agentdiscount.discount_amount')->label('Agent Discount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
                 Tables\Columns\IconColumn::make('is_paid')
                     ->label('Paid')
@@ -560,6 +617,7 @@ class BookingRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->after(function (Booking $record, array $data) {
+                        // dump($data);
                         if ($record->boxtype_id != 9) {
                             $record->update([
                                 'total_inches' => null,
@@ -578,6 +636,31 @@ class BookingRelationManager extends RelationManager
 
                             ]);
                         }
+
+                        if($record->agent_id != null){
+                            $agent = Agent::find($record->agent_id);
+                            $agentid = $agent->agent_type;
+                            if($agentid == 0){
+                                    if($record->discount_id != null){
+                                        $record->update([
+                                            'discount_id' => null,
+                                        ]);
+                                    }
+                            } else {
+                                if($record->agentdiscount_id != null){
+                                    $record->update([
+                                        'agentdiscount_id' => null,
+                                    ]);
+                                }
+                            }
+                        }else{
+                            if($record->agentdiscount_id != null){
+                                $record->update([
+                                    'agentdiscount_id' => null,
+                                ]);
+                            }
+                        }
+                       
                         $booking_payment = Bookingpayment::where('booking_id', $record->id)->sum('payment_amount');
                         if ($record->is_paid != 0) {
                             if ($record->total_price > $booking_payment) {
