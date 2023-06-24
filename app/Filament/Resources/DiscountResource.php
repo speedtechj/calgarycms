@@ -63,26 +63,62 @@ class DiscountResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('servicetype.description'),
-                Tables\Columns\TextColumn::make('zone.description'),
-                Tables\Columns\TextColumn::make('boxtype.description'),
-                Tables\Columns\TextColumn::make('code'),
-                Tables\Columns\TextColumn::make('description'),
+                Tables\Columns\TextColumn::make('servicetype.description')
+                ->searchable()
+                ->sortable()
+                ->toggleable(),
+                Tables\Columns\TextColumn::make('zone.description')
+                ->searchable()
+                ->sortable()
+                ->toggleable(),
+                Tables\Columns\TextColumn::make('boxtype.description')
+                ->searchable()
+                ->sortable()
+                ->toggleable(),
+                Tables\Columns\TextColumn::make('code')
+                ->searchable()
+                ->sortable()
+                ->toggleable(),
+                Tables\Columns\TextColumn::make('description')
+                ->searchable()
+                ->sortable()
+                ->toggleable(),
                 Tables\Columns\TextColumn::make('discount_amount')
-                    ->money('usd', shouldConvert: true),
+                    ->money('usd', shouldConvert: true)
+                    ->searchable()
+                ->sortable()
+                ->toggleable(),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Is Active')
+                    ->boolean()
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('branch.business_name')
-                    ->label('Branch'),
+                    ->label('Branch')
+                    ->searchable()
+                ->sortable()
+                ->toggleable(),
                 Tables\Columns\TextColumn::make('user_id')
                     ->label('Encoder')
                     ->searchable()
                     ->sortable()
                     ->getStateUsing(function (Model $record) {
                         return $record->user->first_name . " " . $record->user->last_name;
-                    }),
+                    })
+                    ->searchable()
+                ->sortable()
+                ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->searchable()
+                ->sortable()
+                ->toggleable(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->searchable()
+                ->sortable()
+                ->toggleable(),
             ])
             ->filters([
                 //
