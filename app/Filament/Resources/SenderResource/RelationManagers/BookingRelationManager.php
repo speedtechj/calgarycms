@@ -599,7 +599,7 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes'),
-                Tables\Columns\TextColumn::make('user_id')
+                Tables\Columns\TextColumn::make('encoder')
                     ->label('Encoder')
                     ->searchable()
                     ->sortable()
