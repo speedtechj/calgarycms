@@ -43,6 +43,9 @@ return new class extends Migration
             $table->string('dimension')->virtualAs('concat(irregular_length, \' \', irregular_width, \' \', irregular_height)');
             $table->text('note')->nullable();
             $table->foreignId('user_id')->constrained();
+            $table->boolean('is_edit')->default(true);
+            $table->boolean('is_agent')->default(false);
+            $table->foreignId('agentdiscount')->reference('id')->on('agentdiscounts')->constrained();
             $table->timestamps();
         });
     }

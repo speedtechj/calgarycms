@@ -15,11 +15,13 @@ return new class extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('servicetype_id')->reference('id')->on('servicetypes')->constrained();
+            $table->foreignId('zone_id')->reference('id')->on('zones')->constrained();
+            $table->foreignId('user_id')->reference('id')->on('users')->constrained();
+            $table->foreignId('branch_id')->reference('id')->on('branchs')->constrained();
             $table->string('code');
             $table->string('description');
             $table->unsignedBigInteger('discount_amount');
-            $table->foreignId('user_id');
-            $table->foreignId('branch_id');
             $table->timestamps();
         });
     }
