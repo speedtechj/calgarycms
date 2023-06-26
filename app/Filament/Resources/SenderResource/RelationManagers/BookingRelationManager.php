@@ -599,16 +599,16 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes'),
-                Tables\Columns\TextColumn::make('encoder')
-                    ->label('Encoder')
-                    ->searchable()
-                    ->sortable()
-                    ->getStateUsing(function (Model $record) {
-                        return $record->user->first_name . " " . $record->user->last_name;
-                    })
-                    ->searchable()
-                ->sortable()
-                ->toggleable(),
+                // Tables\Columns\TextColumn::make('encoder')
+                //     ->label('Encoder')
+                //     ->searchable()
+                //     ->sortable()
+                //     ->getStateUsing(function (Model $record) {
+                //         return $record->user->first_name . " " . $record->user->last_name;
+                //     })
+                //     ->searchable()
+                // ->sortable()
+                // ->toggleable(),
             ])->defaultSort('created_at', 'desc')
             ->filters([
                 Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
