@@ -251,6 +251,7 @@ class BookingRelationManager extends RelationManager
                                     ->preload()
                                     ->relationship('boxtype', 'id')
                                     ->reactive()
+                                    ->required()
                                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->description} {$record->dimension}")
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
                                         $set('discount_id', null);
