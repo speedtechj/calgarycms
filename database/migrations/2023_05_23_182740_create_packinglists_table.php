@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('packinglists', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('quantity')->nullable();
-            $table->foreignId('booking_id')->constrained();
+            $table->foreignId('booking_id')->reference('id')->on('bookings')->constrained()->onDelete('cascade');
             $table->foreignId('sender_id')->constrained();
             $table->foreignId('packlistitem_id')->nullable()->constrained();
             $table->string('description')->nullable();
