@@ -23,5 +23,6 @@ class Receiveraddress extends Model
     public function barangayphil(){
         return $this->belongsTo(Barangayphil::class);
     }
+   
 
 }

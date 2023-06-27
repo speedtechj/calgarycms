@@ -80,16 +80,7 @@ class ReceiveraddressRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('receiver.first_name')
-                    ->label('First Name')
-                    ->searchable()
-                    ->toggleable()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('receiver.last_name')
-                    ->label('Last Name')
-                    ->searchable()
-                    ->toggleable()
-                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('address')
                 ->searchable()
                 ->toggleable()
