@@ -4,7 +4,9 @@ namespace App\Filament\Resources\ReceiverResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Sender;
 use App\Models\Cityphil;
+use App\Models\Receiver;
 use App\Models\Provincephil;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
@@ -13,6 +15,8 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\SenderResource;
+use App\Models\Receiveraddress;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
 
@@ -57,7 +61,6 @@ class ReceiveraddressRelationManager extends RelationManager
                     }),
                 Forms\Components\Select::make('barangayphil_id')
                     ->label('Barangay')
-                    ->required()
                     ->searchable()
                     ->preload()
                     ->options(function (callable $get) {
@@ -80,7 +83,8 @@ class ReceiveraddressRelationManager extends RelationManager
     {
         return $table
             ->columns([
-
+                Tables\Columns\TextColumn::make('receiver.sender.full_name')
+                ->url(fn (Receiveraddress $record) => SenderResource::getUrl('edit', ['record' => $record->receiver->sender])),
                 Tables\Columns\TextColumn::make('address')
                 ->searchable()
                 ->toggleable()

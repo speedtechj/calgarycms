@@ -139,7 +139,6 @@ class ReceiverRelationManager extends RelationManager
                         $set('barangayphil_id', null);
                     }),
                 Forms\Components\Select::make('barangayphil_id')
-                    ->required()
                     ->searchable()
                     ->preload()
                     ->reactive()
