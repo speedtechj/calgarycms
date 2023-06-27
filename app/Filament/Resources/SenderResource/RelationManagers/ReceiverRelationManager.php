@@ -4,15 +4,18 @@ namespace App\Filament\Resources\SenderResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Booking;
 use App\Models\Cityphil;
 use App\Models\Receiver;
 use App\Models\Provincephil;
-use App\Models\Receiveraddress;
-use App\Models\Senderaddress;
 use Filament\Resources\Form;
+use App\Models\Senderaddress;
 use Filament\Resources\Table;
+use App\Models\Receiveraddress;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\ReceiverResource;
 use Filament\Forms\Components\MarkdownEditor;
+use App\Filament\Resources\ReceiveraddressResource;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
 
@@ -50,14 +53,11 @@ class ReceiverRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('first_name')
+                Tables\Columns\TextColumn::make('full_name')
                 ->searchable()
                 ->toggleable()
-                ->sortable(),
-                Tables\Columns\TextColumn::make('last_name')
-                ->searchable()
-                ->toggleable()
-                ->sortable(),
+                ->sortable()
+                ->url(fn (Receiver $record) => ReceiverResource::getUrl('edit', ['record' => $record])),
                 Tables\Columns\TextColumn::make('mobile_no')
                 ->searchable()
                 ->toggleable()
