@@ -15,4 +15,7 @@ class Cityphil extends Model
     public function barangayphil(){
         return $this->hasMany(Barangayphil::class);
     }
+    public function zone(){
+        return $this->belongsTo(Zone::class);
+    }
 }

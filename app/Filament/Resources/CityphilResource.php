@@ -10,6 +10,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CityphilResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -56,13 +57,17 @@ class CityphilResource extends Resource
                 ->searchable()
                 ->toggleable()
                 ->sortable(),
+                Tables\Columns\TextColumn::make('zone.description')->label('Zone')
+                ->searchable()
+                ->toggleable()
+                ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime(),
             ])
             ->filters([
-                //
+                SelectFilter::make('zone_id')->relationship('zone', 'description')->label('Area'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
