@@ -36,7 +36,7 @@ class CityphilResource extends Resource
                     ->required()
                     ->maxLength(255),
                     Select::make('zone_id')
-                    ->label('Author')
+                    ->label('Zone')
                     ->options(Zone::all()->pluck('name', 'id'))
                     ->searchable()
                 
