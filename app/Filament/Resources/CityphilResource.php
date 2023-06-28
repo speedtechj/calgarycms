@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
+use App\Models\Zone;
 use Filament\Tables;
 use App\Models\Cityphil;
 use Filament\Resources\Form;
@@ -13,8 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CityphilResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CityphilResource\RelationManagers;
-use App\Filament\Resources\CityphilResource\RelationManagers\BarangayphilRelationManager;
 use App\Filament\Resources\CityResource\RelationManagers\BarangayRelationManager;
+use App\Filament\Resources\CityphilResource\RelationManagers\BarangayphilRelationManager;
 
 class CityphilResource extends Resource
 {
@@ -34,6 +35,11 @@ class CityphilResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                    Select::make('zone_id')
+                    ->label('Author')
+                    ->options(Zone::all()->pluck('name', 'id'))
+                    ->searchable()
+                
             ]);
     }
 
