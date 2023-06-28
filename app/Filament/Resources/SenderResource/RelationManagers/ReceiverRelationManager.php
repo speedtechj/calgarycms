@@ -142,6 +142,7 @@ class ReceiverRelationManager extends RelationManager
                     ->searchable()
                     ->preload()
                     ->reactive()
+                    ->required()
                     ->options(function (callable $get) {
                         $city = Cityphil::find($get('cityphil_id'));
 
