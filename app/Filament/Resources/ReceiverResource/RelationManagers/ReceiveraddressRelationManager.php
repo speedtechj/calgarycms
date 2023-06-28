@@ -61,6 +61,7 @@ class ReceiveraddressRelationManager extends RelationManager
                     }),
                 Forms\Components\Select::make('barangayphil_id')
                     ->label('Barangay')
+                    ->required()
                     ->searchable()
                     ->preload()
                     ->options(function (callable $get) {
