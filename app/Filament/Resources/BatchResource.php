@@ -9,6 +9,7 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\BatchResource\Pages;
@@ -34,6 +35,7 @@ class BatchResource extends Resource
                 Forms\Components\TextInput::make('batch_year')
                     ->required()
                     ->default(now()->year),
+                Toggle::make('is_active'),
                 Forms\Components\MarkdownEditor::make('note')
                     ->maxLength(65535)->columnSpan('full'),
                 ])->columns(2)
@@ -47,6 +49,11 @@ class BatchResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('batchno'),
                 Tables\Columns\TextColumn::make('batch_year'),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean()
+                    ->label('Active')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('note'),
                 Tables\Columns\TextColumn::make('user_id')
                 ->label('Encoder')

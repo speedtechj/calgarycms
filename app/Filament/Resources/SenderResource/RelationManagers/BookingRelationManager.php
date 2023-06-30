@@ -229,8 +229,7 @@ class BookingRelationManager extends RelationManager
                                             $set('total_price', $price);
                                         }
                                     }),
-                                    // ->dehydrated(false),
-                                // Hidden::make('is_agent'),
+                            
                                 Forms\Components\DatePicker::make('booking_date')
                                     ->required(),
                                 Forms\Components\TimePicker::make('start_time')
@@ -254,7 +253,7 @@ class BookingRelationManager extends RelationManager
                                 Hidden::make('end_time')->disabled(),
                                 Select::make('batch_id')
                                     ->label('Batch')
-                                    ->relationship('batch', 'id')
+                                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1'))
                                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}")
                                     ->searchable()
                                     ->preload()
