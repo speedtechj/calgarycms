@@ -17,7 +17,8 @@ class HomeController extends Controller
         $pdf = PDF::loadView("invoice-pdf", $data);
         $header = view()->make('invoice-header', $data);
         $pdf->setOption('header-html', $header);
-        
+        $pdf->setOption('margin-left', '10mm');
+        $pdf->setOption('margin-right', '10mm');
          return $pdf->inline();
       
     }
