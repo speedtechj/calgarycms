@@ -3,12 +3,14 @@
 namespace App\Filament\Resources\SenderResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Resources\Form;
-use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\Packlistitem;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
 class PackinglistRelationManager extends RelationManager
 {
@@ -20,9 +22,28 @@ class PackinglistRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('booking_id')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\TextInput::make('quantity'),
+                            Forms\Components\Select::make('packlistitem_id')
+                                ->label('Premade Items')
+                                ->options(Packlistitem::all()->pluck('itemname', 'id')),
+                            Forms\Components\TextInput::make('description'),
+                            Forms\Components\TextInput::make('price'),
+                            FileUpload::make('packlistdoc')
+                                ->label('Packing List')
+                                ->multiple()
+                                ->enableDownload()
+                                ->disk('public')
+                                ->directory('packinglist')
+                                ->visibility('private')
+                                ->enableOpen(),
+                            FileUpload::make('waverdoc')
+                                ->label(' Waiver')
+                                ->multiple()
+                                ->enableDownload()
+                                ->disk('public')
+                                ->directory('waiver')
+                                ->visibility('private')
+                                ->enableOpen(),
             ]);
     }
 

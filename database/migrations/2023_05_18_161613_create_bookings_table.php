@@ -23,14 +23,14 @@ return new class extends Migration
             $table->foreignId('receiveraddress_id')->reference('id')->on('receiveraddresses')->constrained();
             $table->foreignId('boxtype_id')->reference('id')->on('boxtypes')->constrained();
             $table->foreignId('servicetype_id')->reference('id')->on('servicetypes')->constrained();
-            $table->foreignId('agent_id')->reference('id')->on('agents')->constrained();
+            $table->foreignId('agent_id')->nullable()->reference('id')->on('agents')->constrained();
             $table->foreignId('zone_id')->reference('id')->on('zones')->constrained();
             $table->foreignId('branch_id')->reference('id')->on('branchs')->constrained();
             $table->foreignId('batch_id')->reference('id')->on('batchs')->constrained();
             $table->date('booking_date');
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
-            $table->foreignId('discount_id')->nullable();
+            $table->foreignId('discount_id')->nullable()->reference('id')->on('discounts')->constrained();
             $table->boolean('is_pickup')->default(0);
             $table->unsignedBigInteger('total_price');
             $table->unsignedBigInteger('irregular_length')->nullable();
@@ -45,7 +45,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->boolean('is_edit')->default(true);
             $table->boolean('is_agent')->default(false);
-            $table->foreignId('agentdiscount')->reference('id')->on('agentdiscounts')->constrained();
+            $table->foreignId('agentdiscount_id')->nullable()->reference('id')->on('agentdiscounts')->constrained();
             $table->timestamps();
         });
     }

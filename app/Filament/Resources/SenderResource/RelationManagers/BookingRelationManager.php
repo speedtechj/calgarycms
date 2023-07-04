@@ -229,7 +229,7 @@ class BookingRelationManager extends RelationManager
                                             $set('total_price', $price);
                                         }
                                     }),
-                            
+                               
                                 Forms\Components\DatePicker::make('booking_date')
                                     ->required(),
                                 Forms\Components\TimePicker::make('start_time')
@@ -672,8 +672,31 @@ class BookingRelationManager extends RelationManager
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
+                    // ->beforeFormFilled(function (Booking $record, array $data) {
+                    //     dump($record->is_agent);
+                    // })
                     ->after(function (Booking $record, array $data) {
-                        // dump($data);
+                        // dump($data); 
+                        if($record->servicetype_id == 1){
+                            if($record->agent->agent_type == 0){
+                                $record->update([
+                                    'is_agent' => 1,
+
+                                ]);
+                            }else {
+                                $record->update([
+                                    'is_agent' => 0,
+
+                                ]);
+                            }
+                            
+                        }else {
+                            
+                            $record->update([
+                                'is_agent' => 0,
+
+                            ]);
+                        }
                         if ($record->boxtype_id != 9) {
                             $record->update([
                                 'total_inches' => null,
@@ -952,6 +975,7 @@ class BookingRelationManager extends RelationManager
                             Packinglist::create([
                                 'booking_id' => $record->id,
                                 'sender_id' => $record->sender_id,
+                                'quantity' => $data['quantity'], 
                                 'packlistitem_id' => $data['packlistitem_id'],
                                 'description' => $data['description'],
                                 'packlistdoc' => $data['packlist_doc'],
