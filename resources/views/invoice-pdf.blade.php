@@ -191,7 +191,7 @@
 
         </tr>
     </table>
-    <table class="table-5" border>
+    {{-- <table class="table-5" border>
         <tr>
             <th>QUANTITY</th>
             <th>DESCRIPTION</th>
@@ -206,7 +206,7 @@
             </tr>
             @endforeach
         </tr>
-    </table>
+    </table> --}}
     <table class="table-3">
         <tr>
             <td>
