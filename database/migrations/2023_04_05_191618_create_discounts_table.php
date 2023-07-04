@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('branch_id')->reference('id')->on('branchs')->constrained();
             $table->string('code');
             $table->string('description');
+            $table->boolean('is_active')->default(true);
             $table->unsignedBigInteger('discount_amount');
             $table->timestamps();
         });
