@@ -3,22 +3,19 @@
 namespace App\Http\Controllers;
 
 
-use PDF;
+
 use App\Models\Booking;
 use App\Models\Citycan;
 use App\Models\Cityphil;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 class HomeController extends Controller
 {
     public function index(Booking $record){
         $data['record'] = $record;
         $pdf = PDF::loadView("invoice-pdf", $data);
-        $header = view()->make('invoice-header', $data);
-        $pdf->setOption('header-html', $header);
-        $pdf->setOption('margin-left', '10mm');
-        $pdf->setOption('margin-right', '10mm');
          return $pdf->inline();
       
     }
