@@ -527,11 +527,11 @@
                                 <li>See section 5-LIMITATION OF LIABILITY</li></ol>
                        
                 <li class="li-1">APPLICABILITY</li>
-                These terms and conditions shall apply to and inure to the benefit of the
+                <span class="sub-span">These terms and conditions shall apply to and inure to the benefit of the
                 “Company” and its authorized agents and affiliated companies, and the
-                officers, directors, and employees.
+                officers, directors, and employees.</span>
                 <li class="li-1">MATERIALS NOT ACCEPTABLE FOR TRANSPORT</li>
-                The “Company” will not accept commercial goods (more than a dozen of
+                <span class="sub-span">The “Company” will not accept commercial goods (more than a dozen of
                 any kind) and will not carry
                 Currency Precious Metals Drugs
                 Traveler’s Checks Precious Stones Firearms/ammunition
@@ -545,7 +545,7 @@
                 combustible materials; motor vehicle parts, microwave ovens; property
                 carriage of which is prohibited by law, regulation, or statue of any federal,
                 state or local government of any country from to or through which the
-                shipment may be carried.<br>
+                shipment may be carried.</span><br>
                 <li class="li-1">Any expenses incurred by the” Company” on behalf of Shippers including, but
                 not limited to, taxes interests’ penalties, fines surcharges, duties, etc, arising
                 from non declaration or misdirection shall be reimbursed or refunded by
