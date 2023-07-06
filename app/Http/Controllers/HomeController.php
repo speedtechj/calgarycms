@@ -18,6 +18,8 @@ class HomeController extends Controller
         $pdf = PDF::loadView("invoice-pdf", $data);
         $pdf->setOption('margin-top','5mm');
         $pdf->setOption('margin-bottom','5mm');
+        $pdf->setOption('margin-right','5mm');
+        $pdf->setOption('margin-left','5mm');
          return $pdf->inline();
       
     }
