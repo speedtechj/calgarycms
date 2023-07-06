@@ -16,6 +16,7 @@ class HomeController extends Controller
     public function index(Booking $record){
         $data['record'] = $record;
         $pdf = PDF::loadView("invoice-pdf", $data);
+        $pdf->setOption('margin-top','5mm');
          return $pdf->inline();
       
     }
