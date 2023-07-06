@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('agent_id')->reference('id')->on('agents')->constrained();
             $table->foreignId('servicetype_id')->reference('id')->on('servicetypes')->constrained();
+            $table->foreignId('boxtype_id')->reference('id')->on('boxtypes')->constrained();
             $table->foreignId('zone_id')->reference('id')->on('zones')->constrained();
             $table->foreignId('user_id')->reference('id')->on('users')->constrained();
             $table->foreignId('branch_id')->reference('id')->on('branchs')->constrained();
