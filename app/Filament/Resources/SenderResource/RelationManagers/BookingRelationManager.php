@@ -807,7 +807,6 @@ class BookingRelationManager extends RelationManager
                     }),
                 Tables\Actions\DeleteAction::make(),
                 ActionGroup::make([
-
                     Tables\Actions\Action::make('print')
                         ->label('Print Invoice')
                         ->color('warning')
@@ -971,7 +970,6 @@ class BookingRelationManager extends RelationManager
                             Forms\Components\Select::make('packlistitem_id')
                                 ->label('Premade Items')
                                 ->options(Packlistitem::all()->pluck('itemname', 'id')),
-                            Forms\Components\TextInput::make('description'),
                             Forms\Components\TextInput::make('price'),
                             FileUpload::make('packlist_doc')
                                 ->label('Packing List')
@@ -990,16 +988,23 @@ class BookingRelationManager extends RelationManager
                                 ->visibility('private')
                                 ->enableOpen(),
                         ])->action(function (Booking $record, array $data, $action) {
+                            $packinglistcount = Packinglist::where('booking_id', $record->id)->count();
+                            
+                           if($packinglistcount < 3){
                             Packinglist::create([
                                 'booking_id' => $record->id,
                                 'sender_id' => $record->sender_id,
                                 'quantity' => $data['quantity'], 
                                 'packlistitem_id' => $data['packlistitem_id'],
-                                'description' => $data['description'],
                                 'packlistdoc' => $data['packlist_doc'],
                                 'waverdoc' => $data['waiver_doc'],
                                 'price' => $data['price'],
                             ]);
+                            Filament::notify('success', 'Record Successfully save');
+                           } else {
+                            Filament::notify('danger', 'Limit Exceed need only 3 records');
+                           }
+                            
                         }),
 
                 ]),
