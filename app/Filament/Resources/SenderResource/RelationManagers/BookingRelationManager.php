@@ -105,7 +105,7 @@ class BookingRelationManager extends RelationManager
                                         // dump($loczone);
                                         if($loczone !== null){
                                             $zone_id = Cityphil::where('id', $loczone->cityphil_id)->first()->zone_id;
-                                           
+                                            $set('zone_id', $zone_id);
                                         } else {
                                             Filament::notify('danger', 'Please Select Receiver Address');
                                             $zone_id = 0;
@@ -135,8 +135,8 @@ class BookingRelationManager extends RelationManager
                                             $price = $booking->calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches);
                                             $set('total_price', $price);
                                         }
-                                    })
-
+                                    }),
+                                    Hidden::make('zone_id')->required()
 
                             ])->columns(2)
                         ]),
