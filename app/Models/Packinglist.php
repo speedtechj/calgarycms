@@ -17,7 +17,7 @@ class Packinglist extends Model
         return $this->belongsTo(Packlistitem::class);
     }
     public function booking(){
-        return $this->belongsTo(Booking::class);
+        return $this->hasMany(Booking::class);
     }
     public function sender(){
         return $this->belongsTo(Sender::class);
