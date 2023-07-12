@@ -243,6 +243,7 @@
             <td colspan="2"width="25%"><span class="span-text">Email </span><br> {{ $record->receiver->email }}</td>
         </tr>
     </table>
+    @if ($packinglist->count() !== 0)
     <table class="table-3">
         <tr>
             <td>
@@ -251,8 +252,6 @@
 
         </tr>
     </table>
-   
-   
     <table class="table-5" border>
         <tr>
             <th>QUANTITY</th>
@@ -269,10 +268,9 @@
             </tr>
             @endforeach
         </tr>
-
-   
-    
     </table>
+   
+    @endif
     <table class="table-3">
         <tr>
             <td>
