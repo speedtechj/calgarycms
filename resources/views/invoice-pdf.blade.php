@@ -251,6 +251,8 @@
 
         </tr>
     </table>
+   
+   
     <table class="table-5" border>
         <tr>
             <th>QUANTITY</th>
@@ -258,7 +260,7 @@
             <th>AMOUNT</th>
         </tr>
         <tr>
-            @foreach ($record->packinglist as $packinglist)
+            @foreach ($packinglist as $packinglist)
             <tr>
             <td>{{ $packinglist->quantity }}</td>
             <td>{{ $packinglist->packlistitem->itemname}}</td>
@@ -267,6 +269,9 @@
             </tr>
             @endforeach
         </tr>
+
+   
+    
     </table>
     <table class="table-3">
         <tr>
