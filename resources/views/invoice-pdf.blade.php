@@ -260,9 +260,10 @@
         <tr>
             @foreach ($record->packinglist as $packinglist)
             <tr>
-            <td>{{ $packinglist->quantity ?? 0 }}</td>
-            <td>{{ $packinglist->description ?? "none" }}</td>
-            <td>{{ $packinglist->price ?? 0}}</td>
+            <td>{{ $packinglist->quantity }}</td>
+            <td>{{ $packinglist->packlistitem->itemname}}</td>
+            <td>{{ $packinglist->price}}</td>
+            {{-- <td>{{ $packinglist->price ?? 0}}</td> --}}
             </tr>
             @endforeach
         </tr>
