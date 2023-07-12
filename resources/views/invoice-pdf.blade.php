@@ -86,6 +86,7 @@
         }
 
         .table-5 td {
+            font-size:12px;
             border: 1px solid black;
             padding: 5px;
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -155,9 +156,12 @@
 <body>
     <table class="table-0">
         <tr>
-            <td width="60%">
+            <td width="40%">
                 <img class="logo" src="{{ public_path('/logo.png') }}" alt="logo" />
 
+            </td>
+            <td width="20%">
+                {!! DNS2D::getBarcodeHTML("https://forexcargodeals.com/calgary", 'QRCODE',3,3, 'black',true) !!}
             </td>
             <td width="40%" align="right">
                 <p class="heading-1">Forex Cargo Travel & Tours</p>
@@ -171,6 +175,7 @@
         <tr>
             <td align="right">
                 <p class="heading-2">Tracking Number: {{ $record->booking_invoice }}</p>
+              
             </td>
         </tr>
     </table>
@@ -246,7 +251,7 @@
 
         </tr>
     </table>
-    {{-- <table class="table-5" border>
+    <table class="table-5" border>
         <tr>
             <th>QUANTITY</th>
             <th>DESCRIPTION</th>
@@ -261,7 +266,7 @@
             </tr>
             @endforeach
         </tr>
-    </table> --}}
+    </table>
     <table class="table-3">
         <tr>
             <td>
@@ -320,6 +325,23 @@
             <td>{{ "$" . $record->payment_balance }}</td>
         </tr>
     </table>
+    <table class="table-3" width="100%">
+        <tr>
+            <td align="center">
+                <span>DECLARATION</span>
+            </td>
+
+        </tr>
+    <table>
+        <tr>
+        <td style="font-size:10px">
+        I HERE BY CERTIFY AND DECLARE that the contents of the above sealed package(s) are goods without commercial value or purpose whatsoever. I FURTHER CERTIFY that are no contraband goods as defined by the laws of Canada and the Republic of the Philippines: I take full legal responsibility for any erroneous declaration or omission in the packing list attached to this document. I FINALLY CERTIFY that I am endorsing this 
+        Invoice to Forex Cargo Travel and Tours or door-delivery of my package(s) to 
+        my consignee at the address herein; that I have read, understood and agree to the terms and conditions printed on the reverse.
+        </td>
+        <tr>
+    </table>
+    </table>
     <table class="table-3">
         <tr>
             <td>
@@ -344,15 +366,15 @@
     </table>
     <table width="100%">
         <tr>
-            <td align="center">
+            <td align="center" style="font-size:12px">
                 <h4>OWNER’S/SHIPPER’S RISK FORM</h4>
             </td>
         </tr>
     </table>
     <table width="100%">
         <tr>
-            <td width="50%" align="left">
-                <span style="font-family: Arial, Helvetica, sans-serif; font-size:10px"> <span
+            <td width="50%" align="left" style="font-size:10px">
+                <span style="font-family: Arial, Helvetica, sans-serif;"> <span
                         style="font-weight: bold;">Please be advised that BREAKABLE ITEMS, LIQUID ITEMS OR
                         ELECTRONIC ITEMS inside the box per above reference Tracking/Invoice
                         Number are accepted for transport under OWNER/SHIPPER’S risk.</span><br><br>
@@ -361,11 +383,11 @@
                     agreed and understood that <span style="font-weight: bold;">FOREX CARGO TRAVEL &amp; TOURS INC.,
                         WILL
                         NOT BE LIABLE FOR ANY SPILLAGE, BREAKEAGE AND/OR
-                        DAMAGES, RELATED TO THIS TRANSACTION, HOWEVER CAUSED.</span><br><br>
+                        DAMAGES, RELATED TO THIS TRANSACTION, HOWEVER CAUSED.</span><br>
                     I/WE FURTHER, declared that my box(es) has no commercial goods (more
                     than a dozen in any kind) No currency, No Firearms/Ammunition/Explosives
                     and Toy Guns, No Precious Metals /Stones, No Money Order and Travelers’
-                    Check, No Drugs and Perishable goods, and other prohibited items.<br><br>
+                    Check, No Drugs and Perishable goods, and other prohibited items.<br>
                     Shipper, as stated at the face of this Owner’s/Shipper’s Risk Form who is of legal
                     age, with address stated as the corresponding FOREX CARGO TRAVEL &amp;
                     TOURS INC., reference do hereby remise, release, acquit and forever discharge
@@ -374,8 +396,8 @@
                     claims for sum of money, demands, complaints, liabilities, obligations, suits,</span>
 
             </td>
-            <td width="50%" align="left">
-                <span style="font-family: Arial, Helvetica, sans-serif; font-size:10px">agents or employees and their
+            <td width="50%" align="left" style="font-size:10px;">
+                <span style="font-family: Arial, Helvetica, sans-serif;">agents or employees and their
                     successors-in-interest from any and all actions,
                     rights or causes of actions whatsoever (for indemnity, damages or otherwise) at
                     law or in equity that now exists or may hereafter exists (collectively, the
@@ -389,7 +411,7 @@
                 may be pleaded in bar or any suit or proceeding which Shipper may have taken or
                 may take in connection with the non-perishable breakable shipment. Suits arising
                 from or in relation to this document or the shipment, including violations of the
-                waiver herein, shall be brought before the courts.<br><br>
+                waiver herein, shall be brought before the courts.<br>
                 It is agreed that Shipper have read this entire document, the contents of which have
                 been explained in a language that is known and which the Shipper acknowledge to
                 have signed, and the entire form, release, waiver and quitclaim hereby given is made
@@ -418,7 +440,7 @@
     </table>
     <table width="100%">
         <tr>
-            <td width="50%" style="vertical-align:top;">
+            <td width="50%" style="vertical-align:top; font-size:10px" >
                <span>By tendering goods and personal effects for shipment via Forex Cargo Travel
                     Tours (“Company”). The shipper agrees to the terms and conditions stated
                     herein and the declaration of the shipper made in the invoice which are
