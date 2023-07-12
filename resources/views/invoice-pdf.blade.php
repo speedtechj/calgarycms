@@ -198,18 +198,19 @@
         <tr>
             <td width="25%"><span class="span-text">First Name</span> <br> {{ $record->sender->first_name }}</td>
             <td width="25%"><span class="span-text">Last Name</span> <br> {{ $record->sender->last_name }}</td>
-            <td width="50%"><span class="span-text">Address</span> <br> {{ $record->senderaddress->address }}</td>
-
+            <td colspan="2" width="25%"><span class="span-text">Mobile Number </span><br> {{ $record->sender->mobile_no }}</td>
+            
         </tr>
         <tr>
+            <td colspan="2"width="50%"><span class="span-text">Address</span> <br> {{ $record->senderaddress->address }}</td>
+            <td  colspan="2"width="25%"><span class="span-text">Phone Number</span><br> {{ $record->sender->home_no }}</td>
+            
+        </tr>
+        <tr>
+            
             <td width="25%"><span class="span-text">Province </span><br> {{ $record->senderaddress->provincecan->name }}</td>
             <td width="25%"><span class="span-text">City </span><br>{{ $record->senderaddress->citycan->name }}</td>
             <td width="50%"><span class="span-text">Postal Code </span><br> {{ $record->senderaddress->postal_code }}</td>
-
-        </tr>
-        <tr>
-            <td width="25%"><span class="span-text">Mobile Number </span><br> {{ $record->sender->mobile_no }}</td>
-            <td width="25%"><span class="span-text">Phone Number</span><br> {{ $record->sender->home_no }}</td>
             <td width="50%"><span class="span-text">Email </span><br> {{ $record->sender->email }}</td>
 
         </tr>
@@ -226,21 +227,21 @@
         <tr>
             <td width="25%"><span class="span-text">First Name </span><br> {{ $record->receiver->first_name }}</td>
             <td width="25%"><span class="span-text">Last Name </span><br> {{ $record->receiver->last_name }}</td>
-            <td colspan="2" width="25%"><span class="span-text">Address </span><br> {{ $record->receiveraddress->address }}</td>
-
-
+            <td colspan="2" width="30%"><span class="span-text">Mobile Number</span> <br> {{ $record->receiver->mobile_no }}</td>
+           
         </tr>
         <tr>
+            <td colspan="2" width="20%"><span class="span-text">Address </span><br> {{ $record->receiveraddress->address }}</td>
+            <td width="30%"><span class="span-text">Barangay </span><br> {{ $record->receiveraddress->barangayphil->name }}</td>
+            <td width="25%"><span class="span-text">Phone Number</span><br> {{ $record->receiver->home_no }}</td>
+            
+        </tr>
+        <tr>
+           
             <td width="25%"><span class="span-text">Province </span><br> {{ $record->receiveraddress->provincephil->name }}</td>
             <td width="25%"><span class="span-text">City </span><br> {{ $record->receiveraddress->cityphil->name }}</td>
-            <td width="25%"><span class="span-text">Barangay </span><br> {{ $record->receiveraddress->barangayphil->name }}</td>
             <td width="25%"><span class="span-text">Zip Code </span><br> {{ $record->receiveraddress->zip_code }}</td>
-
-        </tr>
-        <tr>
-            <td width="25%"><span class="span-text">Mobile Number</span> <br> {{ $record->receiver->mobile_no }}</td>
-            <td width="25%"><span class="span-text">Phone Number</span><br> {{ $record->receiver->home_no }}</td>
-            <td colspan="2"width="25%"><span class="span-text">Email </span><br> {{ $record->receiver->email }}</td>
+            <td width="25%"><span class="span-text">Email </span><br> {{ $record->receiver->email }}</td>
         </tr>
     </table>
     @if ($packinglist->count() !== 0)
