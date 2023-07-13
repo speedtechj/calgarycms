@@ -34,7 +34,7 @@
             padding: 0px;
 
         }
-
+        
         table.table-2 {
             width: 100%;
             margin: 0px;
@@ -113,12 +113,13 @@
         }
 
         .heading-2 {
-            font-size: 15px;
+            font-size: 20px;
             font-weight: bold;
             margin: 0px;
-            padding: 4px;
+            padding-top: 10px;
             font-family: Arial, Helvetica, sans-serif;
             font-style: italic;
+            text-decoration:underline;
         }
 
         .table-0 p {
@@ -173,9 +174,8 @@
     </table>
     <table class="table-1">
         <tr>
-            <td align="right">
+            <td align="center">
                 <p class="heading-2">Tracking Number: {{ $record->booking_invoice }}</p>
-              
             </td>
         </tr>
     </table>
@@ -196,22 +196,21 @@
     </table>
     <table class="table-4" border>
         <tr>
-            <td width="25%"><span class="span-text">First Name</span> <br> {{ $record->sender->first_name }}</td>
-            <td width="25%"><span class="span-text">Last Name</span> <br> {{ $record->sender->last_name }}</td>
-            <td colspan="2" width="25%"><span class="span-text">Mobile Number </span><br> {{ $record->sender->mobile_no }}</td>
+            <td width="40%"><span class="span-text">First Name</span> <br> {{ $record->sender->first_name }}</td>
+            <td colspan="2" width="40%"><span class="span-text">Last Name</span> <br> {{ $record->sender->last_name }}</td>
+            <td  align="right"><span class="span-text">Mobile Number </span><br> {{ $record->sender->mobile_no }}</td>
             
         </tr>
         <tr>
-            <td colspan="2"width="50%"><span class="span-text">Address</span> <br> {{ $record->senderaddress->address }}</td>
-            <td  colspan="2"width="25%"><span class="span-text">Phone Number</span><br> {{ $record->sender->home_no }}</td>
+            <td colspan="3" width="50%"><span class="span-text">House/Unit/Apt. Number/Street Name</span> <br> {{ $record->senderaddress->address }}</td>
+            <td width="25%" align="right"><span class="span-text">Phone Number</span><br> {{ $record->sender->home_no }}</td>
             
         </tr>
         <tr>
-            
-            <td width="25%"><span class="span-text">Province </span><br> {{ $record->senderaddress->provincecan->name }}</td>
-            <td width="25%"><span class="span-text">City </span><br>{{ $record->senderaddress->citycan->name }}</td>
-            <td width="50%"><span class="span-text">Postal Code </span><br> {{ $record->senderaddress->postal_code }}</td>
-            <td width="50%"><span class="span-text">Email </span><br> {{ $record->sender->email }}</td>
+            <td><span class="span-text">City </span><br>{{ $record->senderaddress->citycan->name }}</td>
+            <td ><span class="span-text">Province </span><br> {{ $record->senderaddress->provincecan->name }}</td>
+            <td ><span class="span-text">Postal Code </span><br> {{ $record->senderaddress->postal_code }}</td>
+            <td  align="right"><span class="span-text">Email </span><br> {{ $record->sender->email }}</td>
 
         </tr>
     </table>
@@ -225,30 +224,29 @@
     </table>
     <table class="table-4" border>
         <tr>
-            <td width="25%"><span class="span-text">First Name </span><br> {{ $record->receiver->first_name }}</td>
-            <td width="25%"><span class="span-text">Last Name </span><br> {{ $record->receiver->last_name }}</td>
-            <td colspan="2" width="30%"><span class="span-text">Mobile Number</span> <br> {{ $record->receiver->mobile_no }}</td>
+            <td colspan="" width="40%"><span class="span-text">First Name </span><br> {{ $record->receiver->first_name }}</td>
+            <td colspan="2" width="40%"><span class="span-text">Last Name </span><br> {{ $record->receiver->last_name }}</td>
+            <td align="right"><span class="span-text">Mobile Number</span> <br> {{ $record->receiver->mobile_no }}</td>
            
         </tr>
         <tr>
-            <td colspan="2" width="20%"><span class="span-text">Address </span><br> {{ $record->receiveraddress->address }}</td>
+            <td colspan="2" width="20%"><span class="span-text">House/Unit/Apt Number/Street Name</span><br> {{ $record->receiveraddress->address }}</td>
             <td width="30%"><span class="span-text">Barangay </span><br> {{ $record->receiveraddress->barangayphil->name }}</td>
-            <td width="25%"><span class="span-text">Phone Number</span><br> {{ $record->receiver->home_no }}</td>
+            <td width="25%" align="right"><span class="span-text">Phone Number</span><br> {{ $record->receiver->home_no }}</td>
             
         </tr>
         <tr>
-           
-            <td width="25%"><span class="span-text">Province </span><br> {{ $record->receiveraddress->provincephil->name }}</td>
             <td width="25%"><span class="span-text">City </span><br> {{ $record->receiveraddress->cityphil->name }}</td>
+            <td width="25%"><span class="span-text">Province </span><br> {{ $record->receiveraddress->provincephil->name }}</td>
             <td width="25%"><span class="span-text">Zip Code </span><br> {{ $record->receiveraddress->zip_code }}</td>
-            <td width="25%"><span class="span-text">Email </span><br> {{ $record->receiver->email }}</td>
+            <td width="25%" align="right"><span class="span-text">Email </span><br> {{ $record->receiver->email }}</td>
         </tr>
     </table>
-    @if ($packinglist->count() !== 0)
+    
     <table class="table-3">
         <tr>
             <td>
-                <span>PACKINGLIST INFORMATION</span>
+                <span>DESCRIPITON OF PACKAGES AND GOODS</span>
             </td>
 
         </tr>
@@ -259,6 +257,7 @@
             <th>DESCRIPTION</th>
             <th>AMOUNT</th>
         </tr>
+        @if ($packinglist->count() !== 0)
         <tr>
             @foreach ($packinglist as $packinglist)
             <tr>
@@ -269,13 +268,21 @@
             </tr>
             @endforeach
         </tr>
+        @else
+        @for ($i = 0; $i < 3; $i++)
+        <tr>
+            <td style="padding:10px"></td>
+            <td></td>
+            <td></td>
+            </tr>
+            @endfor
+        @endif
     </table>
-   
-    @endif
+  
     <table class="table-3">
         <tr>
             <td>
-                <span>DESCRIPTION OF PACKAGES AND GOODS</span>
+                <span>BOX SIZE AND SHIPPING COST</span>
             </td>
         </tr>
     </table>
