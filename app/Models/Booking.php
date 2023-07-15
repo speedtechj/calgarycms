@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Casts\MoneyCast;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Booking extends Model
 {
@@ -88,6 +88,7 @@ class Booking extends Model
     {
         return $this->hasMany(packinglist::class);
     }
+    
     public function calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches)
     {
         
