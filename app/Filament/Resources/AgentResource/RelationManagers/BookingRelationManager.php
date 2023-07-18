@@ -50,57 +50,63 @@ class BookingRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('booking_invoice')
-                    ->label('Invoice')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('manual_invoice')
-                    ->label('Manual Invoice')
-                    ->sortable()
-                    ->searchable(),
+                ->label('Invoice')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\TextColumn::make('manual_invoice')
+                ->label('Manual Invoice')
+                ->sortable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('sender.full_name')->label('Sender')
-                    ->sortable()
-                    ->searchable()
-                    ->url(fn (Booking $record) => SenderResource::getUrl('edit', ['record' => $record->sender])),
-                Tables\Columns\TextColumn::make('receiver.full_name')->label('Receiver')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\BadgeColumn::make('servicetype.description')->label('Type of Service')
-                    ->color(static function ($state): string {
-                        if ($state === 'Pickup') {
-                            return 'success';
-                        }
+                ->sortable()
+                ->searchable()
+                ->url(fn (Booking $record) => SenderResource::getUrl('edit', ['record' => $record->sender])),
+            
+            Tables\Columns\TextColumn::make('receiver.full_name')->label('Receiver')
+                ->sortable()
+                ->searchable(),
+            Tables\Columns\BadgeColumn::make('servicetype.description')->label('Type of Service')
+                ->color(static function ($state): string {
+                    if ($state === 'Pickup') {
+                        return 'success';
+                    }
 
-                        return 'info';
-                    }),
-                Tables\Columns\TextColumn::make('boxtype.description'),
-                Tables\Columns\TextColumn::make('batch.id')
-                    ->label('Batch Number')
-                    ->sortable()
-                    ->searchable()
-                    ->getStateUsing(function (Model $record) {
-                        return $record->batch->batchno . " " . $record->batch->batch_year;
-                    }),
-                Tables\Columns\IconColumn::make('is_pickup')
-                    ->label('Is Pickup')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('zone.description'),
-                Tables\Columns\TextColumn::make('booking_date')->label('Pickup'),
-                Tables\Columns\TextColumn::make('start_time')->label('Pickup Time')
-                    ->getStateUsing(function (Model $record) {
-                        return $record->start_time . " - " . $record->end_time;
-                    }),
-                Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
-                Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
-                Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount'),
-                Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
-                Tables\Columns\IconColumn::make('is_paid')
-                    ->label('Paid')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
-                Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
-                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
-                Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
-            ])
+                    return 'info';
+                }),
+            Tables\Columns\TextColumn::make('boxtype.description'),
+            Tables\Columns\TextColumn::make('batch.id')
+                ->label('Batch Number')
+                ->sortable()
+                ->searchable()
+                ->getStateUsing(function (Model $record) {
+                    return $record->batch->batchno . " " . $record->batch->batch_year;
+                }),
+            Tables\Columns\IconColumn::make('is_pickup')
+                ->label('Is Pickup')
+                ->boolean(),
+            Tables\Columns\TextColumn::make('zone.description'),
+            Tables\Columns\TextColumn::make('booking_date')->label('Pickup/Dropoff Date'),
+            Tables\Columns\TextColumn::make('start_time')->label('Pickup/Dropoff Time')
+                ->getStateUsing(function (Model $record) {
+                    return $record->start_time . " - " . $record->end_time;
+                }),
+            Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
+            Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
+            Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount')->money('USD', shouldConvert: true),
+            Tables\Columns\TextColumn::make('agentdiscount.discount_amount')->label('Agent Discount')->money('USD', shouldConvert: true),
+            Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
+            Tables\Columns\IconColumn::make('is_paid')
+                ->label('Paid')
+                ->boolean(),
+            Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
+            Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
+            Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
+            Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
+            Tables\Columns\TextColumn::make('notes')->label('Notes'),
+                
+                   
+              
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 Filter::make('is_paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
                 Filter::make('booking_date')
