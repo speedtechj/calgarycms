@@ -93,11 +93,16 @@ class Manifest extends Page implements HasTable, HasForms
         ->placeholder('Select Batch Number')
         ->label('Batch Number')
         ->default('0'),
-        
+       
     ];
 }
 protected function getTableFiltersLayout(): ?string
 {
     return Layout::AboveContent;
 }
+protected function getTableFiltersFormColumns(): int
+{
+    return 3;
+}
+
 }
