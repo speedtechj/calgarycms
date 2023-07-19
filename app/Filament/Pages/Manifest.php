@@ -35,7 +35,7 @@ class Manifest extends Page implements HasTable, HasForms
         return [
             
             Tables\Columns\TextColumn::make('booking_invoice')
-            ->label('Booing Invoice')
+            ->label('Invoice')
             ->searchable()
             ->sortable(),
             Tables\Columns\TextColumn::make('manual_invoice')
@@ -47,7 +47,7 @@ class Manifest extends Page implements HasTable, HasForms
             ->searchable()
             ->sortable(),
             Tables\Columns\TextColumn::make('batch.id')
-                    ->label('Batch Number')
+                    ->label('Batch No')
                     ->sortable()
                     ->searchable()
                     ->getStateUsing(function (Model $record) {
@@ -75,10 +75,10 @@ class Manifest extends Page implements HasTable, HasForms
             ->label('City')
             ->searchable()->sortable(),
             Tables\Columns\TextColumn::make('receiver.mobile_no')
-            ->label('Mobile Number')
+            ->label('Mobile No')
             ->searchable()->sortable(),
             Tables\Columns\TextColumn::make('receiver.home_no')
-            ->label('Home Number')
+            ->label('Home No')
             ->searchable()->sortable(),
             
         ];
