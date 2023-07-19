@@ -13,4 +13,7 @@ class Barangayphil extends Model
     public function cityphil(){
         return $this->belongsTo(Cityphil::class);
     }
+    public function receiveraddress(){
+        return $this->belongsTo(Receiveraddress::class);
+    }
 }
