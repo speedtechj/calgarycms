@@ -15,11 +15,13 @@ use Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class Manifest extends Page implements HasTable, HasForms
 {
     use Tables\Concerns\InteractsWithTable;
     use InteractsWithForms;
+    use HasPageShield;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationGroup = 'Report';
     protected static string $view = 'filament.pages.manifest';
