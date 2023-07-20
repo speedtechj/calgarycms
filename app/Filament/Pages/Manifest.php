@@ -104,5 +104,8 @@ protected function getTableFiltersFormColumns(): int
 {
     return 3;
 }
-
+// protected function shouldPersistTableFiltersInSession(): bool
+// {
+//     return true;
+// }
 }
