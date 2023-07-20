@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a56c68e16b631068024094c9296eae63",
+    "content-hash": "a7e886d07cd3fe455e950ad640273d89",
     "packages": [
         {
             "name": "akaunting/laravel-money",
@@ -155,16 +155,16 @@
         },
         {
             "name": "bezhansalleh/filament-shield",
-            "version": "2.4.2",
+            "version": "2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bezhanSalleh/filament-shield.git",
-                "reference": "807524ee9a87ec08615eceeae17a332852c1487f"
+                "reference": "480ec2bbdb299f6a8a36e12c5a7d30d22b38002e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bezhanSalleh/filament-shield/zipball/807524ee9a87ec08615eceeae17a332852c1487f",
-                "reference": "807524ee9a87ec08615eceeae17a332852c1487f",
+                "url": "https://api.github.com/repos/bezhanSalleh/filament-shield/zipball/480ec2bbdb299f6a8a36e12c5a7d30d22b38002e",
+                "reference": "480ec2bbdb299f6a8a36e12c5a7d30d22b38002e",
                 "shasum": ""
             },
             "require": {
@@ -232,7 +232,7 @@
             ],
             "support": {
                 "issues": "https://github.com/bezhanSalleh/filament-shield/issues",
-                "source": "https://github.com/bezhanSalleh/filament-shield/tree/2.4.2"
+                "source": "https://github.com/bezhanSalleh/filament-shield/tree/2.4.7"
             },
             "funding": [
                 {
@@ -240,7 +240,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-02-10T21:49:13+00:00"
+            "time": "2023-05-21T19:32:04+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",
