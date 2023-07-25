@@ -47,6 +47,9 @@ class Manifest extends Page implements HasTable, HasForms
             ->label('Manual Invoice')
             ->searchable()
             ->sortable(),
+            Tables\Columns\TextColumn::make('Quantity')
+            ->label('Quantity')
+            ->default('1'),
             Tables\Columns\TextColumn::make('boxtype.description')
             ->label('Box Type')
             ->searchable()
