@@ -56,10 +56,8 @@ div.page{
     width: 50%;
     right: -30px;
     height: 300px;
-    top:965px;
-    
+    top:965px;   
 }
-
 #barcode{
 
   position: absolute;
@@ -74,54 +72,49 @@ div.page{
     margin: 2px;
     padding: 2px;
 }
-
-
-
-
 </style>
 <body>
         <div class=page>
        
             <div id="barcode1">
                 <p>WWW.FOREXCARGODEALS.COM</p>
-                <P>{{ $record->booking_invoice}}</P>
-                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,100, 'black',true) !!}
+                <P style="font-size:80px">{{ $record->booking_invoice}}</P>
+                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,50, 'black',true) !!}
                 <P>{{ $record->boxtype->description}}</P>
                 </div> 
->
              </div>           
             <div id="barcode2">
-            <p>WWW.FOREXCARGODEALS.COM</p>
-                <P>{{ $record->booking_invoice}}</P>
-                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,100, 'black',true) !!}
+                <p>WWW.FOREXCARGODEALS.COM</p>
+                <P style="font-size:80px">{{ $record->booking_invoice}}</P>
+                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,50, 'black',true) !!}
                 <P>{{ $record->boxtype->description}}</P>
                 </div> 
             </div>
             <div id="barcode3">
-            <p>WWW.FOREXCARGODEALS.COM</p>
-                <P>{{ $record->booking_invoice}}</P>
-                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,100, 'black',true) !!}
+                <p>WWW.FOREXCARGODEALS.COM</p>
+                <P style="font-size:80px">{{ $record->booking_invoice}}</P>
+                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,50, 'black',true) !!}
                 <P>{{ $record->boxtype->description}}</P>
                 </div> 
             </div>
             <div id="barcode4">
             <p>WWW.FOREXCARGODEALS.COM</p>
-                <P>{{ $record->booking_invoice}}</P>
-                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,100, 'black',true) !!}
+                <P style="font-size:80px">{{ $record->booking_invoice}}</P>
+                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,50, 'black',true) !!}
                 <P>{{ $record->boxtype->description}}</P>
                 </div> 
             </div>
             <div id="barcode5">
-            <p>WWW.FOREXCARGODEALS.COM</p>
-                <P>{{ $record->booking_invoice}}</P>
-                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,100, 'black',true) !!}
+                <p>WWW.FOREXCARGODEALS.COM</p>
+                <P style="font-size:80px">{{ $record->booking_invoice}}</P>
+                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,50, 'black',true) !!}
                 <P>{{ $record->boxtype->description}}</P>
                 </div> 
            </div>
            <div id="barcode6">
                 <p>WWW.FOREXCARGODEALS.COM</p>
-                <P>{{ $record->booking_invoice}}</P>
-                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,100, 'black',true) !!}
+                <P style="font-size:80px">{{ $record->booking_invoice}}</P>
+                <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,50, 'black',true) !!}
                 <P>{{ $record->boxtype->description}}</P>
                 </div> 
            </div>
