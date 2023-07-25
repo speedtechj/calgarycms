@@ -51,8 +51,13 @@ class SenderaddressRelationManager extends RelationManager
                     }
                     return $province->citycan->pluck('name', 'id');
                 }),
-            // Forms\Components\Select::make('quadrant')
-            //     ->options(self::$model::QUADRANT),
+            Forms\Components\Select::make('quadrant')
+            ->options([
+                'NW' => 'North West',
+                'SW' => 'South West',
+                'NE' => 'North East',
+                'SE' => 'South East',
+            ]),
             Forms\Components\TextInput::make('postal_code')
                 ->required()
                 ->maxLength(255),
