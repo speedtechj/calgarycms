@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Filament\Pages;
+use Closure;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Batch;
 use App\Models\Booking;
+use App\Models\Receiver;
 use Filament\Pages\Page;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Layout;
@@ -13,6 +15,7 @@ use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
 use Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Filters\SelectFilter;
+use App\Filament\Resources\ReceiverResource;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
@@ -62,7 +65,8 @@ class Manifest extends Page implements HasTable, HasForms
             Tables\Columns\TextColumn::make('receiver.full_name')
             ->label('Receiver Name')
             ->searchable()
-            ->sortable(),
+            ->sortable()
+    ->url(fn (Booking $record) => route('filament.resources.receivers.edit', $record->receiver)),
             Tables\Columns\TextColumn::make('receiveraddress.address')
             ->label('Address')
             ->searchable()
@@ -106,6 +110,7 @@ protected function getTableFiltersFormColumns(): int
 {
     return 3;
 }
+
 // protected function shouldPersistTableFiltersInSession(): bool
 // {
 //     return true;
