@@ -56,7 +56,8 @@ class ReceiverRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('full_name')
                 ->searchable()
                 ->toggleable()
-                ->sortable(),
+                ->sortable()
+                ->url(fn (Receiver $record) => route('filament.resources.receivers.edit', $record)),
                 Tables\Columns\TextColumn::make('mobile_no')
                 ->searchable()
                 ->toggleable()
