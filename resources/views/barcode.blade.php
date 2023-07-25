@@ -68,7 +68,7 @@ div.page{
 .page p{
     font-size: large;
     font-weight:bold;
-    font-family: arial;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 2px;
     padding: 2px;
 }
