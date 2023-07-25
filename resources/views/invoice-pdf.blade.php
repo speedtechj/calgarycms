@@ -353,28 +353,7 @@
             <td>{{ "$" . $record->payment_balance }}</td>
         </tr>
     </table>
-    <table class="table-3" width="100%">
-        <tr>
-            <td align="center">
-                <span>DECLARATION</span>
-            </td>
-
-        </tr>
-        <table>
-            <tr>
-                <td style="font-size:10px">
-                    I HERE BY CERTIFY AND DECLARE that the contents of the above sealed package(s) are goods without
-                    commercial value or purpose whatsoever. I FURTHER CERTIFY that are no contraband goods as defined by
-                    the laws of Canada and the Republic of the Philippines: I take full legal responsibility for any
-                    erroneous declaration or omission in the packing list attached to this document. I FINALLY CERTIFY
-                    that I am endorsing this
-                    Invoice to Forex Cargo Travel and Tours or door-delivery of my package(s) to
-                    my consignee at the address herein; that I have read, understood and agree to the terms and
-                    conditions printed on the reverse.
-                </td>
-            <tr>
-        </table>
-    </table>
+    
     <table class="table-3">
         <tr>
             <td>
@@ -408,6 +387,28 @@
                
             @endforeach
         </tr>
+    </table>
+    <table class="table-3" width="100%">
+        <tr>
+            <td align="center">
+                <span>DECLARATION</span>
+            </td>
+
+        </tr>
+        <table>
+            <tr>
+                <td style="font-size:10px">
+                    I HERE BY CERTIFY AND DECLARE that the contents of the above sealed package(s) are goods without
+                    commercial value or purpose whatsoever. I FURTHER CERTIFY that are no contraband goods as defined by
+                    the laws of Canada and the Republic of the Philippines: I take full legal responsibility for any
+                    erroneous declaration or omission in the packing list attached to this document. I FINALLY CERTIFY
+                    that I am endorsing this
+                    Invoice to Forex Cargo Travel and Tours or door-delivery of my package(s) to
+                    my consignee at the address herein; that I have read, understood and agree to the terms and
+                    conditions printed on the reverse.
+                </td>
+            <tr>
+        </table>
     </table>
     <table width="100%">
         <tr>
