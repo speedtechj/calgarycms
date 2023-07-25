@@ -26,7 +26,7 @@ class PackinglistRelationManager extends RelationManager
                             Forms\Components\Select::make('packlistitem_id')
                                 ->label('Premade Items')
                                 ->options(Packlistitem::all()->pluck('itemname', 'id')),
-                            Forms\Components\TextInput::make('description'),
+                           
                             Forms\Components\TextInput::make('price'),
                             FileUpload::make('packlistdoc')
                                 ->label('Packing List')
@@ -57,7 +57,6 @@ class PackinglistRelationManager extends RelationManager
                 ->label('Booking Invoice'),
                 Tables\Columns\TextColumn::make('quantity')->label('Quantity'),
                 Tables\Columns\TextColumn::make('packlistitem.itemname')->label('Premade item'),
-                Tables\Columns\TextColumn::make('description')->label('Description'),
                 Tables\Columns\TextColumn::make('price')->label('Price'),
             ])
             ->filters([
