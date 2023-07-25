@@ -61,7 +61,8 @@ class Manifest extends Page implements HasTable, HasForms
             Tables\Columns\TextColumn::make('sender.full_name')
             ->label('Sender Name')
             ->searchable()
-            ->sortable(),
+            ->sortable()
+            ->url(fn (Booking $record) => route('filament.resources.senders.edit', $record->sender)),
             Tables\Columns\TextColumn::make('receiver.full_name')
             ->label('Receiver Name')
             ->searchable()
