@@ -78,7 +78,7 @@ div.page{
        
             <div id="barcode1">
                 <p>WWW.FOREXCARGODEALS.COM</p>
-                <P style="font-size:75px">{{ $record->booking_invoice}}</P>
+                <P style="font-size:70px">{{ $record->booking_invoice}}</P>
                 <div id="barcode">{!!  DNS1D::getBarcodeHTML("$record->booking_invoice", 'C39',2,50, 'black',true) !!}
                 <P>{{ $record->boxtype->description}}</P>
                 </div> 
