@@ -56,8 +56,7 @@ class ReceiverRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('full_name')
                 ->searchable()
                 ->toggleable()
-                ->sortable()
-                ->url(fn (Receiver $record) => ReceiverResource::getUrl('edit', ['record' => $record])),
+                ->sortable(),
                 Tables\Columns\TextColumn::make('mobile_no')
                 ->searchable()
                 ->toggleable()
@@ -173,5 +172,8 @@ class ReceiverRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
+
+            
     }
+    
 }
