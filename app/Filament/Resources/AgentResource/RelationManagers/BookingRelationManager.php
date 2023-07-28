@@ -5,6 +5,7 @@ namespace App\Filament\Resources\AgentResource\RelationManagers;
 use Closure;
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Agent;
 use App\Models\Sender;
 use App\Models\Booking;
 use App\Models\Packinglist;
@@ -16,6 +17,7 @@ use Filament\Resources\Table;
 use App\Exports\Bookingexport;
 use App\Models\Bookingpayment;
 use Filament\Facades\Filament;
+use App\Models\Receiveraddress;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\IconColumn;
@@ -50,100 +52,213 @@ class BookingRelationManager extends RelationManager
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('booking_invoice')
-                ->label('Invoice')
-                ->sortable()
-                ->searchable(),
-            Tables\Columns\TextColumn::make('manual_invoice')
-                ->label('Manual Invoice')
-                ->sortable()
-                ->searchable(),
-                Tables\Columns\TextColumn::make('sender.full_name')->label('Sender')
-                ->sortable()
-                ->searchable()
-                ->url(fn (Booking $record) => SenderResource::getUrl('edit', ['record' => $record->sender])),
-            
-            Tables\Columns\TextColumn::make('receiver.full_name')->label('Receiver')
-                ->sortable()
-                ->searchable(),
-            Tables\Columns\BadgeColumn::make('servicetype.description')->label('Type of Service')
-                ->color(static function ($state): string {
-                    if ($state === 'Pickup') {
-                        return 'success';
-                    }
+                    ->label('Invoice')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('manual_invoice')
+                    ->label('Manual Invoice')
+                    ->sortable()
+                    ->searchable(),
 
-                    return 'info';
-                }),
-            Tables\Columns\TextColumn::make('boxtype.description'),
-            Tables\Columns\TextColumn::make('batch.id')
-                ->label('Batch Number')
-                ->sortable()
-                ->searchable()
-                ->getStateUsing(function (Model $record) {
-                    return $record->batch->batchno . " " . $record->batch->batch_year;
-                }),
-            Tables\Columns\IconColumn::make('is_pickup')
-                ->label('Is Pickup')
-                ->boolean(),
-            Tables\Columns\TextColumn::make('zone.description'),
-            Tables\Columns\TextColumn::make('booking_date')->label('Pickup/Dropoff Date'),
-            Tables\Columns\TextColumn::make('start_time')->label('Pickup/Dropoff Time')
-                ->getStateUsing(function (Model $record) {
-                    return $record->start_time . " - " . $record->end_time;
-                }),
-            Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
-            Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
-            Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount')->money('USD', shouldConvert: true),
-            Tables\Columns\TextColumn::make('agentdiscount.discount_amount')->label('Agent Discount')->money('USD', shouldConvert: true),
-            Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
-            Tables\Columns\IconColumn::make('is_paid')
-                ->label('Paid')
-                ->boolean(),
-            Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
-            Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
-            Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
-            Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
-            Tables\Columns\TextColumn::make('notes')->label('Notes'),
-                
-                   
-              
+                Tables\Columns\TextColumn::make('receiver.full_name')->label('Receiver')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\BadgeColumn::make('servicetype.description')->label('Type of Service')
+                    ->color(static function ($state): string {
+                        if ($state === 'Pickup') {
+                            return 'success';
+                        }
+
+                        return 'info';
+                    }),
+                Tables\Columns\TextColumn::make('boxtype.description'),
+                Tables\Columns\TextColumn::make('batch.id')
+                    ->label('Batch Number')
+                    ->sortable()
+                    ->searchable()
+                    ->getStateUsing(function (Model $record) {
+                        return $record->batch->batchno . " " . $record->batch->batch_year;
+                    }),
+                Tables\Columns\IconColumn::make('is_pickup')
+                    ->label('Is Pickup')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('zone.description'),
+                Tables\Columns\TextColumn::make('booking_date')->label('Pickup/Dropoff Date'),
+                Tables\Columns\TextColumn::make('start_time')->label('Pickup/Dropoff Time')
+                    ->getStateUsing(function (Model $record) {
+                        return $record->start_time . " - " . $record->end_time;
+                    }),
+                Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
+                Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
+                Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount')->money('USD', shouldConvert: true),
+                Tables\Columns\TextColumn::make('agentdiscount.discount_amount')->label('Agent Discount')->money('USD', shouldConvert: true),
+                Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
+                Tables\Columns\IconColumn::make('is_paid')
+                    ->label('Paid')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
+                Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
+                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
+                Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
+                Tables\Columns\TextColumn::make('notes')->label('Notes'),
+                // Tables\Columns\TextColumn::make('encoder')
+                //     ->label('Encoder')
+                //     ->searchable()
+                //     ->sortable()
+                //     ->getStateUsing(function (Model $record) {
+                //         return $record->user->first_name . " " . $record->user->last_name;
+                //     })
+                //     ->searchable()
+                // ->sortable()
+                // ->toggleable(),
             ])->defaultSort('created_at', 'desc')
             ->filters([
-                Filter::make('is_paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
-                Filter::make('booking_date')
-                    ->form([
-                        Forms\Components\DatePicker::make('pickup_from'),
-                        Forms\Components\DatePicker::make('pickup_until'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['pickup_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '>=', $date),
-                            )
-                            ->when(
-                                $data['pickup_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '<=', $date),
-                            );
-                    })
+                Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
             ])
             ->headerActions([
-                // 
+                Tables\Actions\CreateAction::make()
+                    ->mutateFormDataUsing(function (array $data): array {
+
+                        $data['user_id'] = auth()->id();
+                        $data['branch_id'] = 1;
+                        $data['payment_balance'] = $data['total_price'];
+                        $data['zone_id'] = Receiveraddress::find($data['receiveraddress_id'])->loczone;
+                        return $data;
+                    }),
             ])
             ->actions([
-                ActionGroup::make([
+                Tables\Actions\EditAction::make()
+                    // ->beforeFormFilled(function (Booking $record, array $data) {
+                    //     dump($record->is_agent);
+                    // })
+                    ->after(function (Booking $record, array $data) {
+                        // dump($data); 
+                        if($record->servicetype_id == 1){
+                            if($record->agent->agent_type == 0){
+                                $record->update([
+                                    'is_agent' => 1,
 
-                    Tables\Actions\Action::make('print')->label('Print Invoice')
+                                ]);
+                            }else {
+                                $record->update([
+                                    'is_agent' => 0,
+
+                                ]);
+                            }
+                            
+                        }else {
+                            
+                            $record->update([
+                                'is_agent' => 0,
+
+                            ]);
+                        }
+                        if ($record->boxtype_id != 9) {
+                            $record->update([
+                                'total_inches' => null,
+                            ]);
+                        }
+                        if ($record->boxtype_id != 4) {
+                            $record->update([
+                                'irregular_width' => null,
+                                'irregular_length' => null,
+                                'irregular_height' => null,
+                            ]);
+                        };
+                        if ($data['servicetype_id'] == 2) {
+                            $record->update([
+                                'agent_id' => null,
+
+                            ]);
+                        }
+
+                        if($record->agent_id != null){
+                            $agent = Agent::find($record->agent_id);
+                            $agentid = $agent->agent_type;
+                            if($agentid == 0){
+                                    if($record->discount_id != null){
+                                        $record->update([
+                                            'discount_id' => null,
+                                        ]);
+                                    }
+                            } else {
+                                if($record->agentdiscount_id != null){
+                                    $record->update([
+                                        'agentdiscount_id' => null,
+                                    ]);
+                                }
+                            }
+                        }else{
+                            if($record->agentdiscount_id != null){
+                                $record->update([
+                                    'agentdiscount_id' => null,
+                                ]);
+                            }
+                        }
+                       
+                        $booking_payment = Bookingpayment::where('booking_id', $record->id)->sum('payment_amount');
+                        if ($record->is_paid != 0) {
+                            if ($record->total_price > $booking_payment) {
+                                $payment_balance = $record->total_price - $booking_payment;
+                                $record->update([
+                                    'payment_balance' => $payment_balance,
+                                    'is_paid' => 0
+                                ]);
+                            } else {
+                                $refund_sum = Bookingrefund::where('booking_id', $record->id)->sum('payment_amount');
+                                if (!$refund_sum) {
+
+                                    $record->update([
+                                        'refund_amount' => $booking_payment - $record->total_price,
+
+                                    ]);
+                                } else {
+                                    if ($record->total_price > $booking_payment) {
+                                        $record->update([
+                                            'refund_amount' => $booking_payment - $record->total_price - $refund_sum,
+
+                                        ]);
+                                    } else {
+                                        $payment_balance =  $record->total_price + $refund_sum - $booking_payment;
+                                        $record->update([
+                                            'payment_balance' => $payment_balance,
+                                            'is_paid' => 0
+                                        ]);
+                                    }
+                                }
+                            }
+                        } else {
+                            if ($record->total_price == $booking_payment) {
+                                $record->update([
+                                    'is_paid' => 1
+                                ]);
+                            }
+                            $record->update([
+                                'payment_balance' => $data['total_price'],
+                            ]);
+                        }
+                        if ($record->total_price == 0) {
+                            $record->update([
+                                'is_paid' => 1
+                            ]);
+                        }
+                    }),
+                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\Action::make('print')
+                        ->label('Print Invoice')
+                        ->color('warning')
                         ->icon('heroicon-o-printer')
-                        ->color('success')
                         ->url(fn (Booking $record) => route('barcode.pdf.download', $record))
                         ->openUrlInNewTab(),
-                    Tables\Actions\Action::make('barcode')->label('Print Barcode')
+                    Tables\Actions\Action::make('barcode')
+                        ->color('success')
                         ->icon('heroicon-o-qrcode')
-                        ->color('danger')
+                        ->label('Print Barcode')
                         ->url(fn (Booking $record) => route('barcode1.pdf.download', $record))
                         ->openUrlInNewTab(),
                     Tables\Actions\Action::make('Payment')->label('Received Payment')
-                        ->color('warning')
+                        ->color('success')
                         ->icon('heroicon-o-currency-dollar')
                         ->hidden(fn (Booking $record) => $record->is_paid == 1)
                         ->form([
@@ -293,7 +408,6 @@ class BookingRelationManager extends RelationManager
                             Forms\Components\Select::make('packlistitem_id')
                                 ->label('Premade Items')
                                 ->options(Packlistitem::all()->pluck('itemname', 'id')),
-                            Forms\Components\TextInput::make('description'),
                             Forms\Components\TextInput::make('price'),
                             FileUpload::make('packlist_doc')
                                 ->label('Packing List')
@@ -312,23 +426,29 @@ class BookingRelationManager extends RelationManager
                                 ->visibility('private')
                                 ->enableOpen(),
                         ])->action(function (Booking $record, array $data, $action) {
+                            $packinglistcount = Packinglist::where('booking_id', $record->id)->count();
+                            
+                           if($packinglistcount < 3){
                             Packinglist::create([
                                 'booking_id' => $record->id,
                                 'sender_id' => $record->sender_id,
+                                'quantity' => $data['quantity'], 
                                 'packlistitem_id' => $data['packlistitem_id'],
-                                'description' => $data['description'],
                                 'packlistdoc' => $data['packlist_doc'],
                                 'waverdoc' => $data['waiver_doc'],
                                 'price' => $data['price'],
                             ]);
+                            Filament::notify('success', 'Record Successfully save');
+                           } else {
+                            Filament::notify('danger', 'Limit Exceed need only 3 records');
+                           }
+                            
                         }),
 
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\BulkAction::make('xls')->label('Export to Excel')
-                    ->icon('heroicon-o-document-download')
-                    ->action(fn (Collection $records) => (new Bookingexport($records))->download('booking.xlsx')),
-            ]);
+                Tables\Actions\DeleteBulkAction::make(),
+            ])->reorderable('created_at');
     }
 }
