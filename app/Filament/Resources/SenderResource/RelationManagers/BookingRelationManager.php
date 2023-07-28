@@ -490,8 +490,11 @@ class BookingRelationManager extends RelationManager
                                     ->hidden(fn (\Closure $get) => $get('is_agent') == '0')
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
-                                        $loczone = Receiveraddress::where('id', $get('receiveraddress_id'));
+                                        $loczone = Receiveraddress::where('id', $get('receiveraddress_id'))->first();
+                                       dd($loczone);
+                                        
                                         if($loczone != null){
+                                          
                                             $zone_id = Cityphil::where('id', $loczone->cityphil_id)->first()->zone_id;
                                         } else {
                                             Filament::notify('danger', 'Zone not found');
