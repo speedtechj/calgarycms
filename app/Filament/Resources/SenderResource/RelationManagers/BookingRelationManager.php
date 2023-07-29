@@ -491,7 +491,6 @@ class BookingRelationManager extends RelationManager
                                     ->reactive()
                                     ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
                                         $loczone = Receiveraddress::where('id', $get('receiveraddress_id'))->first();
-                                      
                                         if($loczone != null){
                                           
                                             $zone_id = Cityphil::where('id', $loczone->cityphil_id)->first()->zone_id;
