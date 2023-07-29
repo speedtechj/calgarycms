@@ -107,7 +107,23 @@ class BookingRelationManager extends RelationManager
 
             ])->defaultSort('created_at', 'desc')
             ->filters([
-                Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
+                Filter::make('is_paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
+                Filter::make('booking_date')
+                    ->form([
+                        Forms\Components\DatePicker::make('pickup_from'),
+                        Forms\Components\DatePicker::make('pickup_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['pickup_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['pickup_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '<=', $date),
+                            );
+                    })
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
