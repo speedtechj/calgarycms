@@ -442,7 +442,9 @@ class BookingRelationManager extends RelationManager
                 ]),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\BulkAction::make('xls')->label('Export to Excel')
+                    ->icon('heroicon-o-document-download')
+                    ->action(fn (Collection $records) => (new Bookingexport($records))->download('booking.xlsx')),
             ])->reorderable('created_at');
     }
 }
