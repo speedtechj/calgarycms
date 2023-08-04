@@ -39,13 +39,16 @@ class AgentpriceResource extends Resource
                     ->required(),
                 Select::make('servicetype_id')
                     ->label('Servicetype')
+                    ->required()
                     ->options(Servicetype::where('id', 1)->pluck('description', 'id'))
                     ->searchable(),
                 Select::make('boxtype_id')
+                    ->required()
                     ->relationship('boxtype', 'id')
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->description} {$record->dimension}"),
                 Select::make('zone_id')
                     ->label('Zone')
+                    ->required()
                     ->options(Zone::all()->pluck('description', 'id'))
                     ->searchable(),
 
