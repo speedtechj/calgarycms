@@ -88,7 +88,9 @@ class Booking extends Model
     {
         return $this->hasMany(packinglist::class);
     }
-    
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
     public function calculateprice($service_id, $zone_id, $boxtype_id, $discount, $length, $width, $height, $totalinches)
     {
         
