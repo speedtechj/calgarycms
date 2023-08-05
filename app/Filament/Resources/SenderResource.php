@@ -46,12 +46,14 @@ class SenderResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('mobile_no')
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000)000-0000'))
+                    ->unique()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('home_no')
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000)000-0000'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->unique()
                     ->email()
                     ->required()
                     ->maxLength(255),
