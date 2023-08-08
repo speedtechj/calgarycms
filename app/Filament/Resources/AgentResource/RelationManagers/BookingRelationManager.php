@@ -461,6 +461,63 @@ class BookingRelationManager extends RelationManager
                 Tables\Actions\BulkAction::make('xls')->label('Export to Excel')
                     ->icon('heroicon-o-document-download')
                     ->action(fn (Collection $records) => (new Bookingexport($records))->download('booking.xlsx')),
+                    Tables\Actions\BulkAction::make('Received Payment')
+                    ->label('Received Payment')
+                            ->color('warning')
+                            ->icon('heroicon-o-currency-dollar')
+                            ->form([
+                                Select::make('type_of_payment')
+                                    ->required()
+                                    ->label('Mode Of Payment')
+                                    ->options(Paymenttype::all()->pluck('name', 'id'))
+                                    ->searchable()
+                                    ->reactive(),
+                                DatePicker::make('payment_date')->required(),
+                                TextInput::make('reference_number')->label('Authorization Code/Reference Number/Cheque Number')
+                                    ->disabled(
+                                        fn (Closure $get): bool => $get('type_of_payment') == 4
+                                    ),
+    
+                                
+                            ])->action(function (Collection $records, array $data, $action) {
+                                    $records->each(function($record) use ($data){
+                                            if($record->payment_balance != 0){
+                                              
+                                                Bookingpayment::create([
+                                                            'booking_id' => $record->id,
+                                                            'paymenttype_id' => $data['type_of_payment'],
+                                                            'payment_date' => $data['payment_date'],
+                                                            'reference_number' => $data['reference_number'],
+                                                            'booking_invoice' => $record->booking_invoice,
+                                                            'payment_amount' => $record->payment_balance,
+                                                            'user_id' => auth()->id(),
+                                                            'sender_id' => $record->sender_id,
+                                                        ]);
+                                                Booking::where('id', $record->id)->update([
+                                                    'payment_balance' => 0,
+                                                    'is_paid' => true,
+                                                ]);
+                                               
+                                            }
+                                    });
+                                    Filament::notify('success', 'Payment Successfully received');
+                            }),
+                            Tables\Actions\BulkAction::make('Update Pickup')
+                        ->label('Pickup update')
+                        ->icon('heroicon-o-clipboard-list')
+                        ->color('warning')
+                        ->action(function (Collection $records, array $data, $action){
+                            $records->each(function($record) use ($data){
+                                if($record->is_pickup == false){
+                                    Booking::where('id', $record->id)->update([
+                                        'is_pickup' => true,
+                                    ]);
+                                    
+                                }
+                                
+                            });
+                            Filament::notify('success', 'Pickup Successfully updated');
+                        }),
             ])->reorderable('created_at');
     }
 }

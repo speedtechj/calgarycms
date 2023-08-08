@@ -1051,36 +1051,7 @@ class BookingRelationManager extends RelationManager
                                     fn (Closure $get): bool => $get('type_of_payment') == 4
                                 ),
 
-                            // TextInput::make('Amount')->label('Payment Amount')
-                            //     ->required()
-                            //     ->mask(
-                            //         fn (TextInput\Mask $mask) => $mask
-                            //             ->patternBlocks([
-                            //                 'money' => fn (Mask $mask) => $mask
-                            //                     ->numeric()
-                            //                     ->thousandsSeparator(',')
-                            //                     ->decimalSeparator('.'),
-                            //             ])
-                            //             ->pattern('$money'),
-                            //     ),
-                        //    TextInput::make('Booking_Balance')
-                        //         ->label('Amount Due')
-                        //         ->default(function (Booking $record) {
-                        //             return $record->payment_balance;
-                        //         })
-                        //         ->mask(
-                        //             fn (TextInput\Mask $mask) => $mask
-                        //                 ->patternBlocks([
-                        //                     'money' => fn (Mask $mask) => $mask
-                        //                         ->numeric()
-                        //                         ->minValue(1) // Set the minimum value that the number can be.
-                        //                         ->maxValue(10000) // Set the maximum value that the number can be.
-                        //                         ->thousandsSeparator(',')
-                        //                         ->decimalSeparator('.'),
-                        //                 ])
-                        //                 ->pattern('$money'),
-                        //         )
-                        //         ->disabled(),
+                            
                         ])->action(function (Collection $records, array $data, $action) {
                                 $records->each(function($record) use ($data){
                                         if($record->payment_balance != 0){
@@ -1099,32 +1070,28 @@ class BookingRelationManager extends RelationManager
                                                 'payment_balance' => 0,
                                                 'is_paid' => true,
                                             ]);
+                                            
                                         }
                                 });
-                            // if ($record['payment_balance'] != 0) {
-                            //     Bookingpayment::create([
-                            //         'booking_id' => $record->id,
-                            //         'paymenttype_id' => $data['type_of_payment'],
-                            //         'payment_date' => $data['payment_date'],
-                            //         'reference_number' => $data['reference_number'],
-                            //         'booking_invoice' => $record['booking_invoice'],
-                            //         'payment_amount' => $data['Amount'],
-                            //         'user_id' => auth()->id(),
-                            //         'sender_id' => $record['sender_id'],
-                            //     ]);
-                            //     $current_balance =  $record['payment_balance'] - $data['Amount'];
-                            //     if ($current_balance >=  0) {
-                            //         $record->update(['payment_balance' => $current_balance]);
-                            //         Filament::notify('success', 'Payment Successful');
-                            //     } else {
-                            //         Filament::notify('danger', 'Amount Paid is greater than the balance');
-                            //     }
-                            //     $paid_is = $current_balance == 0 ? 1 : 0;
-                            //     $record->update(['is_paid' => $paid_is]);
-                            // }
+                                Filament::notify('success', 'Payment Successfully received');
                         }),
                
-                
+                        Tables\Actions\BulkAction::make('Update Pickup')
+                        ->label('Pickup update')
+                        ->icon('heroicon-o-clipboard-list')
+                        ->color('warning')
+                        ->action(function (Collection $records, array $data, $action){
+                            $records->each(function($record) use ($data){
+                                if($record->is_pickup == false){
+                                    Booking::where('id', $record->id)->update([
+                                        'is_pickup' => true,
+                                    ]);
+                                  
+                                }
+                                
+                            });
+                            Filament::notify('success', 'Pickup Successfully updated');
+                        }),
             ])->reorderable('created_at');
     }
 }
