@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,6 +10,9 @@ class Bookingpayment extends Model
 {
     use HasFactory;
     protected $guarded = [];
+    protected $casts = [
+        'payment_amount' => MoneyCast::class,
+         ];
     public function user()
     {
         return $this->belongsTo(User::class);

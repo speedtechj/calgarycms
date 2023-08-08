@@ -44,7 +44,7 @@ class BookingpaymentRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('paymenttype.name'),
                 Tables\Columns\TextColumn::make('payment_date')
                     ->date(),
-                Tables\Columns\TextColumn::make('payment_amount'),
+                Tables\Columns\TextColumn::make('payment_amount')->money('USD',shouldConvert:true),
                 Tables\Columns\TextColumn::make('reference_number'),
                 Tables\Columns\TextColumn::make('user_id')->label('Created By')
                 ->searchable()

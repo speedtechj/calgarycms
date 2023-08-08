@@ -1095,6 +1095,10 @@ class BookingRelationManager extends RelationManager
                                                         'user_id' => auth()->id(),
                                                         'sender_id' => $record->sender_id,
                                                     ]);
+                                            Booking::where('id', $record->id)->update([
+                                                'payment_balance' => 0,
+                                                'is_paid' => true,
+                                            ]);
                                         }
                                 });
                             // if ($record['payment_balance'] != 0) {
