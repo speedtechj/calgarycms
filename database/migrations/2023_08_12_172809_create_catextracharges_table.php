@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('batches', function (Blueprint $table) {
-            $table->boolean('is_active')->default(true)->after('note');
+        Schema::create('catextracharges', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('batches', function (Blueprint $table) {
-            $table->dropColumn('is_active');
-        });
+        Schema::dropIfExists('catextracharges');
     }
 };
