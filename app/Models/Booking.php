@@ -14,6 +14,7 @@ class Booking extends Model
     protected $casts = [
         'total_price' => MoneyCast::class,
         'payment_balance' => MoneyCast::class,
+        'extracharge_amount' => MoneyCast::class,
          ];
     protected static function booted()
     {

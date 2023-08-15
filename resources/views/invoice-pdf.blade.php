@@ -312,27 +312,37 @@
             <td>{{ $record->boxtype->description }}</td>
             @if (isset($record->discount_id))
                 <td>
-                    {{ '$' . $record->total_price + $record->discount->discount_amount }}
+                    {{ '$' . $record->total_price + $record->discount->discount_amount - $record->extracharge_amount }}
                 </td>
             @elseif(isset($record->agentdiscount_id))
                 <td>
-                    {{ '$' . $record->total_price + $record->agentdiscount->discount_amount }}
+                    {{ '$' . $record->total_price + $record->agentdiscount->discount_amount - $record->extracharge_amount}}
                 </td>
             @else
-                <td>{{ '$' . $record->total_price }}</td>
+                <td>{{ '$' . $record->total_price - $record->extracharge_amount }}</td>
             @endif
             @if (isset($record->discount_id))
                 <td>
-                    {{ '$' . $record->total_price + $record->discount->discount_amount }}
+                    {{ '$' . $record->total_price + $record->discount->discount_amount - $record->extracharge_amount}}
                 </td>
             @elseif(isset($record->agentdiscount_id))
                 <td>
-                    {{ '$' . $record->total_price + $record->agentdiscount->discount_amount }}
+                    {{ '$' . $record->total_price + $record->agentdiscount->discount_amount - $record->extracharge_amount}}
                 </td>
             @else
-                <td>{{ '$' . $record->total_price }}</td>
+                <td>{{ '$' . $record->total_price - $record->extracharge_amount}}</td>
             @endif
         </tr>
+        @if ($record->extracharge_amount > 0)
+            <tr>
+                <td colspan="2" align="right">Extra Charges</td>
+                <td>
+                    {{ '$' . $record->extracharge_amount }}
+                </td>
+            </tr>
+            
+        @endif
+       
         @if ($record->discount_id !== null or $record->agentdiscount_id !== null)
             <tr>
                 <td colspan="2" align="right">Discount</td>
