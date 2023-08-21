@@ -727,10 +727,10 @@ class BookingRelationManager extends RelationManager
                         $data['user_id'] = auth()->id();
                         $data['branch_id'] = 1;
                         $data['payment_balance'] = $data['total_price'];
-                        if($data['extracharge_amount'] == 0 || $data['extracharge_amount'] == null){
-                           $data['catextracharge_id'] = null;
-                        };
-
+                        // if($data['extracharge_amount'] == 0 || $data['extracharge_amount'] == null){
+                        //    $data['catextracharge_id'] = null;
+                        // };
+                        // dd($data);
                         
                         // $data['zone_id'] = Receiveraddress::find($data['receiveraddress_id'])->loczone;
                         return $data;
