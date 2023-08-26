@@ -11,7 +11,7 @@
             @endforeach
             <th>Discount</th>
             <th>Extra Charge</th>
-            <th>Total Amount</th>
+            <th>Invoice Amount</th>
             @foreach ($paymenttype as $paymenttypes)
                 <th> {{ $paymenttypes->name }}</th>
             @endforeach
