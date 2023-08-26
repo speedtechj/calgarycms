@@ -96,6 +96,7 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('agentdiscount.discount_amount')->label('Agent Discount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
+                Tables\Columns\TextColumn::make('payment_date')->date()->label('Payment Date')->sortable(),
                 Tables\Columns\IconColumn::make('is_paid')
                     ->label('Paid')
                     ->boolean(),
@@ -108,7 +109,7 @@ class BookingRelationManager extends RelationManager
             ])->defaultSort('created_at', 'desc')
             ->filters([
                 Filter::make('is_paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
-                Filter::make('booking_date')
+                Filter::make('booking_date')->label('Pickup Date')
                     ->form([
                         Forms\Components\DatePicker::make('pickup_from'),
                         Forms\Components\DatePicker::make('pickup_until'),
@@ -122,6 +123,22 @@ class BookingRelationManager extends RelationManager
                             ->when(
                                 $data['pickup_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '<=', $date),
+                            );
+                    }),
+                    Filter::make('payment_date')->label('Payment Date')
+                    ->form([
+                        Forms\Components\DatePicker::make('payment_from'),
+                        Forms\Components\DatePicker::make('payment_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['payment_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('payment_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['payment_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('payment_date', '<=', $date),
                             );
                     })
             ])
@@ -327,6 +344,7 @@ class BookingRelationManager extends RelationManager
                                     'user_id' => auth()->id(),
                                     'sender_id' => $record['sender_id'],
                                 ]);
+                                $record->update(['payment_date' => $data['payment_date']]);
                                 $current_balance =  $record['payment_balance'] - $data['Amount'];
                                 if ($current_balance >=  0) {
                                     $record->update(['payment_balance' => $current_balance]);
@@ -493,6 +511,7 @@ class BookingRelationManager extends RelationManager
                                                             'user_id' => auth()->id(),
                                                             'sender_id' => $record->sender_id,
                                                         ]);
+                                                $record->update(['payment_date' => $data['payment_date']]);
                                                 Booking::where('id', $record->id)->update([
                                                     'payment_balance' => 0,
                                                     'is_paid' => true,

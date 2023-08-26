@@ -698,6 +698,7 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('agentdiscount.discount_amount')->label('Agent Discount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('extracharge_amount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
+                Tables\Columns\TextColumn::make('payment_date')->datetime()->label('Payment Date')->sortable(),
                 Tables\Columns\IconColumn::make('is_paid')
                     ->label('Paid')
                     ->boolean(),
@@ -931,7 +932,9 @@ class BookingRelationManager extends RelationManager
                                     'payment_amount' => $data['Amount'],
                                     'user_id' => auth()->id(),
                                     'sender_id' => $record['sender_id'],
+                                   
                                 ]);
+                                $record->update(['payment_date' => $data['payment_date']]);
                                 $current_balance =  $record['payment_balance'] - $data['Amount'];
                                 if ($current_balance >=  0) {
                                     $record->update(['payment_balance' => $current_balance]);
@@ -1097,6 +1100,7 @@ class BookingRelationManager extends RelationManager
                                                         'user_id' => auth()->id(),
                                                         'sender_id' => $record->sender_id,
                                                     ]);
+                                                    $record->update(['payment_date' => $data['payment_date']]);
                                             Booking::where('id', $record->id)->update([
                                                 'payment_balance' => 0,
                                                 'is_paid' => true,
