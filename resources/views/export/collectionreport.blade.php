@@ -11,6 +11,7 @@
             @endforeach
             <th>Discount</th>
             <th>Extra Charge</th>
+            <th>Total Amount</th>
             @foreach ($paymenttype as $paymenttypes)
                 <th> {{ $paymenttypes->name }}</th>
             @endforeach
@@ -57,6 +58,7 @@
             @else
                 <td></td>
             @endif
+            <td>{{$booking->total_price}}</td>
                 @foreach ($paymenttype as $paymenttypes)
                     @php
                         $paymenttypecnt = 0;
