@@ -946,76 +946,76 @@ class BookingRelationManager extends RelationManager
                                 $record->update(['is_paid' => $paid_is]);
                             }
                         }),
-                    Tables\Actions\Action::make('Refund')->label('Refund Payment')
-                        ->color('warning')
-                        ->icon('heroicon-o-currency-dollar')
-                        ->hidden(fn (Booking $record) => $record->refund_amount == null)
-                        ->form([
-                            Select::make('type_of_payment')
-                                ->required()
-                                ->label('Payment Method')
-                                ->options(Paymenttype::all()->pluck('name', 'id'))
-                                ->searchable()
-                                ->reactive(),
-                            DatePicker::make('payment_date')->required(),
-                            TextInput::make('reference_number')->label('Authorization Code/Reference Number')
-                                ->disabled(
-                                    fn (Closure $get): bool => $get('type_of_payment') == 4
-                                ),
+                    // Tables\Actions\Action::make('Refund')->label('Refund Payment')
+                    //     ->color('warning')
+                    //     ->icon('heroicon-o-currency-dollar')
+                    //     ->hidden(fn (Booking $record) => $record->refund_amount == null)
+                    //     ->form([
+                    //         Select::make('type_of_payment')
+                    //             ->required()
+                    //             ->label('Payment Method')
+                    //             ->options(Paymenttype::all()->pluck('name', 'id'))
+                    //             ->searchable()
+                    //             ->reactive(),
+                    //         DatePicker::make('payment_date')->required(),
+                    //         TextInput::make('reference_number')->label('Authorization Code/Reference Number')
+                    //             ->disabled(
+                    //                 fn (Closure $get): bool => $get('type_of_payment') == 4
+                    //             ),
 
-                            TextInput::make('Amount')->label('Refund Amount Amount')
-                                ->required()
-                                ->mask(
-                                    fn (TextInput\Mask $mask) => $mask
-                                        ->patternBlocks([
-                                            'money' => fn (Mask $mask) => $mask
-                                                ->numeric()
-                                                ->thousandsSeparator(',')
-                                                ->decimalSeparator('.'),
-                                        ])
-                                        ->pattern('$money'),
-                                ),
-                            TextInput::make('Booking_Balance')
-                                ->label('Refunded Amount')
-                                ->default(function (Booking $record) {
-                                    return $record->refund_amount;
-                                })
-                                ->mask(
-                                    fn (TextInput\Mask $mask) => $mask
-                                        ->patternBlocks([
-                                            'money' => fn (Mask $mask) => $mask
-                                                ->numeric()
-                                                ->minValue(1) // Set the minimum value that the number can be.
-                                                ->maxValue(10000) // Set the maximum value that the number can be.
-                                                ->thousandsSeparator(',')
-                                                ->decimalSeparator('.'),
-                                        ])
-                                        ->pattern('$money'),
-                                )
-                                ->disabled(),
-                        ])->action(function (Booking $record, array $data, $action) {
+                    //         TextInput::make('Amount')->label('Refund Amount Amount')
+                    //             ->required()
+                    //             ->mask(
+                    //                 fn (TextInput\Mask $mask) => $mask
+                    //                     ->patternBlocks([
+                    //                         'money' => fn (Mask $mask) => $mask
+                    //                             ->numeric()
+                    //                             ->thousandsSeparator(',')
+                    //                             ->decimalSeparator('.'),
+                    //                     ])
+                    //                     ->pattern('$money'),
+                    //             ),
+                    //         TextInput::make('Booking_Balance')
+                    //             ->label('Refunded Amount')
+                    //             ->default(function (Booking $record) {
+                    //                 return $record->refund_amount;
+                    //             })
+                    //             ->mask(
+                    //                 fn (TextInput\Mask $mask) => $mask
+                    //                     ->patternBlocks([
+                    //                         'money' => fn (Mask $mask) => $mask
+                    //                             ->numeric()
+                    //                             ->minValue(1) // Set the minimum value that the number can be.
+                    //                             ->maxValue(10000) // Set the maximum value that the number can be.
+                    //                             ->thousandsSeparator(',')
+                    //                             ->decimalSeparator('.'),
+                    //                     ])
+                    //                     ->pattern('$money'),
+                    //             )
+                    //             ->disabled(),
+                    //     ])->action(function (Booking $record, array $data, $action) {
 
-                            if ($record['refund_amount'] != 0) {
+                    //         if ($record['refund_amount'] != 0) {
 
-                                $refund_balance =  $record['refund_amount'] - $data['Amount'];
-                                if ($refund_balance >=  0) {
-                                    Bookingrefund::create([
-                                        'booking_id' => $record->id,
-                                        'paymenttype_id' => $data['type_of_payment'],
-                                        'payment_date' => $data['payment_date'],
-                                        'reference_number' => $data['reference_number'],
-                                        'booking_invoice' => $record['booking_invoice'],
-                                        'payment_amount' => $data['Amount'],
-                                        'user_id' => auth()->id(),
-                                        'sender_id' => $record['sender_id'],
-                                    ]);
-                                    $record->update(['refund_amount' => $refund_balance]);
-                                    Filament::notify('success', 'Payment Successful');
-                                } else {
-                                    Filament::notify('danger', 'Amount for Refund is greater than the Refund Balance');
-                                }
-                            }
-                        }),
+                    //             $refund_balance =  $record['refund_amount'] - $data['Amount'];
+                    //             if ($refund_balance >=  0) {
+                    //                 Bookingrefund::create([
+                    //                     'booking_id' => $record->id,
+                    //                     'paymenttype_id' => $data['type_of_payment'],
+                    //                     'payment_date' => $data['payment_date'],
+                    //                     'reference_number' => $data['reference_number'],
+                    //                     'booking_invoice' => $record['booking_invoice'],
+                    //                     'payment_amount' => $data['Amount'],
+                    //                     'user_id' => auth()->id(),
+                    //                     'sender_id' => $record['sender_id'],
+                    //                 ]);
+                    //                 $record->update(['refund_amount' => $refund_balance]);
+                    //                 Filament::notify('success', 'Payment Successful');
+                    //             } else {
+                    //                 Filament::notify('danger', 'Amount for Refund is greater than the Refund Balance');
+                    //             }
+                    //         }
+                    //     }),
 
                     Tables\Actions\Action::make('Packinglist')->label('Packinglist')
                         ->color('warning')
