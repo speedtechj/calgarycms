@@ -734,6 +734,9 @@ class BookingRelationManager extends RelationManager
                         // dd($data);
                         
                         // $data['zone_id'] = Receiveraddress::find($data['receiveraddress_id'])->loczone;
+                        if($data['total_price'] == 0){
+                            $data['is_paid'] = true;
+                        }
                         return $data;
                     }),
             ])
