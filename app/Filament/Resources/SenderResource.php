@@ -53,7 +53,6 @@ class SenderResource extends Resource
                 ->mask(fn (TextInput\Mask $mask) => $mask->pattern('(000)000-0000'))
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
-            
                     ->unique(ignorable: fn ($record) => $record)
                     ->email()
                     ->required()
@@ -130,7 +129,7 @@ class SenderResource extends Resource
         return [
             BookingRelationManager::class,
             BookingpaymentRelationManager::class,
-            BookingrefundRelationManager::class,
+            // BookingrefundRelationManager::class,
             SenderaddressRelationManager::class,
             ReceiverRelationManager::class,
             PackinglistRelationManager::class,
