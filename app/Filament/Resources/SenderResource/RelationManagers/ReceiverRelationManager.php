@@ -12,6 +12,8 @@ use Filament\Resources\Form;
 use App\Models\Senderaddress;
 use Filament\Resources\Table;
 use App\Models\Receiveraddress;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ReceiverResource;
 use Filament\Forms\Components\MarkdownEditor;
@@ -36,10 +38,13 @@ class ReceiverRelationManager extends RelationManager
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('mobile_no')
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+63(0000)000-0000'))
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('home_no')
-                        ->maxLength(255),
+                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+63(0000)000-0000'))
+                    ->required()
+                    ->maxLength(255),
                     Forms\Components\TextInput::make('email')
                         ->email()
                         ->maxLength(255),
