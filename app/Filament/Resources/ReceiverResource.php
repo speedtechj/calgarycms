@@ -51,7 +51,7 @@ class ReceiverResource extends Resource
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('home_no')
-                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+63(000)0000-0000'))
+                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+63(0000)0000-0000'))
                         ->maxLength(255),
                     Forms\Components\TextInput::make('email')
                         ->email()
