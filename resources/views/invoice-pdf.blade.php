@@ -153,6 +153,10 @@
             font-family: Arial, Helvetica, sans-serif;
             font-size: 12px;
         }
+        .quadrant{
+            font-size: 25px !important;
+            font-family: Arial, Helvetica, sans-serif;
+        }
     </style>
 
 </head>
@@ -172,6 +176,14 @@
                 <p>328-39 Avenue SE, Calgary, AB T2G 1X6</p>
                 <p>Phone: 403-873-6730</p>
                 <p>www.forexcargodeals.com</p>
+                @if($record->servicetype_id == 1)
+                <p> {{ $record->start_time}} - {{ $record->end_time}}</p>
+                @if($record->senderaddress->quadrant != null)
+                <p class="quadrant" >{{$record->senderaddress->quadrant}}</p>
+                @endif
+                @endif
+               
+                
             </td>
         </tr>
     </table>
