@@ -47,6 +47,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TimePicker;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\MarkdownEditor;
@@ -701,7 +702,10 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('payment_date')->datetime()->label('Payment Date')->sortable(),
                 Tables\Columns\IconColumn::make('is_paid')
                     ->label('Paid')
-                    ->boolean(),
+                    ->boolean()
+                    ->trueIcon('heroicon-o-badge-check')
+                ->falseIcon('heroicon-o-x-circle'),
+                // ToggleColumn::make('is_padi'),
                 Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
@@ -736,6 +740,8 @@ class BookingRelationManager extends RelationManager
                         // $data['zone_id'] = Receiveraddress::find($data['receiveraddress_id'])->loczone;
                         if($data['total_price'] == 0){
                             $data['is_paid'] = true;
+                            $data['payment_date'] = $data['booking_date'];
+
                         }
                         return $data;
                     }),
