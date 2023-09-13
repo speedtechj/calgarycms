@@ -154,7 +154,7 @@
             font-size: 12px;
         }
         .quadrant{
-            font-size: 25px !important;
+            font-size: 12px !important;
             font-family: Arial, Helvetica, sans-serif;
         }
     </style>
