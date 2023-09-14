@@ -55,7 +55,7 @@ class BookingRelationManager extends RelationManager
                     ->label('Invoice')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('manual_invoice')
+                Tables\Columns\TextInputColumn::make('manual_invoice')
                     ->label('Manual Invoice')
                     ->sortable()
                     ->searchable(),
