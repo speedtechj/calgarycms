@@ -33,6 +33,7 @@ use App\Policies\BoxtypePolicy;
 use Psy\VersionUpdater\SelfUpdate;
 use Filament\Forms\Components\Card;
 use Filament\Tables\Filters\Filter;
+use Illuminate\Support\Facades\URL;
 use App\Policies\PacklistitemPolicy;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
@@ -709,6 +710,7 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
+                // ->url(fn (Agent $record): string => route('agents.edit', ['agent' => $record])),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
                 Tables\Columns\TextColumn::make('notes')->label('Notes'),
                 Tables\Columns\TextColumn::make('user.id')

@@ -177,7 +177,8 @@
                 <p>Phone: 403-873-6730</p>
                 <p>www.forexcargodeals.com</p>
                 @if($record->servicetype_id == 1)
-                <p> {{ $record->start_time}} - {{ $record->end_time}}</p>
+                <p>Pick Up Date - {{$record->booking_date}}</p>
+                <p>Pick Up Time - {{ $record->start_time}} - {{ $record->end_time}}</p>
                 @if($record->senderaddress->quadrant != null)
                 <p class="quadrant" >{{$record->senderaddress->quadrant}}</p>
                 @endif

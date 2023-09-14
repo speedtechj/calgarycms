@@ -38,11 +38,11 @@ class ReceiverRelationManager extends RelationManager
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('mobile_no')
-                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+63(0000)000-0000'))
+                        ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+63(000)000-0000'))
                         ->required()
                         ->maxLength(255),
                     Forms\Components\TextInput::make('home_no')
-                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+63(0000)000-0000'))
+                    ->mask(fn (TextInput\Mask $mask) => $mask->pattern('+63(000)000-0000'))
                     ->required()
                     ->maxLength(255),
                     Forms\Components\TextInput::make('email')
