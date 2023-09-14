@@ -113,10 +113,10 @@
         }
 
         .heading-2 {
-            font-size: 20px;
+            font-size: 15px;
             font-weight: bold;
             margin: 0px;
-            padding-top: 10px;
+            padding-top: 5px;
             font-family: Arial, Helvetica, sans-serif;
             font-style: italic;
             text-decoration: underline;
