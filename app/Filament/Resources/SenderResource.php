@@ -68,20 +68,20 @@ class SenderResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('full_name')
                     ->label('Full Name')
-                    ->searchable()
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->toggleable()
                     ->sortable()
                     ->weight('bold'),
                 Tables\Columns\TextColumn::make('mobile_no')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('home_no')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable()
+                    ->searchable(isIndividual: true)
                     ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('remark')
@@ -91,19 +91,19 @@ class SenderResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user_id')->label('Created By')
-                    ->searchable()
+                   
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->getStateUsing(function (Model $record) {
                         return $record->user->first_name . " " . $record->user->last_name;
                     }),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->searchable()
+                   
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->searchable()
+                   
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->dateTime(),
@@ -120,7 +120,7 @@ class SenderResource extends Resource
 
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
@@ -145,5 +145,20 @@ class SenderResource extends Resource
             'edit' => Pages\EditSender::route('/{record}/edit'),
         ];
     }
-    
+    protected function shouldPersistTableColumnSearchInSession(): bool
+{
+    return true;
+}
+protected function shouldPersistTableSearchInSession(): bool
+{
+    return true;
+}
+protected function applySearchToTableQuery(Builder $query): Builder
+{
+    if (filled($searchQuery = $this->getTableSearchQuery())) {
+        $query->whereIn('id', Sender::search($searchQuery)->keys());
+    }
+ 
+    return $query;
+}
 }
