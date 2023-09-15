@@ -107,7 +107,7 @@ class SenderResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->dateTime(),
-            ])
+            ])->deferLoading(10000)
             ->filters([
                 //
             ])
