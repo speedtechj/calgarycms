@@ -216,4 +216,12 @@ class BookingResource extends Resource
             'edit' => Pages\EditBooking::route('/{record}/edit'),
         ];
     }
+    protected function shouldPersistTableColumnSearchInSession(): bool
+{
+    return true;
+}
+protected function shouldPersistTableSearchInSession(): bool
+{
+    return true;
+}
 }
