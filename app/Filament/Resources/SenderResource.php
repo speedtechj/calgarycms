@@ -145,4 +145,5 @@ class SenderResource extends Resource
             'edit' => Pages\EditSender::route('/{record}/edit'),
         ];
     }
+    
 }
