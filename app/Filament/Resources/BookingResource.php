@@ -151,7 +151,8 @@ class BookingResource extends Resource
                     ->label('Payment Date'),
 
 
-            ])
+            ])->deferLoading()
+            
             ->filters([
                 Filter::make('is_paid')
                     ->query(fn (Builder $query): Builder => $query->where('is_paid', true)),
@@ -188,7 +189,8 @@ class BookingResource extends Resource
                                 $data['payment_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('payment_date', '<=', $date),
                             );
-                    })   
+                    })
+                    ->default(0)   
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),

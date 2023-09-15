@@ -91,7 +91,7 @@ class Manifest extends Page implements HasTable, HasForms
             ->label('Home No')
             ->searchable()->sortable(),
             
-        ];
+                ];
     } 
     protected function getTableFilters(): array
 {
@@ -102,7 +102,7 @@ class Manifest extends Page implements HasTable, HasForms
         ->options(Batch::all()->where('is_active',true)->pluck('batchno','id'))
         ->placeholder('Select Batch Number')
         ->label('Batch Number')
-        ->default('0'),
+    
        
     ];
 }
