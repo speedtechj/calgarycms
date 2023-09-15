@@ -2,21 +2,23 @@
 
 namespace App\Filament\Resources\ReceiverResource\RelationManagers;
 
+use Closure;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Sender;
 use App\Models\Cityphil;
 use App\Models\Receiver;
+use App\Models\Barangayphil;
 use App\Models\Provincephil;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
+use App\Models\Receiveraddress;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\SenderResource;
-use App\Models\Receiveraddress;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
 
@@ -45,10 +47,11 @@ class ReceiveraddressRelationManager extends RelationManager
                     ->afterStateUpdated(fn (callable $set) => $set('cityphil_id', null)),
                     Forms\Components\Select::make('cityphil_id')
                     ->label('City')
-                    ->relationship('cityphil', 'name')
+                    // ->relationship('cityphil', 'name')
                     ->searchable()
                     ->preload()
                     ->required()
+                    ->reactive()
                     ->options(function (callable $get) {
                        $province = Provincephil::find($get('provincephil_id'));
 
@@ -58,20 +61,24 @@ class ReceiveraddressRelationManager extends RelationManager
                         }
                         return $province->cityphil->pluck('name', 'id');
 
+                    })
+                    ->afterStateUpdated(function ( Closure $set, Closure $get, $state){
+                                $set('barangayphil_id', null);
                     }),
                 Forms\Components\Select::make('barangayphil_id')
                     ->label('Barangay')
                     ->required()
-                    ->searchable()
+                    // ->searchable()
                     ->preload()
                     ->options(function (callable $get) {
                         $city = Cityphil::find($get('cityphil_id'));
 
-                         if (!$city) {
-                             // return $province->cityphil->pluck('city', 'id');
-                             return null;
+                         if ($city) {
+                             return $city->barangayphil->pluck('name', 'id');
+                            
+                            //  return Barangayphil::all()->pluck('name', 'id')->toArray();
                          }
-                         return $city->barangayphil->pluck('name', 'id');
+                        //  return $city->barangayphil->pluck('name', 'id');
 
                      }),
                 Forms\Components\TextInput::make('zip_code')

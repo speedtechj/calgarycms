@@ -69,8 +69,8 @@ class ReceiveraddressResource extends Resource
                     }),
                 Forms\Components\Select::make('barangayphil_id')
                     ->required()
-                    ->searchable()
-                    ->preload()
+                    // ->searchable()
+                    // ->preload()
                     ->options(function (callable $get) {
                         $city = Cityphil::find($get('cityphil_id'));
 

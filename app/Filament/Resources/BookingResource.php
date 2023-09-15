@@ -155,6 +155,22 @@ class BookingResource extends Resource
             ->filters([
                 Filter::make('is_paid')
                     ->query(fn (Builder $query): Builder => $query->where('is_paid', true)),
+                    Filter::make('booking_date')->label('Booking Date')
+                    ->form([
+                        Forms\Components\DatePicker::make('book_from'),
+                        Forms\Components\DatePicker::make('book_until'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['book_from'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '>=', $date),
+                            )
+                            ->when(
+                                $data['book_until'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '<=', $date),
+                            );
+                    }),   
                     SelectFilter::make('servicetype_id')->relationship('servicetype', 'description')->label('Service Type'),
                     SelectFilter::make('agent_id')->relationship('agent', 'full_name')->label('Agent')->searchable(), 
                     Filter::make('payment_date')->label('Payment Date')
