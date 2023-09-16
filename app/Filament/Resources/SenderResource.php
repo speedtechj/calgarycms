@@ -161,4 +161,5 @@ protected function applySearchToTableQuery(Builder $query): Builder
  
     return $query;
 }
+
 }

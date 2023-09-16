@@ -131,7 +131,8 @@ class BookingResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('booking_invoice'),
+                Tables\Columns\TextColumn::make('booking_invoice')
+                ->searchable(),
                 Tables\Columns\TextColumn::make('manual_invoice'),
                 Tables\Columns\TextColumn::make('sender.full_name'),
                 Tables\Columns\TextColumn::make('senderaddress.address'),
