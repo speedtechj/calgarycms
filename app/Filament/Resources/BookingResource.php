@@ -50,79 +50,78 @@ class BookingResource extends Resource
         return $form
             ->schema([
 
-                Section::make('Customer Informaton')
-                    ->schema([
-                        Forms\Components\Select::make('sender_id')
-                            ->label('Sender Name')
-                            ->relationship('sender', 'first_name')
-                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
-                            ->searchable()
-                            ->reactive(),
-                        Forms\Components\Select::make('senderaddress_id')
-                            ->label('Sender Address')
-                            ->options(function (callable $get) {
-                                $sender = Senderaddress::find($get('sender_id'));
-                                if ($sender) {
-                                    return Senderaddress::all()->pluck('address', $sender)->toArray();
-                                }
-                            }),
-                        Forms\Components\Select::make('receiver_id')
-                            ->label('Receiver Name')
-                            ->label('Sender Name')
-                            ->relationship('receiver', 'first_name')
-                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
-                            ->searchable()
-                            ->reactive(),
-                        Forms\Components\TextInput::make('receiveraddress_id')
-                            ->label('Receiver Address')
-                            ->required(),
-                    ])->columns(2),
-                Section::make('Booking  Information')
-                    ->schema([
-                        Forms\Components\Select::make('agent_id')
-                            ->label('Agent Name')
-                            ->relationship('agent', 'id')
-                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
-                            ->searchable()
-                            ->preload()
-                            ->required(),
-                        Forms\Components\DatePicker::make('pickup_date')
-                            ->required(),
-                        Forms\Components\TimePicker::make('start_time')
-                            ->required(),
-                        Forms\Components\TimePicker::make('end_time')
-                            ->required(),
-                    ])->columns(2),
-                Card::make()
-                    ->schema([
-                        Repeater::make('Booking')
-                            ->schema([
-                                Select::make('service_id')
-                                    ->label('Service Type')
-                                    ->options(Servicetype::all()->pluck('description', 'id'))
-                                    ->required(),
-                                Select::make('boxtype_id')
-                                    ->searchable()
-                                    ->preload()
-                                    ->relationship('boxtype', 'id')
-                                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->description} {$record->dimension}"),
-                                Forms\Components\TextInput::make('manual_invoice')
-                                    ->maxLength(255),
+                // Section::make('Customer Informaton')
+                //     ->schema([
+                //         Forms\Components\Select::make('sender_id')
+                //             ->label('Sender Name')
+                //             ->relationship('sender', 'first_name')
+                //             ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                //             ->searchable()
+                //             ->reactive(),
+                //         Forms\Components\Select::make('senderaddress_id')
+                //             ->label('Sender Address')
+                //             ->options(function (callable $get) {
+                //                 $sender = Senderaddress::find($get('sender_id'));
+                //                 if ($sender) {
+                //                     return Senderaddress::all()->pluck('address', $sender)->toArray();
+                //                 }
+                //             }),
+                //         Forms\Components\Select::make('receiver_id')
+                //             ->label('Receiver Name')
+                //             ->relationship('receiver', 'first_name')
+                //             ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                //             ->searchable()
+                //             ->reactive(),
+                //         Forms\Components\TextInput::make('receiveraddress_id')
+                //             ->label('Receiver Address')
+                //             ->required(),
+                //     ])->columns(2),
+                // Section::make('Booking  Information')
+                //     ->schema([
+                //         Forms\Components\Select::make('agent_id')
+                //             ->label('Agent Name')
+                //             ->relationship('agent', 'id')
+                //             ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                //             ->searchable()
+                //             ->preload()
+                //             ->required(),
+                //         Forms\Components\DatePicker::make('pickup_date')
+                //             ->required(),
+                //         Forms\Components\TimePicker::make('start_time')
+                //             ->required(),
+                //         Forms\Components\TimePicker::make('end_time')
+                //             ->required(),
+                //     ])->columns(2),
+                // Card::make()
+                //     ->schema([
+                //         Repeater::make('Booking')
+                //             ->schema([
+                //                 Select::make('service_id')
+                //                     ->label('Service Type')
+                //                     ->options(Servicetype::all()->pluck('description', 'id'))
+                //                     ->required(),
+                //                 Select::make('boxtype_id')
+                //                     ->searchable()
+                //                     ->preload()
+                //                     ->relationship('boxtype', 'id')
+                //                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->description} {$record->dimension}"),
+                //                 Forms\Components\TextInput::make('manual_invoice')
+                //                     ->maxLength(255),
 
-                                Forms\Components\Select::make('discount_id')
-                                    ->relationship('discount', 'code')
-                                    ->required(),
-                                Forms\Components\TextInput::make('total_price')
-                                    ->required()
-                                    ->disabled(),
-                                Toggle::make('is_admin')->inline(false)->label('Box Replacement'),
-                                MarkdownEditor::make('content')
-                                    ->columnSpan('full')
-                            ])
-                            ->collapsible()
-                            ->createItemButtonLabel('Add Items')
-                            ->columns(2)
-                    ])
+                //                 Forms\Components\Select::make('discount_id')
+                //                     ->relationship('discount', 'code')
+                //                     ->required(),
+                //                 Forms\Components\TextInput::make('total_price')
+                //                     ->required()
+                //                     ->disabled(),
+                //                 Toggle::make('is_admin')->inline(false)->label('Box Replacement'),
+                //                 MarkdownEditor::make('content')
+                //                     ->columnSpan('full')
+                //             ])
+                //             ->collapsible()
+                //             ->createItemButtonLabel('Add Items')
+                //             ->columns(2)
+                //     ])
 
             ]);
     }
@@ -132,9 +131,13 @@ class BookingResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('booking_invoice')
-                ->searchable(),
-                Tables\Columns\TextColumn::make('manual_invoice'),
-                Tables\Columns\TextColumn::make('sender.full_name'),
+                ->label('Booking Generated Invoice')
+                ->searchable(isIndividual: true, isGlobal: false),
+                Tables\Columns\TextColumn::make('manual_invoice')
+                ->label('Booking Manual Invoice')
+                ->searchable(isIndividual: true, isGlobal: false),
+                Tables\Columns\TextColumn::make('sender.full_name')
+                ->label('Sender Name'),
                 Tables\Columns\TextColumn::make('senderaddress.address'),
                 Tables\Columns\TextColumn::make('boxtype.description'),
                 Tables\Columns\TextColumn::make('servicetype.description'),
@@ -155,8 +158,7 @@ class BookingResource extends Resource
             ])->deferLoading()
             
             ->filters([
-                Filter::make('is_paid')
-                    ->query(fn (Builder $query): Builder => $query->where('is_paid', true)),
+                
                     Filter::make('booking_date')->label('Booking Date')
                     ->form([
                         Forms\Components\DatePicker::make('book_from'),
@@ -190,8 +192,9 @@ class BookingResource extends Resource
                                 $data['payment_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('payment_date', '<=', $date),
                             );
-                    })
-                    ->default(0)   
+                    }),
+                    Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', true))->default(true),
+                     
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
@@ -215,8 +218,8 @@ class BookingResource extends Resource
     {
         return [
             'index' => Pages\ListBookings::route('/'),
-            'create' => Pages\CreateBooking::route('/create'),
-            'edit' => Pages\EditBooking::route('/{record}/edit'),
+            // 'create' => Pages\CreateBooking::route('/create'),
+            // 'edit' => Pages\EditBooking::route('/{record}/edit'),
         ];
     }
     protected function shouldPersistTableColumnSearchInSession(): bool

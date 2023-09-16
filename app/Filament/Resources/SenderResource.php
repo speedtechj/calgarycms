@@ -73,21 +73,20 @@ class SenderResource extends Resource
                     ->sortable()
                     ->weight('bold'),
                 Tables\Columns\TextColumn::make('mobile_no')
-                    ->searchable(isIndividual: true)
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('home_no')
-                    ->searchable(isIndividual: true)
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(isIndividual: true)
+                    ->searchable(isIndividual: true, isGlobal: false)
                     ->toggleable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('remark')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('branch.business_name')
-                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user_id')->label('Created By')
@@ -98,16 +97,14 @@ class SenderResource extends Resource
                         return $record->user->first_name . " " . $record->user->last_name;
                     }),
                 Tables\Columns\TextColumn::make('created_at')
-                   
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
-                   
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable()
                     ->dateTime(),
-            ])->deferLoading(10000)
+            ])->deferLoading(200)
             ->filters([
                 //
             ])
