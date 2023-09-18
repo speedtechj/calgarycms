@@ -174,7 +174,7 @@
             <td width="40%" align="right">
                 <p class="heading-1">Forex Cargo Travel & Tours</p>
                 <p>328-39 Avenue SE, Calgary, AB T2G 1X6</p>
-                <p>Phone: 403-873-6730</p>
+                <p>Phone: 403-873-6739</p>
                 <p>www.forexcargodeals.com</p>
                 @if($record->servicetype_id == 1)
                 <p>Pick Up Date - {{$record->booking_date}}</p>
