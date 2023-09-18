@@ -143,7 +143,8 @@ class BookingResource extends Resource
                 Tables\Columns\TextColumn::make('servicetype.description'),
                 Tables\Columns\TextColumn::make('agent.full_name'),
                 Tables\Columns\TextColumn::make('zone.description'),
-                Tables\Columns\TextColumn::make('pickup_date')
+                Tables\Columns\TextColumn::make('booking_date')
+                ->label('Pickup/Dropoff Date')
                     ->date(),
                 Tables\Columns\TextColumn::make('discount.discount_amount'),
                 Tables\Columns\TextColumn::make('extracharge_amount'),
