@@ -162,7 +162,7 @@ class BookingResource extends Resource
                 
                     Filter::make('booking_date')->label('Booking Date')
                     ->form([
-                        Forms\Components\DatePicker::make('book_from')->default(Carbon::now()),
+                        Forms\Components\DatePicker::make('book_from'),
                         Forms\Components\DatePicker::make('book_until'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
