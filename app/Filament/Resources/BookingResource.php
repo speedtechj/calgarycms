@@ -161,8 +161,8 @@ class BookingResource extends Resource
                 
                     Filter::make('booking_date')->label('Booking Date')
                     ->form([
-                        Forms\Components\DatePicker::make('book_from'),
-                        Forms\Components\DatePicker::make('book_until'),
+                        Forms\Components\DatePicker::make('book_from')->default(now()),
+                        Forms\Components\DatePicker::make('book_until')->default(now()),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

@@ -62,7 +62,7 @@
         table.table-4 {
             width: 100%;
             margin: 0px;
-            font-size: 15px;
+            font-size: 12px;
             font-weight: bold;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             border-collapse: collapse;
@@ -154,7 +154,7 @@
             font-size: 12px;
         }
         .quadrant{
-            font-size: 12px !important;
+            font-size: 10px !important;
             font-family: Arial, Helvetica, sans-serif;
         }
     </style>
