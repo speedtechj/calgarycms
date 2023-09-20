@@ -150,13 +150,13 @@ protected function shouldPersistTableSearchInSession(): bool
 {
     return true;
 }
-protected function applySearchToTableQuery(Builder $query): Builder
-{
-    if (filled($searchQuery = $this->getTableSearchQuery())) {
-        $query->whereIn('id', Sender::search($searchQuery)->keys());
-    }
+// protected function applySearchToTableQuery(Builder $query): Builder
+// {
+//     if (filled($searchQuery = $this->getTableSearchQuery())) {
+//         $query->whereIn('id', Sender::search($searchQuery)->keys());
+//     }
  
-    return $query;
-}
+//     return $query;
+// }
 
 }
