@@ -32,8 +32,8 @@ class AppServiceProvider extends ServiceProvider
             Filament::serving(function () {
                 Filament::registerNavigationGroups([
                     'Customer',
-                    'Invoice Status',
                     'Report',
+                    'Invoice Status',
                     'Settings',
                 ]);
                 if(auth()->user()){
