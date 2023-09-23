@@ -30,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         
             Filament::serving(function () {
+                Filament::registerNavigationGroups([
+                    'Customer',
+                    'Invoice Status',
+                    'Report',
+                    'Settings',
+                ]);
                 if(auth()->user()){
                     Filament::registerUserMenuItems([
                         'account' => UserMenuItem::make()

@@ -26,6 +26,7 @@ class ReceiverResource extends Resource
     protected static ?string $navigationGroup = 'Customer';
     protected static ?string $navigationLabel = 'Receiver';
     public static ?string $label = 'Receiver';
+    protected static bool $shouldRegisterNavigation = false;
     protected static ?string $model = Receiver::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';

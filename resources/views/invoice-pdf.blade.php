@@ -207,6 +207,11 @@
             <td>
                 <span>SENDER INFORMATION</span>
             </td>
+            @if ($record->servicetype_id == 1)
+                <td>
+                    <span>Agent: {{$record->agent->full_name}} - {{$record->servicetype->description}}</span>
+                </td>
+            @endif
 
         </tr>
     </table>
@@ -381,6 +386,9 @@
         <tr>
             <td>
                 <span>PAYMENT INFORMATION</span>
+            </td>
+            <td>
+                <span>E-Transfer Email: calgary@forexcargodeals.com</span>
             </td>
 
         </tr>

@@ -15,7 +15,7 @@ class CreateBooking extends CreateRecord
     // $data['branch_id'] = 1;
     // // $data['zone_id'] = 1;
     //  return $data;
-    dd($data);
+    // dd($data);
    
 }
 }
