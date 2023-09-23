@@ -18,17 +18,19 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Layout;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
 use Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
 // use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ReceiverResource;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
+use Filament\Forms\Components\DatePicker;
 
 class Updatestatusinvoice extends Page implements HasTable, HasForms
 {
@@ -174,7 +176,7 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
                 })
                 ->form([
                     
-                    Forms\Components\Datepicker::make('date_updated')
+                    Datepicker::make('date_updated')
                         ->label('Date Updated')
                         ->required(),
                     Forms\Components\Textarea::make('remarks')
