@@ -146,7 +146,7 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
             'date_update' => $record->date_update,
         ]))
         ->form([
-                    Forms\Components\Datepicker::make('date_update')
+                    Datepicker::make('date_update')
                         ->label('Date Updated')
                         ->required(),
                     Forms\Components\Textarea::make('remarks')
