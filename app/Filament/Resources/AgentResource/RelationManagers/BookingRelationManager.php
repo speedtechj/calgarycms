@@ -20,6 +20,7 @@ use Filament\Facades\Filament;
 use App\Models\Receiveraddress;
 use Filament\Tables\Filters\Filter;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Model;
@@ -59,7 +60,7 @@ class BookingRelationManager extends RelationManager
                     ->label('Manual Invoice')
                     ->sortable()
                     ->searchable(),
-                    Tables\Columns\TextColumn::make('sender.full_name')->label('Sender')
+                Tables\Columns\TextColumn::make('sender.full_name')->label('Sender')
                     ->sortable()
                     ->searchable()
                     ->url(fn (Booking $record) => route('filament.resources.senders.edit', $record->sender)),
@@ -67,6 +68,7 @@ class BookingRelationManager extends RelationManager
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\BadgeColumn::make('servicetype.description')->label('Type of Service')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->color(static function ($state): string {
                         if ($state === 'Pickup') {
                             return 'success';
@@ -79,6 +81,7 @@ class BookingRelationManager extends RelationManager
                     ->label('Batch Number')
                     ->sortable()
                     ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->getStateUsing(function (Model $record) {
                         return $record->batch->batchno . " " . $record->batch->batch_year;
                     }),
@@ -86,13 +89,17 @@ class BookingRelationManager extends RelationManager
                     ->label('Is Pickup')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('zone.description'),
-                Tables\Columns\TextColumn::make('booking_date')->label('Pickup/Dropoff Date'),
+                Tables\Columns\TextColumn::make('booking_date')->label('Pickup/Dropoff Date')
+                ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('start_time')->label('Pickup/Dropoff Time')
+                ->toggleable(isToggledHiddenByDefault: true)
                     ->getStateUsing(function (Model $record) {
                         return $record->start_time . " - " . $record->end_time;
                     }),
-                Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
-                Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
+                Tables\Columns\TextColumn::make('dimension')->label('Dimension')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('agentdiscount.discount_amount')->label('Agent Discount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
@@ -101,9 +108,12 @@ class BookingRelationManager extends RelationManager
                     ->label('Paid')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
-                Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
-                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
-                Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
+                Tables\Columns\TextColumn::make('refund_amount')->label('Refund')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('notes')->label('Notes'),
 
             ])->defaultSort('created_at', 'desc')
@@ -111,8 +121,12 @@ class BookingRelationManager extends RelationManager
                 Filter::make('is_paid')->query(fn (Builder $query): Builder => $query->where('is_paid', false))->default(),
                 Filter::make('booking_date')->label('Pickup Date')
                     ->form([
-                        Forms\Components\DatePicker::make('pickup_from'),
-                        Forms\Components\DatePicker::make('pickup_until'),
+                        Section::make('Pickup Date')
+                            ->schema([
+                                Forms\Components\DatePicker::make('pickup_from'),
+                                Forms\Components\DatePicker::make('pickup_until')
+                            ])->collapsible(),
+
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -125,10 +139,14 @@ class BookingRelationManager extends RelationManager
                                 fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '<=', $date),
                             );
                     }),
-                    Filter::make('payment_date')->label('Payment Date')
+                Filter::make('payment_date')->label('Payment Date')
                     ->form([
-                        Forms\Components\DatePicker::make('payment_from'),
-                        Forms\Components\DatePicker::make('payment_until'),
+                        Section::make('Payment Date')
+                            ->schema([
+                                Forms\Components\DatePicker::make('payment_from'),
+                                Forms\Components\DatePicker::make('payment_until'),
+                            ])->collapsible()
+
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -160,21 +178,20 @@ class BookingRelationManager extends RelationManager
                     // })
                     ->after(function (Booking $record, array $data) {
                         // dump($data); 
-                        if($record->servicetype_id == 1){
-                            if($record->agent->agent_type == 0){
+                        if ($record->servicetype_id == 1) {
+                            if ($record->agent->agent_type == 0) {
                                 $record->update([
                                     'is_agent' => 1,
 
                                 ]);
-                            }else {
+                            } else {
                                 $record->update([
                                     'is_agent' => 0,
 
                                 ]);
                             }
-                            
-                        }else {
-                            
+                        } else {
+
                             $record->update([
                                 'is_agent' => 0,
 
@@ -199,30 +216,30 @@ class BookingRelationManager extends RelationManager
                             ]);
                         }
 
-                        if($record->agent_id != null){
+                        if ($record->agent_id != null) {
                             $agent = Agent::find($record->agent_id);
                             $agentid = $agent->agent_type;
-                            if($agentid == 0){
-                                    if($record->discount_id != null){
-                                        $record->update([
-                                            'discount_id' => null,
-                                        ]);
-                                    }
+                            if ($agentid == 0) {
+                                if ($record->discount_id != null) {
+                                    $record->update([
+                                        'discount_id' => null,
+                                    ]);
+                                }
                             } else {
-                                if($record->agentdiscount_id != null){
+                                if ($record->agentdiscount_id != null) {
                                     $record->update([
                                         'agentdiscount_id' => null,
                                     ]);
                                 }
                             }
-                        }else{
-                            if($record->agentdiscount_id != null){
+                        } else {
+                            if ($record->agentdiscount_id != null) {
                                 $record->update([
                                     'agentdiscount_id' => null,
                                 ]);
                             }
                         }
-                       
+
                         $booking_payment = Bookingpayment::where('booking_id', $record->id)->sum('payment_amount');
                         if ($record->is_paid != 0) {
                             if ($record->total_price > $booking_payment) {
@@ -455,22 +472,21 @@ class BookingRelationManager extends RelationManager
                                 ->enableOpen(),
                         ])->action(function (Booking $record, array $data, $action) {
                             $packinglistcount = Packinglist::where('booking_id', $record->id)->count();
-                            
-                           if($packinglistcount < 3){
-                            Packinglist::create([
-                                'booking_id' => $record->id,
-                                'sender_id' => $record->sender_id,
-                                'quantity' => $data['quantity'], 
-                                'packlistitem_id' => $data['packlistitem_id'],
-                                'packlistdoc' => $data['packlist_doc'],
-                                'waverdoc' => $data['waiver_doc'],
-                                'price' => $data['price'],
-                            ]);
-                            Filament::notify('success', 'Record Successfully save');
-                           } else {
-                            Filament::notify('danger', 'Limit Exceed need only 3 records');
-                           }
-                            
+
+                            if ($packinglistcount < 3) {
+                                Packinglist::create([
+                                    'booking_id' => $record->id,
+                                    'sender_id' => $record->sender_id,
+                                    'quantity' => $data['quantity'],
+                                    'packlistitem_id' => $data['packlistitem_id'],
+                                    'packlistdoc' => $data['packlist_doc'],
+                                    'waverdoc' => $data['waiver_doc'],
+                                    'price' => $data['price'],
+                                ]);
+                                Filament::notify('success', 'Record Successfully save');
+                            } else {
+                                Filament::notify('danger', 'Limit Exceed need only 3 records');
+                            }
                         }),
 
                 ]),
@@ -479,64 +495,61 @@ class BookingRelationManager extends RelationManager
                 Tables\Actions\BulkAction::make('xls')->label('Export to Excel')
                     ->icon('heroicon-o-document-download')
                     ->action(fn (Collection $records) => (new Bookingexport($records))->download('booking.xlsx')),
-                    Tables\Actions\BulkAction::make('Received Payment')
+                Tables\Actions\BulkAction::make('Received Payment')
                     ->label('Received Payment')
-                            ->color('warning')
-                            ->icon('heroicon-o-currency-dollar')
-                            ->form([
-                                Select::make('type_of_payment')
-                                    ->required()
-                                    ->label('Mode Of Payment')
-                                    ->options(Paymenttype::all()->pluck('name', 'id'))
-                                    ->searchable()
-                                    ->reactive(),
-                                DatePicker::make('payment_date')->required(),
-                                TextInput::make('reference_number')->label('Authorization Code/Reference Number/Cheque Number')
-                                    ->disabled(
-                                        fn (Closure $get): bool => $get('type_of_payment') == 4
-                                    ),
-    
-                                
-                            ])->action(function (Collection $records, array $data, $action) {
-                                    $records->each(function($record) use ($data){
-                                            if($record->payment_balance != 0){
-                                              
-                                                Bookingpayment::create([
-                                                            'booking_id' => $record->id,
-                                                            'paymenttype_id' => $data['type_of_payment'],
-                                                            'payment_date' => $data['payment_date'],
-                                                            'reference_number' => $data['reference_number'],
-                                                            'booking_invoice' => $record->booking_invoice,
-                                                            'payment_amount' => $record->payment_balance,
-                                                            'user_id' => auth()->id(),
-                                                            'sender_id' => $record->sender_id,
-                                                        ]);
-                                                $record->update(['payment_date' => $data['payment_date']]);
-                                                Booking::where('id', $record->id)->update([
-                                                    'payment_balance' => 0,
-                                                    'is_paid' => true,
-                                                ]);
-                                               
-                                            }
-                                    });
-                                    Filament::notify('success', 'Payment Successfully received');
-                            }),
-                            Tables\Actions\BulkAction::make('Update Pickup')
-                        ->label('Pickup update')
-                        ->icon('heroicon-o-clipboard-list')
-                        ->color('warning')
-                        ->action(function (Collection $records, array $data, $action){
-                            $records->each(function($record) use ($data){
-                                if($record->is_pickup == false){
-                                    Booking::where('id', $record->id)->update([
-                                        'is_pickup' => true,
-                                    ]);
-                                    
-                                }
-                                
-                            });
-                            Filament::notify('success', 'Pickup Successfully updated');
-                        }),
+                    ->color('warning')
+                    ->icon('heroicon-o-currency-dollar')
+                    ->form([
+                        Select::make('type_of_payment')
+                            ->required()
+                            ->label('Mode Of Payment')
+                            ->options(Paymenttype::all()->pluck('name', 'id'))
+                            ->searchable()
+                            ->reactive(),
+                        DatePicker::make('payment_date')->required(),
+                        TextInput::make('reference_number')->label('Authorization Code/Reference Number/Cheque Number')
+                            ->disabled(
+                                fn (Closure $get): bool => $get('type_of_payment') == 4
+                            ),
+
+
+                    ])->action(function (Collection $records, array $data, $action) {
+                        $records->each(function ($record) use ($data) {
+                            if ($record->payment_balance != 0) {
+
+                                Bookingpayment::create([
+                                    'booking_id' => $record->id,
+                                    'paymenttype_id' => $data['type_of_payment'],
+                                    'payment_date' => $data['payment_date'],
+                                    'reference_number' => $data['reference_number'],
+                                    'booking_invoice' => $record->booking_invoice,
+                                    'payment_amount' => $record->payment_balance,
+                                    'user_id' => auth()->id(),
+                                    'sender_id' => $record->sender_id,
+                                ]);
+                                $record->update(['payment_date' => $data['payment_date']]);
+                                Booking::where('id', $record->id)->update([
+                                    'payment_balance' => 0,
+                                    'is_paid' => true,
+                                ]);
+                            }
+                        });
+                        Filament::notify('success', 'Payment Successfully received');
+                    }),
+                Tables\Actions\BulkAction::make('Update Pickup')
+                    ->label('Pickup update')
+                    ->icon('heroicon-o-clipboard-list')
+                    ->color('warning')
+                    ->action(function (Collection $records, array $data, $action) {
+                        $records->each(function ($record) use ($data) {
+                            if ($record->is_pickup == false) {
+                                Booking::where('id', $record->id)->update([
+                                    'is_pickup' => true,
+                                ]);
+                            }
+                        });
+                        Filament::notify('success', 'Pickup Successfully updated');
+                    }),
             ])->reorderable('created_at');
     }
 }

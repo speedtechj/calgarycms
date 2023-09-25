@@ -31,7 +31,7 @@ use App\Filament\Resources\AgentResource\RelationManagers\BookingRelationManager
 class AgentResource extends Resource
 {
     protected static ?string $model = Agent::class;
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $navigationGroup = 'Customer';
     protected static ?string $navigationIcon = 'heroicon-o-user-circle';
 
     public static function form(Form $form): Form
