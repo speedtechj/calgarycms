@@ -21,13 +21,13 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Columns\ToggleColumn;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\AgentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AgentResource\RelationManagers;
 use App\Filament\Resources\AgentResource\RelationManagers\BookingRelationManager;
-
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 class AgentResource extends Resource
 {
     protected static ?string $model = Agent::class;
@@ -207,7 +207,7 @@ class AgentResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                // Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 
@@ -226,4 +226,5 @@ class AgentResource extends Resource
             'edit' => Pages\EditAgent::route('/{record}/edit'),
         ];
     }
+    
 }
