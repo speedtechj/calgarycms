@@ -158,11 +158,15 @@ class BookingResource extends Resource
             ])->deferLoading()
             
             ->filters([
-                
+               
                     Filter::make('booking_date')->label('Booking Date')
                     ->form([
-                        Forms\Components\DatePicker::make('book_from'),
-                        Forms\Components\DatePicker::make('book_until'),
+                        Section::make('Booking Date')
+                            ->schema([
+                                Forms\Components\DatePicker::make('book_from'),
+                                Forms\Components\DatePicker::make('book_until'),
+                            ])->collapsed(),
+                        
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -175,12 +179,16 @@ class BookingResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('booking_date', '<=', $date),
                             );
                     }),   
-                    SelectFilter::make('servicetype_id')->relationship('servicetype', 'description')->label('Service Type'),
+                    SelectFilter::make('servicetype_id')->relationship('servicetype', 'description')->label('Service Type')->default('2'),
                     SelectFilter::make('agent_id')->relationship('agent', 'full_name')->label('Agent')->searchable(), 
                     Filter::make('payment_date')->label('Payment Date')
                     ->form([
-                        Forms\Components\DatePicker::make('payment_from'),
-                        Forms\Components\DatePicker::make('payment_until'),
+                        Section::make('Payment Date')
+                            ->schema([
+                                Forms\Components\DatePicker::make('payment_from'),
+                                Forms\Components\DatePicker::make('payment_until'),
+                            ])->collapsed(),
+                        
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -193,7 +201,7 @@ class BookingResource extends Resource
                                 fn (Builder $query, $date): Builder => $query->whereDate('payment_date', '<=', $date),
                             );
                     }),
-                    Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', true))->default(true),
+                    Filter::make('is_paid')->label('Is Paid')->query(fn (Builder $query): Builder => $query->where('is_paid', true))->default(false),
                      
             ])
             ->actions([
@@ -203,7 +211,7 @@ class BookingResource extends Resource
                 Tables\Actions\BulkAction::make('xls')->label('Export to Excel')
                     ->icon('heroicon-o-document-download')
                     ->action(fn (Collection $records) => (new CollectionExport($records))->download('collection.xlsx')),
-                // ->action(fn (Collection $records) => (new CollectionExport($records))->download('collection.xlsx')),
+                
             ]);
     }
 
