@@ -7,7 +7,7 @@ use App\Models\Invoicestatus;
 
 class Trackinvoice extends Component
 {
-    public $search = " ";
+    public $search = "0000000";
     public function render()
     {
         return view('livewire.trackinvoice',[
