@@ -34,7 +34,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                             <div>
-                                <p class="font-medium text-gray-900">{{ $invstatus->trackstatus->description }}</a></p>
+                                <p class="font-medium text-gray-400">{{ $invstatus->trackstatus->description }}</a></p>
                             </div>
                             <div class="whitespace-nowrap text-left text-sm text-gray-500">
                                 <time datetime="2020-10-04">{{ $invstatus->remarks }}</time>
