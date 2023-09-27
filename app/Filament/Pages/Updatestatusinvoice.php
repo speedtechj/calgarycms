@@ -39,7 +39,7 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
     use HasPageShield;
   
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationLabel = 'Update/Edit Invoice';
+    protected static ?string $navigationLabel = 'Update/View Invoice';
     
     public static ?string $label = 'Update/Edit Invoice';
     
