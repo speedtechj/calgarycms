@@ -28,6 +28,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ReceiverResource;
 use Illuminate\Database\Eloquent\Collection;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
@@ -176,7 +177,7 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
                 })
                 ->form([
                     
-                    Forms\Components\DateTimePicker::make('date_updated')
+                    DateTimePicker::make('date_updated')
                         ->label('Date Stats Updated')
                         ->default(now())
                         ->closeOnDateSelection()
