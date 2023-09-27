@@ -7,7 +7,7 @@
 
 <div class="py-4 mx-10 mb-4 ">
     @isset($currentstatus)
-        <div class="text-lg"><span class="text-xl font-bold">Current Status:</span> {{ $currentstatus->trackstatus->description }}</div>
+        <div class="text-lg"><span class="text-xl font-bold">Current Status:  </span><span class="text-orange-500 2xl underline pl-4"> {{ $currentstatus->trackstatus->description }}</span></div>
           
     
     @endisset
@@ -34,12 +34,12 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                             <div>
-                                <p class="font-medium text-gray-400">{{ $invstatus->trackstatus->description }}</a></p>
+                                <p class="font-medium text-amber-600">{{ $invstatus->trackstatus->description }}</a></p>
                             </div>
-                            <div class="whitespace-nowrap text-left text-sm text-gray-500">
+                            <div class="whitespace-nowrap text-left text-sm text-amber-600">
                                 <time datetime="2020-10-04">{{ $invstatus->remarks }}</time>
                             </div>
-                            <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                            <div class="whitespace-nowrap text-right text-sm text-amber-600">
                                 <time datetime="2020-10-04">{{ $invstatus->date_update }}</time>
                             </div>
 
