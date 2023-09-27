@@ -163,8 +163,10 @@ class BookingResource extends Resource
                     ->form([
                         Section::make('Booking Date')
                             ->schema([
-                                Forms\Components\DatePicker::make('book_from'),
-                                Forms\Components\DatePicker::make('book_until'),
+                                Forms\Components\DatePicker::make('book_from')->default(now())
+                                ->closeOnDateSelection(),
+                                Forms\Components\DatePicker::make('book_until')->default(now())
+                                ->closeOnDateSelection(),
                             ])->collapsed(),
                         
                     ])
@@ -185,8 +187,10 @@ class BookingResource extends Resource
                     ->form([
                         Section::make('Payment Date')
                             ->schema([
-                                Forms\Components\DatePicker::make('payment_from'),
-                                Forms\Components\DatePicker::make('payment_until'),
+                                Forms\Components\DatePicker::make('payment_from')->default(now())
+                                ->closeOnDateSelection(),
+                                Forms\Components\DatePicker::make('payment_until')->default(now())
+                                ->closeOnDateSelection(),
                             ])->collapsed(),
                         
                     ])

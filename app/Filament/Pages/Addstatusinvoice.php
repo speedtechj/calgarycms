@@ -164,8 +164,10 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
                         ->label('Status')
                         ->options(Trackstatus::all()->where('branch_id', auth()->user()->branch_id)->pluck('description', 'id'))
                         ->required(),
-                    Datepicker::make('date_updated')
+                        Forms\Components\Datepicker::make('date_updated')
                         ->label('Date Updated')
+                        ->default(now())
+                        ->closeOnDateSelection()
                         ->required(),
                     Forms\Components\Textarea::make('remarks')
                 ])

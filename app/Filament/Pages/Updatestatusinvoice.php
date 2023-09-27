@@ -30,7 +30,7 @@ use App\Filament\Resources\ReceiverResource;
 use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-use Filament\Forms\Components\DatePicker;
+
 
 class Updatestatusinvoice extends Page implements HasTable, HasForms
 {
@@ -146,7 +146,7 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
             'date_update' => $record->date_update,
         ]))
         ->form([
-                    Datepicker::make('date_update')
+            Forms\Components\Datepicker::make('date_update')
                         ->label('Date Updated')
                         ->required(),
                     Forms\Components\Textarea::make('remarks')
@@ -176,8 +176,10 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
                 })
                 ->form([
                     
-                    Datepicker::make('date_updated')
-                        ->label('Date Updated')
+                    Forms\Components\DateTimePicker::make('date_updated')
+                        ->label('Date Stats Updated')
+                        ->default(now())
+                        ->closeOnDateSelection()
                         ->required(),
                     Forms\Components\Textarea::make('remarks')
                 ])

@@ -249,7 +249,8 @@ class BookingRelationManager extends RelationManager
                                     }),
                                
                                 Forms\Components\DatePicker::make('booking_date')
-                                    ->required(),
+                                    ->required()->default(now())
+                                    ->closeOnDateSelection(),
                                 Forms\Components\TimePicker::make('start_time')
                                     ->dehydrated(false)
                                     ->withoutSeconds()
@@ -895,7 +896,8 @@ class BookingRelationManager extends RelationManager
                                 ->options(Paymenttype::all()->pluck('name', 'id'))
                                 ->searchable()
                                 ->reactive(),
-                            DatePicker::make('payment_date')->required(),
+                            DatePicker::make('payment_date')->required()->default(now())
+                            ->closeOnDateSelection(),
                             TextInput::make('reference_number')->label('Authorization Code/Reference Number/Cheque Number')
                                 ->disabled(
                                     fn (Closure $get): bool => $get('type_of_payment') == 4
@@ -1090,7 +1092,8 @@ class BookingRelationManager extends RelationManager
                                 ->options(Paymenttype::all()->pluck('name', 'id'))
                                 ->searchable()
                                 ->reactive(),
-                            DatePicker::make('payment_date')->required(),
+                            DatePicker::make('payment_date')->required()->default(now())
+                            ->closeOnDateSelection(),
                             TextInput::make('reference_number')->label('Authorization Code/Reference Number/Cheque Number')
                                 ->disabled(
                                     fn (Closure $get): bool => $get('type_of_payment') == 4
