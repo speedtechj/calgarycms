@@ -22,9 +22,10 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
 use Tables\Concerns\InteractsWithTable;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Filters\SelectFilter;
 // use Illuminate\Contracts\Database\Eloquent\Builder;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ReceiverResource;
 use Illuminate\Database\Eloquent\Collection;
@@ -147,8 +148,10 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
             'date_update' => $record->date_update,
         ]))
         ->form([
-            Forms\Components\Datepicker::make('date_update')
+            DatePicker::make('date_update')
                         ->label('Date Updated')
+                        ->default(now())
+                        ->closeOnDateSelection()
                         ->required(),
                     Forms\Components\Textarea::make('remarks')
         ])
@@ -177,7 +180,7 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
                 })
                 ->form([
                     
-                    DateTimePicker::make('date_updated')
+                    DatePicker::make('date_updated')
                         ->label('Date Stats Updated')
                         ->default(now())
                         ->closeOnDateSelection()
