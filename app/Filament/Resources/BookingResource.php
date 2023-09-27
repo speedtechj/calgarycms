@@ -187,9 +187,9 @@ class BookingResource extends Resource
                     ->form([
                         Section::make('Payment Date')
                             ->schema([
-                                Forms\Components\DatePicker::make('payment_from')->default(now())
+                                Forms\Components\DatePicker::make('payment_from')
                                 ->closeOnDateSelection(),
-                                Forms\Components\DatePicker::make('payment_until')->default(now())
+                                Forms\Components\DatePicker::make('payment_until')
                                 ->closeOnDateSelection(),
                             ])->collapsed(),
                         
