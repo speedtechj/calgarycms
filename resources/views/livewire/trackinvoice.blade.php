@@ -37,7 +37,7 @@
                                 <p class="font-medium text-amber-600">{{ $invstatus->trackstatus->description }}</a></p>
                             </div>
                             <div class="whitespace-nowrap text-left text-sm text-amber-600">
-                                <time datetime="2020-10-04">{{ $invstatus->remarks }}</time>
+                                <time datetime="2020-10-04">{{ $invstatus->remarks }}{{ $invstatus->booking_invoice }}</time>
                             </div>
                             <div class="whitespace-nowrap text-right text-sm text-amber-600">
                                 <time datetime="2020-10-04">{{ $invstatus->date_update }}</time>
