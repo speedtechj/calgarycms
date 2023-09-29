@@ -713,7 +713,7 @@ class BookingRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
                 // ->url(fn (Agent $record): string => route('agents.edit', ['agent' => $record])),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
-                Tables\Columns\TextColumn::make('notes')->label('Notes'),
+                Tables\Columns\TextColumn::make('note')->label('Notes'),
                 Tables\Columns\TextColumn::make('user.id')
                     ->label('Encoder')
                     ->searchable()
