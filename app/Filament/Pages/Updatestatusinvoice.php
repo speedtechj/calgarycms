@@ -167,7 +167,8 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
     protected function getTableBulkActions(): array
     {
         return [
-
+    BulkAction::make('delete')
+    ->action(fn (Collection $records) => $records->each->delete()),
             BulkAction::make('Update Status')
                 ->action(function (Collection $records, array $data): void {
                     foreach ($records as $record) {
