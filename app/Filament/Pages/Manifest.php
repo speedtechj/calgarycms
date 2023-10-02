@@ -17,9 +17,9 @@ use Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Filters\SelectFilter;
 use App\Filament\Resources\ReceiverResource;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Database\Eloquent\Builder;
 class Manifest extends Page implements HasTable, HasForms
 {
     use Tables\Concerns\InteractsWithTable;
@@ -40,56 +40,55 @@ class Manifest extends Page implements HasTable, HasForms
         return [
             
             Tables\Columns\TextColumn::make('booking_invoice')
-            ->label('Invoice')
-            ->searchable()
+            ->label('Generated Invoice')
+            ->searchable(isIndividual: true, isGlobal: false)
             ->sortable(),
             Tables\Columns\TextColumn::make('manual_invoice')
             ->label('Manual Invoice')
-            ->searchable()
+            ->searchable(isIndividual: true, isGlobal: false)
             ->sortable(),
             Tables\Columns\TextColumn::make('Quantity')
             ->label('Quantity')
             ->default('1'),
             Tables\Columns\TextColumn::make('boxtype.description')
             ->label('Box Type')
-            ->searchable()
             ->sortable(),
             Tables\Columns\TextColumn::make('batch.id')
                     ->label('Batch No')
                     ->sortable()
-                    ->searchable()
+
                     ->getStateUsing(function (Model $record) {
                         return $record->batch->batchno ."-". $record->batch->batch_year;
                     }),
             Tables\Columns\TextColumn::make('sender.full_name')
             ->label('Sender Name')
-            ->searchable()
+           
             ->sortable()
             ->url(fn (Booking $record) => route('filament.resources.senders.edit', $record->sender)),
             Tables\Columns\TextColumn::make('receiver.full_name')
             ->label('Receiver Name')
-            ->searchable()
+           
             ->sortable()
     ->url(fn (Booking $record) => route('filament.resources.receivers.edit', $record->receiver)),
             Tables\Columns\TextColumn::make('receiveraddress.address')
             ->label('Address')
-            ->searchable()
+           
             ->sortable(),
             Tables\Columns\TextColumn::make('receiveraddress.barangayphil.name')
             ->label('Barangay')
-            ->searchable()->sortable(),
+            ->sortable(),
             Tables\Columns\TextColumn::make('receiveraddress.provincephil.name')
             ->label('Province')
-            ->searchable()->sortable(),
+            ->sortable(),
             Tables\Columns\TextColumn::make('receiveraddress.cityphil.name')
             ->label('City')
-            ->searchable()->sortable(),
+           ->sortable(),
             Tables\Columns\TextColumn::make('receiver.mobile_no')
             ->label('Mobile No')
-            ->searchable()->sortable(),
+           ->sortable(),
             Tables\Columns\TextColumn::make('receiver.home_no')
             ->label('Home No')
-            ->searchable()->sortable(),
+           ->sortable(),
             
                 ];
     } 
@@ -101,8 +100,7 @@ class Manifest extends Page implements HasTable, HasForms
         SelectFilter::make('batch_id')
         ->options(Batch::all()->where('is_active',true)->pluck('batchno','id'))
         ->placeholder('Select Batch Number')
-        ->label('Batch Number')
-        ->default('0'),
+        ->label('Batch Number'),
     
        
     ];
@@ -115,7 +113,10 @@ protected function getTableFiltersFormColumns(): int
 {
     return 3;
 }
-
+protected function paginateTableQuery(Builder $query): Paginator
+{
+    return $query->simplePaginate($this->getTableRecordsPerPage() == 'all' ? $query->count() : $this->getTableRecordsPerPage());
+}
 // protected function shouldPersistTableFiltersInSession(): bool
 // {
 //     return true;
