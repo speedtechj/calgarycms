@@ -10,16 +10,21 @@ use App\Models\Receiver;
 use Filament\Pages\Page;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Layout;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
 use Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ReceiverResource;
+use Illuminate\Contracts\Pagination\Paginator;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Database\Eloquent\Builder;
+
 class Manifest extends Page implements HasTable, HasForms
 {
     use Tables\Concerns\InteractsWithTable;
@@ -92,6 +97,27 @@ class Manifest extends Page implements HasTable, HasForms
             
                 ];
     } 
+    protected function getTableActions(): array
+    {
+       return[
+        ActionGroup::make([
+            Tables\Actions\Action::make('assignnewbatch')
+            ->label('Assign New Batch')
+            ->form([
+                Select::make('batch_id')
+                    ->label('Batch')
+                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1'))
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}"),
+            ])
+            ->action(function (Booking $record, array $data): void {
+               
+                $record->update([
+                    'batch_id' => $data['batch_id'],
+                ]);
+            }),
+        ])
+        ];
+    }
     protected function getTableFilters(): array
 {
     return [
