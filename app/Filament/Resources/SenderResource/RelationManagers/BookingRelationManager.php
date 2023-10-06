@@ -147,14 +147,14 @@ class BookingRelationManager extends RelationManager
                                             $set('total_price', $price);
                                         }
                                     }),
-                                    Forms\Components\Textinput::make('barangayphil')
+                                    Forms\Components\TextInput::make('barangayphil')
                                     ->label('Barangay')
                                     ->dehydrated(false),
 
-                                Forms\Components\Textinput::make('cityphil')
+                                Forms\Components\TextInput::make('cityphil')
                                     ->label('City')
                                     ->dehydrated(false),
-                                Forms\Components\Textinput::make('provincephil')
+                                Forms\Components\TextInput::make('provincephil')
                                     ->label('Province')
                                     ->dehydrated(false),
                                     Hidden::make('zone_id')->required()
