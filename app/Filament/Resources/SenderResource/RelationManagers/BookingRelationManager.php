@@ -288,7 +288,7 @@ class BookingRelationManager extends RelationManager
                                 Hidden::make('end_time')->disabled(),
                                 Select::make('batch_id')
                                     ->label('Batch')
-                                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1'))
+                                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('batchno', '00'))
                                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}")
                                     ->searchable()
                                     ->preload()

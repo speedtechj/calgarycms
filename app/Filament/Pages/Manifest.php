@@ -124,8 +124,8 @@ class Manifest extends Page implements HasTable, HasForms
        
     
         SelectFilter::make('batch_id')
-        ->relationship('batch', 'batchno'),
-       
+        ->relationship('batch', 'batchno', fn (Builder $query) => $query->where('is_active', '1'))
+        ->default(),
     
        
     ];
