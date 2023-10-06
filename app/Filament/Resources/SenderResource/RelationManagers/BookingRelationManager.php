@@ -290,8 +290,6 @@ class BookingRelationManager extends RelationManager
                                     ->label('Batch')
                                     ->relationship('batch', 'id', fn (Builder $query) => $query->where('batchno', '00'))
                                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}")
-                                    ->searchable()
-                                    ->preload()
                                     ->required(),
                                 Toggle::make('is_pickup')->label('Picked Up')
                                     ->hidden(fn (\Closure $get) => $get('servicetype_id') == '2'),
