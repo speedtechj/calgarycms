@@ -124,9 +124,8 @@ class Manifest extends Page implements HasTable, HasForms
        
     
         SelectFilter::make('batch_id')
-        ->options(Batch::all()->where('is_active',true)->pluck('batchno','id'))
-        ->placeholder('Select Batch Number')
-        ->label('Batch Number'),
+        ->relationship('batch', 'batchno'),
+       
     
        
     ];
@@ -139,10 +138,10 @@ protected function getTableFiltersFormColumns(): int
 {
     return 3;
 }
-protected function paginateTableQuery(Builder $query): Paginator
-{
-    return $query->simplePaginate($this->getTableRecordsPerPage() == 'all' ? $query->count() : $this->getTableRecordsPerPage());
-}
+// protected function paginateTableQuery(Builder $query): Paginator
+// {
+//     return $query->simplePaginate($this->getTableRecordsPerPage() == 'all' ? $query->count() : $this->getTableRecordsPerPage());
+// }
 // protected function shouldPersistTableFiltersInSession(): bool
 // {
 //     return true;

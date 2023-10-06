@@ -111,6 +111,12 @@ class BookingRelationManager extends RelationManager
                                         if($loczone !== null){
                                             $zone_id = Cityphil::where('id', $loczone->cityphil_id)->first()->zone_id;
                                             $set('zone_id', $zone_id);
+                                            $set('provincephil', $loczone->provincephil->name);
+                                            $set('cityphil', $loczone->cityphil->name);
+                                            if ($loczone->barangayphil_id !== null) {
+                                              
+                                                $set('barangayphil', $loczone->barangayphil->name);
+                                            }
                                         } else {
                                             Filament::notify('danger', 'Please Select Receiver Address');
                                             $zone_id = 0;
@@ -141,6 +147,16 @@ class BookingRelationManager extends RelationManager
                                             $set('total_price', $price);
                                         }
                                     }),
+                                    Forms\Components\Textinput::make('barangayphil')
+                                    ->label('Barangay')
+                                    ->dehydrated(false),
+
+                                Forms\Components\Textinput::make('cityphil')
+                                    ->label('City')
+                                    ->dehydrated(false),
+                                Forms\Components\Textinput::make('provincephil')
+                                    ->label('Province')
+                                    ->dehydrated(false),
                                     Hidden::make('zone_id')->required()
 
                             ])->columns(2)
