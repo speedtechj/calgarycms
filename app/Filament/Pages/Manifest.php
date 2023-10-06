@@ -21,6 +21,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ReceiverResource;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\Paginator;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
@@ -124,8 +125,7 @@ class Manifest extends Page implements HasTable, HasForms
        
     
         SelectFilter::make('batch_id')
-        ->relationship('batch', 'batchno', fn (Builder $query) => $query->where('is_active', '1'))
-        ->default(),
+        ->relationship('batch', 'batchno', fn (Builder $query) => $query->where('is_active', '1')),
     
        
     ];
@@ -137,6 +137,26 @@ protected function getTableFiltersLayout(): ?string
 protected function getTableFiltersFormColumns(): int
 {
     return 3;
+}
+protected function getTableBulkActions(): array
+{
+    return [
+        Tables\Actions\BulkAction::make('Assign New Batch')
+            ->form([
+                Select::make('batch_id')
+                    ->label('Batch')
+                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1'))
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}"),
+            ])
+            ->action(function (Collection $records, array $data): void {
+                foreach ($records as $record) {
+                    $record->update([
+                      
+                        'batch_id' => $data['batch_id'],
+                    ]);
+                }
+            })
+    ];
 }
 // protected function paginateTableQuery(Builder $query): Paginator
 // {
