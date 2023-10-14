@@ -32,7 +32,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-
+use Illuminate\Contracts\Pagination\Paginator;
 
 class Updatestatusinvoice extends Page implements HasTable, HasForms
 {
@@ -41,9 +41,9 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
     use HasPageShield;
   
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationLabel = 'Update/View Invoice';
+    protected static ?string $navigationLabel = 'Edit/View Invoice';
     
-    public static ?string $label = 'Update/Edit Invoice';
+    public static ?string $label = 'Edit/View Invoice';
     
     protected static ?string $navigationGroup = 'Invoice Status';
    
@@ -141,7 +141,7 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
        return[
         Tables\Actions\DeleteAction::make()
         ->label('Delete'),
-        Tables\Actions\Action::make('edit')
+        Tables\Actions\Action::make('Edit Invoice Status')
         ->label('Edit')
         ->mountUsing(fn (Forms\ComponentContainer $form, Invoicestatus $record) => $form->fill([
             'remarks' => $record->remarks,
@@ -190,6 +190,10 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
                 ])
         ];
     }
+    protected function getTableRecordsPerPageSelectOptions(): array 
+    {
+        return [10, 25, 50, 100];
+    } 
     // protected function shouldPersistTableFiltersInSession(): bool
     // {
     //     return true;
@@ -197,9 +201,3 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
 }
 
 
-// class Updatestatusinvoice extends Page
-// {
-//     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
-//     protected static string $view = 'filament.pages.updatestatusinvoice';
-// }

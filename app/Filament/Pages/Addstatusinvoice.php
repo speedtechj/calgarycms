@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\DatePicker;
+use Illuminate\Contracts\Pagination\Paginator;
 class Addstatusinvoice extends Page implements HasTable, HasForms
 {
     use Tables\Concerns\InteractsWithTable;
@@ -37,7 +38,7 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
   
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationGroup = 'Invoice Status';
-    protected static ?string $navigationLabel = 'Add Invoice Status';
+    protected static ?string $navigationLabel = 'Update Invoice Status';
     public static ?string $label = 'Add Invoice Status';
     protected static string $view = 'filament.pages.manifest';
     public $isedit = true;
@@ -50,7 +51,10 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
     protected function getTableColumns(): array
     {
         return [
-
+            Tables\Columns\TextColumn::make('batch.batchno')
+                ->label('Invoice')
+                ->searchable()
+                ->sortable(),
             Tables\Columns\TextColumn::make('booking_invoice')
                 ->label('Invoice')
                 ->searchable()
@@ -90,11 +94,10 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
     {
         return [
             SelectFilter::make('batch_id')
-
+                ->multiple()
                 ->options(Batch::all()->where('is_active', true)->pluck('batchno', 'id'))
-                ->placeholder('Select Batch Number')
                 ->label('Batch Number')
-                ->default('0'),
+                ->default(),
             SelectFilter::make('province')
                 ->label('Province')
                 ->searchable()
@@ -134,7 +137,7 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
     {
         return [
 
-            BulkAction::make('Add Status')
+            BulkAction::make('Update Batch/Invoice Status')
                 ->action(function (Collection $records, array $data): void {
                     foreach ($records as $record) {
                         $statusupdate = InvoiceStatus::where('booking_id', $record->id)
@@ -177,6 +180,10 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
     // {
     //     return true;
     // }
+    protected function getTableRecordsPerPageSelectOptions(): array 
+    {
+        return [10, 25, 50, 100];
+    } 
 }
 
 
