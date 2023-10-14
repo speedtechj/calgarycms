@@ -38,6 +38,7 @@ class BatchResource extends Resource
                 Toggle::make('is_active'),
                 Forms\Components\MarkdownEditor::make('note')
                     ->maxLength(65535)->columnSpan('full'),
+                    Toggle::make('is_lock'),
                 ])->columns(2)
 
             ]);

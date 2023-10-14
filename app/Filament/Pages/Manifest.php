@@ -104,11 +104,13 @@ class Manifest extends Page implements HasTable, HasForms
         ActionGroup::make([
             Tables\Actions\Action::make('assignnewbatch')
             ->label('Assign New Batch')
+            ->hidden(fn (booking $record) => $record->batch->is_lock == true)
             ->form([
                 Select::make('batch_id')
                     ->label('Batch')
                     ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1'))
-                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}"),
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}")
+                   
             ])
             ->action(function (Booking $record, array $data): void {
                
@@ -142,11 +144,12 @@ protected function getTableBulkActions(): array
 {
     return [
         Tables\Actions\BulkAction::make('Assign New Batch')
-            ->form([
+        ->form([
                 Select::make('batch_id')
                     ->label('Batch')
                     ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1'))
-                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}"),
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}")
+                    
             ])
             ->action(function (Collection $records, array $data): void {
                 foreach ($records as $record) {
@@ -162,12 +165,9 @@ protected function getTableRecordsPerPageSelectOptions(): array
 {
     return [10, 25, 50];
 } 
-// protected function paginateTableQuery(Builder $query): Paginator
-// {
-//     return $query->simplePaginate($this->getTableRecordsPerPage() == 'all' ? $query->count() : $this->getTableRecordsPerPage());
-// }
-// protected function shouldPersistTableFiltersInSession(): bool
-// {
-//     return true;
-// }
+public function isTableRecordSelectable(): ?Closure
+{
+    return fn (Booking $record): bool => $record->batch->is_lock == false;
+}
+
 }
