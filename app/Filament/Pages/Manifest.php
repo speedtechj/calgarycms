@@ -158,6 +158,10 @@ protected function getTableBulkActions(): array
             })
     ];
 }
+protected function getTableRecordsPerPageSelectOptions(): array 
+{
+    return [10, 25, 50];
+} 
 // protected function paginateTableQuery(Builder $query): Paginator
 // {
 //     return $query->simplePaginate($this->getTableRecordsPerPage() == 'all' ? $query->count() : $this->getTableRecordsPerPage());
