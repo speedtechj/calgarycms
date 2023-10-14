@@ -19,6 +19,10 @@ class ListAgents extends ListRecords
     }
     protected function paginateTableQuery(Builder $query): Paginator
 {
-    return $query->simplePaginate($this->getTableRecordsPerPage() == 'all' ? $query->count() : $this->getTableRecordsPerPage());
+    return $query->simplePaginate($this->getTableRecordsPerPage() == -1 ? $query->count() : $this->getTableRecordsPerPage());
 }
+protected function getTableRecordsPerPageSelectOptions(): array 
+{
+    return [10, 25, 50];
+} 
 }
