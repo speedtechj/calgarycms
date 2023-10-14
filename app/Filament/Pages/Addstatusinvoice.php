@@ -52,7 +52,7 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
     {
         return [
             Tables\Columns\TextColumn::make('batch.batchno')
-                ->label('Invoice')
+                ->label('Batch Number')
                 ->searchable()
                 ->sortable(),
             Tables\Columns\TextColumn::make('booking_invoice')
