@@ -104,11 +104,11 @@ class Manifest extends Page implements HasTable, HasForms
         ActionGroup::make([
             Tables\Actions\Action::make('assignnewbatch')
             ->label('Assign New Batch')
-            ->hidden(fn (booking $record) => $record->batch->is_lock == true)
+            ->icon('heroicon-o-document-add')
             ->form([
                 Select::make('batch_id')
                     ->label('Batch')
-                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1'))
+                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1')->where('is_lock', '0'))
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}")
                    
             ])
@@ -147,7 +147,8 @@ protected function getTableBulkActions(): array
         ->form([
                 Select::make('batch_id')
                     ->label('Batch')
-                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_active', '1'))
+                    ->icon('heroicon-o-document-add')
+                    ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_lock', '0')->where('is_active', '1'))
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}")
                     
             ])
@@ -165,9 +166,6 @@ protected function getTableRecordsPerPageSelectOptions(): array
 {
     return [10, 25, 50];
 } 
-public function isTableRecordSelectable(): ?Closure
-{
-    return fn (Booking $record): bool => $record->batch->is_lock == false;
-}
+
 
 }
