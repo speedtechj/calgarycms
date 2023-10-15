@@ -104,7 +104,7 @@ class Manifest extends Page implements HasTable, HasForms
         ActionGroup::make([
             Tables\Actions\Action::make('assignnewbatch')
             ->label('Assign New Batch')
-            ->icon('heroicon-o-document-add')
+            ->icon('heroicon-s-pencil')
             ->form([
                 Select::make('batch_id')
                     ->label('Batch')
@@ -147,7 +147,7 @@ protected function getTableBulkActions(): array
         ->form([
                 Select::make('batch_id')
                     ->label('Batch')
-                    ->icon('heroicon-o-document-add')
+                    ->icon('heroicon-s-pencil')
                     ->relationship('batch', 'id', fn (Builder $query) => $query->where('is_lock', '0')->where('is_active', '1'))
                     ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->batchno} {$record->batch_year}")
                     
