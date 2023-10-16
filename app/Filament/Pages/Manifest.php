@@ -124,13 +124,11 @@ class Manifest extends Page implements HasTable, HasForms
     protected function getTableFilters(): array
 {
     return [
-       
-    
         SelectFilter::make('batch_id')
+        ->multiple()
         ->label('Batch Number')
-        ->relationship('batch', 'batchno', fn (Builder $query) => $query->where('is_active', '1')),
-      
-       
+        ->relationship('batch', 'batchno', fn (Builder $query) => $query->where('is_active', '1'))
+        ->default(array('Select Batch Number')),
     ];
 }
 protected function getTableFiltersLayout(): ?string
