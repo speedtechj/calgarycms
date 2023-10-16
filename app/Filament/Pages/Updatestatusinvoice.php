@@ -102,6 +102,14 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
                 ->label('City')
                
                 ->sortable(),
+                Tables\Columns\TextColumn::make('location')
+                ->label('Location')
+                ->searchable()
+                ->sortable(),
+                Tables\Columns\TextColumn::make('waybill')
+                ->label('Waybill')
+                ->searchable()
+                ->sortable(),
                 
         ];
     }
@@ -109,8 +117,8 @@ class Updatestatusinvoice extends Page implements HasTable, HasForms
     {
         return [
             SelectFilter::make('batch_id')
-
-                ->options(Batch::all()->where('is_active', true)->pluck('batchno', 'id'))
+            ->multiple()
+            ->options(Batch::all()->where('is_active', true)->pluck('batchno', 'id'))
                 ->placeholder('Select Batch Number')
                 ->label('Batch Number')
                 ->default('0'),

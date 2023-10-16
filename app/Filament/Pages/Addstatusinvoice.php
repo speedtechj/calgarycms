@@ -29,6 +29,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\FormsComponent;
 use Illuminate\Contracts\Pagination\Paginator;
 class Addstatusinvoice extends Page implements HasTable, HasForms
 {
@@ -87,7 +88,7 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
                 ->label('City')
                 ->searchable()
                 ->sortable(),
-
+                
         ];
     }
     protected function getTableFilters(): array
@@ -97,22 +98,18 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
                 ->multiple()
                 ->options(Batch::all()->where('is_active', true)->pluck('batchno', 'id'))
                 ->label('Batch Number')
-                ->default(),
+                ->default(array('Select Batch Number')),
             SelectFilter::make('province')
                 ->label('Province')
                 ->searchable()
                 ->options(
                     function () {
-                        // could be more discerning here, and select a distinct list of aircraft id's
-                        // that actually appear in the Daily Logs, so we aren't presenting filter options
-                        // which don't exist in the table, but in my case we know they are all used
                         return Provincephil::all()->pluck('name', 'id')->toArray();
                     }
                 )
                 ->query(function (Builder $query, array $data) {
                     if (!empty($data['value'])) {
-                        // if we have a value (the aircraft ID from our options() query), just query a nested
-                        // set of whereHas() clauses to reach our target, in this case two deep
+                        
                         $query->whereHas(
                             'receiveraddress',
                             fn (Builder $query) => $query->whereHas(
@@ -158,6 +155,8 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
                                 'receiver_id' => $record->receiver_id,
                                 'sender_id' => $record->sender_id,
                                 'boxtype_id' => $record->boxtype_id,
+                                'location' => $data['location'],
+                                'waybill' => $data['waybill'],
                             ]);
                         }
                     }
@@ -168,10 +167,13 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
                         ->options(Trackstatus::all()->where('branch_id', auth()->user()->branch_id)->pluck('description', 'id'))
                         ->required(),
                         Datepicker::make('date_updated')
-                        ->label('Date Updated')
+                        ->label('Update Date')
                         ->default(now())
                         ->closeOnDateSelection()
                         ->required(),
+                    Forms\Components\TextInput::make('location'),
+                    Forms\Components\TextInput::make('waybill')
+                    ->hidden(auth()->user()->branch_id == 1 ),
                     Forms\Components\Textarea::make('remarks')
                 ])
         ];
