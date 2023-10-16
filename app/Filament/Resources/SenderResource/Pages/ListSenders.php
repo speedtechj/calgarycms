@@ -23,6 +23,6 @@ class ListSenders extends ListRecords
 }
 protected function getTableRecordsPerPageSelectOptions(): array 
 {
-    return [5,10];
+    return [10, 25];
 } 
 }
