@@ -9,6 +9,7 @@
         "barryvdh/laravel-snappy": "^1.0",
         "bezhansalleh/filament-shield": "^2.4",
         "filament/filament": "^2.0",
+        "filament/notifications": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltoimage-i386": "0.12.x",
