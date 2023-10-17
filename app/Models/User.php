@@ -71,8 +71,8 @@ class User extends Authenticatable implements  FilamentUser, HasName
     //     return $this->belongsTo(Discount::class);
     // }
 
-    public function calculateDiscount()
-    {
-        dd('test');
-    }
+    // public function calculateDiscount()
+    // {
+    //     dd('test');
+    // }
 }
