@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('batchno');
             $table->year('batch_year');
             $table->text('note')->nullable();
-            $table->boolean('is_active')->default('false');
-            $table->boolean('is_lock')->default('false');
+            $table->boolean('is_active')->default(0);
+            $table->boolean('is_lock')->default(0);
             $table->timestamps();
         });
     }
