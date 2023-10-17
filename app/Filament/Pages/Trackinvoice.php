@@ -10,6 +10,6 @@ class Trackinvoice extends Page
     protected static ?string $navigationGroup = 'Invoice Status';
     protected static ?string $navigationLabel = 'Trackinvoice Status';
     public static ?string $label = 'Track Invoice Status';
-
+    public static ?string $title = 'Track Invoice Status';
     protected static string $view = 'filament.pages.trackinvoice';
 }

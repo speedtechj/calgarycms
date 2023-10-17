@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
                     'Customer',
                     'Report',
                     'Invoice Status',
+                    'Request/Complain',
                     'Settings',
                 ]);
                 if(auth()->user()){
