@@ -172,8 +172,8 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
                         ->closeOnDateSelection()
                         ->required(),
                     Forms\Components\TextInput::make('location'),
-                    Forms\Components\TextInput::make('waybill')
-                    ->hidden(auth()->user()->branch_id == 1 ),
+                    Forms\Components\TextInput::make('waybill'),
+                    
                     Forms\Components\Textarea::make('remarks')
                 ])
         ];
