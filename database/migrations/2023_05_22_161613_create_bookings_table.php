@@ -42,7 +42,7 @@ return new class extends Migration
             $table->BigInteger('refund_amount')->nullable();
             $table->string('dimension')->virtualAs('concat(irregular_length, \' \', irregular_width, \' \', irregular_height)');
             $table->text('note')->nullable();
-            $table->foreignId('catextarcharge_id')->reference('id')->on('catextracharges')->constrained();
+            $table->bigInteger('catextarcharge_id')->nullable();
             $table->boolean('box_replacement');
             $table->foreignId('user_id')->constrained();
             $table->boolean('is_edit')->default(true);
