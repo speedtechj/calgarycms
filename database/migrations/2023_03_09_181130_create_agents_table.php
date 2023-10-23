@@ -27,9 +27,9 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('filedoc')->nullable();
             $table->string('mobile_no')->unique();
-            $table->string('home_no');
+            $table->string('home_no')->nullable();
             $table->date('date_hired');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->boolean('agent_type')->default(1);
             $table->timestamps();
         });

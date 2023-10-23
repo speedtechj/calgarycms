@@ -42,10 +42,13 @@ return new class extends Migration
             $table->BigInteger('refund_amount')->nullable();
             $table->string('dimension')->virtualAs('concat(irregular_length, \' \', irregular_width, \' \', irregular_height)');
             $table->text('note')->nullable();
+            $table->foreignId('catextrcharge_id')->constrained();
+            $table->boolean('box_replacement');
             $table->foreignId('user_id')->constrained();
             $table->boolean('is_edit')->default(true);
             $table->boolean('is_agent')->default(false);
             $table->foreignId('agentdiscount_id')->nullable()->reference('id')->on('agentdiscounts')->constrained();
+            $table->boolean('is_delivered')->default(false);
             $table->timestamps();
         });
     }
