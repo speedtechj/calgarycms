@@ -182,6 +182,8 @@
                 @if($record->senderaddress->quadrant != null)
                 <p class="quadrant" >{{$record->senderaddress->quadrant}}</p>
                 @endif
+                @else
+                <p>Drop-Off Date - {{$record->booking_date}}</p>
                 @endif
                
                 
