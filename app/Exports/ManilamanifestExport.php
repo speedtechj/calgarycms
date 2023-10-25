@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Booking;
+use Filament\Notifications\Notification;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -31,7 +32,8 @@ class ManilamanifestExport implements ShouldAutoSize, FromQuery, WithMapping, Wi
     }
     public function map($booking): array
     {
-        // dd($booking->senderaddress->citycan->name);
+       
+        $barangay =  $booking->receiveraddress->barangayphil->name ?? 'Request Canada Add Barangay';
         return [
             $booking->booking_invoice,
             $booking->manual_invoice,
@@ -41,7 +43,8 @@ class ManilamanifestExport implements ShouldAutoSize, FromQuery, WithMapping, Wi
             $booking->sender->full_name,
             $booking->receiver->full_name,
             $booking->receiveraddress->address,
-            $booking->receiveraddress->barangayphil->name,
+            $barangay,
+            // $booking->receiveraddress->barangayphil->name,
             $booking->receiveraddress->cityphil->name,
             $booking->receiveraddress->provincephil->name,
             $booking->receiver->mobile_no,
