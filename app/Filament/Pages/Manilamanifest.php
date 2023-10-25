@@ -127,7 +127,7 @@ protected function getTableBulkActions(): array
 
         Tables\Actions\BulkAction::make('xls')->label('Export to Excel')
                     ->icon('heroicon-o-document-download')
-                    ->action(fn (Collection $records) => (new ManilamanifestExport($records))->download('collection.xlsx')),
+                    ->action(fn (Collection $records) => (new ManilamanifestExport($records))->download('manifest.xlsx')),
             
     ];
 }
