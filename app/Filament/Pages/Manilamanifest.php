@@ -131,4 +131,13 @@ protected function getTableBulkActions(): array
             
     ];
 }
+protected function getTableRecordsPerPageSelectOptions(): array 
+{
+    return [10];
+   
+} 
+protected function paginateTableQuery(Builder $query): Paginator
+{
+    return $query->simplePaginate($this->getTableRecordsPerPage() == -1 ? $query->count() : $this->getTableRecordsPerPage());
+}
 }
