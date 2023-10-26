@@ -140,4 +140,13 @@ protected function paginateTableQuery(Builder $query): Paginator
 {
     return $query->simplePaginate($this->getTableRecordsPerPage() == -1 ? $query->count() : $this->getTableRecordsPerPage());
 }
+protected function shouldPersistTableSearchInSession(): bool
+{
+    return true;
+}
+ 
+protected function shouldPersistTableColumnSearchInSession(): bool
+{
+    return true;
+}
 }
