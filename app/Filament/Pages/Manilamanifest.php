@@ -133,7 +133,7 @@ protected function getTableBulkActions(): array
 }
 protected function getTableRecordsPerPageSelectOptions(): array 
 {
-    return [10];
+    return [10, 25, 50];
    
 } 
 protected function paginateTableQuery(Builder $query): Paginator
