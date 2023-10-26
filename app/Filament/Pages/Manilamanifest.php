@@ -105,10 +105,10 @@ class Manilamanifest extends Page implements HasTable, HasForms
        
     
         SelectFilter::make('batch_id')
-        ->options(Batch::all()->where('is_active',true)->pluck('batchno','id'))
-        ->placeholder('Select Batch Number')
+        ->multiple()
         ->label('Batch Number')
-        ->default('0'),
+        ->relationship('batch', 'batchno', fn (Builder $query) => $query->where('is_active', '1'))
+        ->default(array('Select Batch Number')),
        
     ];
 }
