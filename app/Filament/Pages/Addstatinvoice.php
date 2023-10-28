@@ -153,7 +153,7 @@ class Addstatinvoice extends Page implements HasTable, HasForms
                             'sender_id' => $record->sender_id,
                             'boxtype_id' => $record->boxtype_id,
                             'waybill' => $data['waybill'],
-                            'waybill' => $data['location'],
+                            'location' => $data['location'],
                         ]);
                         Notification::make()
                             ->title('Update Status successfully')
@@ -250,7 +250,7 @@ class Addstatinvoice extends Page implements HasTable, HasForms
                                 'sender_id' => $record->sender_id,
                                 'boxtype_id' => $record->boxtype_id,
                                 'waybill' => $data['waybill'],
-                                'waybill' => $data['location'],
+                                'location' => $data['location'],
                             ]);
                             Notification::make()
                                 ->title('Update Status successfully')
