@@ -21,4 +21,4 @@ use App\Http\Controllers\PackinglistpdfController;
 // });
 Route::get('{record}/pdf',[HomeController::class,'index'])->name('barcode.pdf.download');
 Route::get('{record}/barcode',[HomeController::class,'generate'])->name('barcode1.pdf.download');
-// Route::get('{record}/pdf',[PackinglistpdfController::class,'index'])->name('packlistdownload');
+Route::get('{record}/packlist',[PackinglistpdfController::class,'index'])->name('packlistdownload');
