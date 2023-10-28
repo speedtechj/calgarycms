@@ -30,6 +30,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\Paginator;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
+use Filament\Forms\Components\DatePicker;
 
 class Addstatinvoice extends Page implements HasTable, HasForms
 {
@@ -172,7 +173,7 @@ class Addstatinvoice extends Page implements HasTable, HasForms
                         ->label('Status')
                         ->options(Trackstatus::all()->where('branch_id', auth()->user()->branch_id)->pluck('description', 'id'))
                         ->required(),
-                    Forms\Components\Datepicker::make('date_updated')
+                    Datepicker::make('date_updated')
                         ->label('Date Updated')
                         ->required()
                         ->closeOnDateSelection(),
@@ -270,7 +271,7 @@ class Addstatinvoice extends Page implements HasTable, HasForms
                         ->label('Status')
                         ->options(Trackstatus::all()->where('branch_id', auth()->user()->branch_id)->pluck('description', 'id'))
                         ->required(),
-                    Forms\Components\Datepicker::make('date_updated')
+                    DatePicker::make('date_updated')
                         ->label('Date Updated')
                         ->closeOnDateSelection()
                         ->required(),

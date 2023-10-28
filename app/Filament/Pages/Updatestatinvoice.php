@@ -23,6 +23,7 @@ use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
 use Tables\Concerns\InteractsWithTable;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ReceiverResource;
@@ -121,7 +122,7 @@ class Updatestatinvoice extends Page implements HasTable, HasForms
                     'waybill' => $record->waybill,
                 ]))
                 ->form([
-                    Forms\Components\DatePicker::make('date_update')
+                    DatePicker::make('date_update')
                         ->label('Date Updated')
                         ->default(now())
                         ->closeOnDateSelection()
@@ -188,7 +189,7 @@ class Updatestatinvoice extends Page implements HasTable, HasForms
                 })
                 ->form([
 
-                    Forms\Components\DatePicker::make('date_update')
+                    DatePicker::make('date_update')
                         ->label('Date Updated')
                         ->default(now())
                         ->closeOnDateSelection()
