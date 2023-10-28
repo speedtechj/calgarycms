@@ -15,14 +15,33 @@
             margin: 0px;
             padding: 0px;
         }
+        .heading1{
+            font-size: 20px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+       .table2,  th, td{
+            font-size: 18px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+           border:1px solid black;
+           padding:10px;
+        }
+        .table1{
+            border-collapse: collapse;
+           
+        }
+        
     </style>
 
 </head>
 
 <body>
-    <table width="100%">
+    <table width="100%"  >
         <tr>
-            <td align="center">
+            <td align="center" style="border:none">
                 <img class="logo" src="{{ public_path('/logo.png') }}" alt="logo" />
 
             </td>
@@ -31,15 +50,13 @@
     </table>
     
     <div class="container">
-        <table class="table table-borderless">
-            <tr>
-                <td>SENDER INFORMATION</td>
-                <td></td>
-                <td colspan="2"></td>
-                <td class="text-right">INVOICE NUMBER<span class="ml-2">{{$record->booking_invoice}}</span></td>
+        <table width="100%" class="heading1">
+            <tr >
+                <td width="50%"  style="border:none; padding:none; padding:0px">SENDER INFORMATION</td>
+                <td width="50%" align="right" style="border:none; padding:0px;">INVOICE NUMBER<span class="ml-2">{{$record->booking_invoice}}</span></td>
             </tr>
         </table>
-        <table class="table table-bordered">
+        <table width="100%" class="table1">
             <tr>
                 <td>Family Name:<span class="ml-2">{{$record->sender->first_name}}</span></td>
                 <td>Givien Name: <span class="ml-2">{{$record->sender->last_name}}</span></td>
@@ -58,15 +75,13 @@
                
             </tr>
     </table>
-    <table class="table table-borderless">
+    <table width="100%" class="heading1">
             <tr>
-                <td>RECEIVER INFORMATION</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="border:none">RECEIVER INFORMATION</td>
+                
             </tr>
         </table>
-    <table class="table table-bordered">
+    <table width="100%" class="table1">
         <tr>
             <td>Family Name:<span class="ml-2">{{$record->receiver->first_name}}</span></td>
                 <td>Givien Name: <span class="ml-2">{{$record->receiver->last_name}}</span></td>
@@ -83,7 +98,7 @@
                 </span> </td>
         </tr>
 </table>
-    <table class="table table-bordered">
+    <table class="table1">
         <thead>
           <th>Quantity</th>
           <th>Unit of Measure</th>
@@ -152,7 +167,7 @@
           </tr>
         </tbody>
       </table>
-      <div>
+      <div style="font-size:20px; font-weight:bold">
         <p>Declaration</p>
         <span>I declare, under the penalties falsificatio, that this information.
             Sheet has been in good faith and to the best of my knowledge and belief, is true
@@ -160,7 +175,7 @@
             Philippines and its impplementing rules and regulations.
     </div>
     <center>
-        <div class="mt-5">
+        <div style="font-size:20px; font-weight:bold">
         <p>_____________________________________</p>
         <p>Sender Signature over Printed Name</p>
         <p>Date Accomplished _____/______/______
