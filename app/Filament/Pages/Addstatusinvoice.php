@@ -39,8 +39,8 @@ class Addstatusinvoice extends Page implements HasTable, HasForms
   
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationGroup = 'Invoice Status';
-    protected static ?string $navigationLabel = 'Update Invoice Status';
-    public static ?string $label = 'Add Invoice Status';
+    protected static ?string $navigationLabel = 'Add Batch Status';
+    public static ?string $title = 'Add Batch Status';
     protected static string $view = 'filament.pages.manifest';
     public $isedit = true;
     protected function getTableQuery(): Builder

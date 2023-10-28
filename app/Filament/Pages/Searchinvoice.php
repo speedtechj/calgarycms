@@ -44,6 +44,7 @@ class Searchinvoice extends Page implements HasTable, HasForms
     protected static ?string $navigationGroup = 'Invoice Status';
     protected static ?string $navigationLabel = 'Search Invoice';
     protected static ?string $title = "Search Invoice";
+    protected static bool $shouldRegisterNavigation = false;
     protected static string $view = 'filament.pages.searchinvoice';
     public $isedit = true;
     protected function getTableQuery(): Builder
