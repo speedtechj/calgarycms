@@ -16,7 +16,7 @@ class PackinglistpdfController extends Controller
         // $data['packinglist'] = $packinglistdata;
         // $data['paymenttype'] = Paymenttype::all();
          
-        $pdf = PDF::loadView("barcode", $data);
+        $pdf = PDF::loadView("packlistpdf", $data);
         $pdf->setOption('margin-top','5mm');
         $pdf->setOption('margin-bottom','5mm');
         $pdf->setOption('margin-right','5mm');
