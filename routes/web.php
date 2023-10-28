@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PackinglistpdfController;
 
 
 /*
@@ -20,3 +21,4 @@ use App\Http\Controllers\HomeController;
 // });
 Route::get('{record}/pdf',[HomeController::class,'index'])->name('barcode.pdf.download');
 Route::get('{record}/barcode',[HomeController::class,'generate'])->name('barcode1.pdf.download');
+Route::get('{record}/pdf',[PackinglistpdfController::class,'index'])->name('packlistdownload');
