@@ -20,8 +20,8 @@ class TrackstatusResource extends Resource
     protected static ?string $model = Trackstatus::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?string $navigationLabel = 'Invoice Status';
-    public static ?string $label = 'Invoice Status';
+    protected static ?string $navigationLabel = 'Create Invoice Status';
+    public static ?string $title = 'Create Invoice Status';
     protected static ?string $navigationGroup = 'Invoice Status';
     public static function form(Form $form): Form
     {
