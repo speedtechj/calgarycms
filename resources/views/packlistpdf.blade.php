@@ -16,14 +16,14 @@
             padding: 0px;
         }
         .heading1{
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             font-family: Arial, Helvetica, sans-serif;
             margin-bottom: 10px;
             margin-top: 10px;
         }
        .table2,  th, td{
-            font-size: 18px;
+            font-size: 12px;
             font-weight: bold;
             font-family: Arial, Helvetica, sans-serif;
            border:1px solid black;
