@@ -58,8 +58,8 @@
         </table>
         <table width="100%" class="table1">
             <tr>
-                <td>Family Name:<span class="ml-2">{{$record->sender->first_name}}</span></td>
-                <td>Givien Name: <span class="ml-2">{{$record->sender->last_name}}</span></td>
+                <td>Family Name:<span class="ml-2">{{$record->sender->last_name}}</span></td>
+                <td>Given Name: <span class="ml-2">{{$record->sender->first_name}}</span></td>
                 <td>Middle Name:</td>
                 <td>Suffix:</td>
             </tr>
@@ -83,8 +83,8 @@
         </table>
     <table width="100%" class="table1">
         <tr>
-            <td>Family Name:<span class="ml-2">{{$record->receiver->first_name}}</span></td>
-                <td>Givien Name: <span class="ml-2">{{$record->receiver->last_name}}</span></td>
+            <td>Family Name:<span class="ml-2">{{$record->receiver->last_name}}</span></td>
+                <td>Given Name: <span class="ml-2">{{$record->receiver->first_name}}</span></td>
                 <td>Middle Name:</td>
                 <td>Suffix:</td>
         </tr>
