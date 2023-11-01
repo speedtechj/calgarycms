@@ -236,7 +236,7 @@
             <td><span class="span-text">City </span><br>{{ $record->senderaddress->citycan->name }}</td>
             <td><span class="span-text">Province </span><br> {{ $record->senderaddress->provincecan->name }}</td>
             <td><span class="span-text">Postal Code </span><br> {{ $record->senderaddress->postal_code }}</td>
-            <td align="right"><span class="span-text">Email </span><br> {{ $record->sender->email }}</td>
+            <td align="right"><span class="span-text">Email </span><br> </td>
 
         </tr>
     </table>
@@ -274,7 +274,7 @@
                 {{ $record->receiveraddress->provincephil->name }}</td>
             <td width="25%"><span class="span-text">Zip Code </span><br> {{ $record->receiveraddress->zip_code }}
             </td>
-            <td width="25%" align="right"><span class="span-text">Email </span><br> {{ $record->receiver->email }}
+            <td width="25%" align="right"><span class="span-text">Email </span><br> 
             </td>
         </tr>
     </table>
