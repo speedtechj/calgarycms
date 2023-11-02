@@ -18,11 +18,12 @@ use App\Exports\ManilamanifestExport;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Contracts\HasTable;
 
+use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
 use Tables\Concerns\InteractsWithTable;
 use Filament\Notifications\Notification;
+use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ReceiverResource;
@@ -30,7 +31,6 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\Pagination\Paginator;
 use Filament\Forms\Concerns\InteractsWithForms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-use Filament\Forms\Components\DatePicker;
 
 class Addstatinvoice extends Page implements HasTable, HasForms
 {
@@ -224,11 +224,13 @@ class Addstatinvoice extends Page implements HasTable, HasForms
     // {
     //     return Layout::AboveContent;
     // }
+    
     protected function getTableBulkActions(): array
     {
         return [
-
+            
             BulkAction::make('Update Status')
+                ->label('Update Status')
                 ->action(function (Collection $records, array $data): void {
                     foreach ($records as $record) {
                         $statusupdate = InvoiceStatus::where('booking_id', $record->id)
