@@ -25,6 +25,7 @@ class RemarkstatusResource extends Resource
     protected static ?string $model = Remarkstatus::class;
     protected static ?string $navigationGroup = 'Request/Complain';
     protected static ?string $navigationLabel = 'Reques Status Info ';
+    protected static bool $shouldRegisterNavigation = false;
     public static ?string $label = 'Request Information';
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
