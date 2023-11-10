@@ -98,8 +98,12 @@ class RemarkstatusRelationManager extends RelationManager
                 ->label('Status'),
             Tables\Columns\IconColumn::make('is_resolved')
                 ->boolean(),
-            Tables\Columns\TextColumn::make('sender_comment'),
-            Tables\Columns\TextColumn::make('receiver_comment'),
+            Tables\Columns\TextColumn::make('sender_comment')
+            ->limit(10)
+            ->tooltip(fn (Model $record): string => "{$record->sender_comment}"),
+            Tables\Columns\TextColumn::make('receiver_comment')
+            ->limit(10)
+            ->tooltip(fn (Model $record): string => "{$record->receiver_comment}"),
             Tables\Columns\TextColumn::make('assignby.full_name')
                 ->label('Assigned By'),
             Tables\Columns\TextColumn::make('created_at')
