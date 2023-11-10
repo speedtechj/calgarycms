@@ -191,7 +191,7 @@ class RemarkstatusRelationManager extends RelationManager
                 ->visible(fn (Model $record) => $record->status == 'Closed'),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make()->visible(fn (Model $record) => $record->status == 'Open'),
+                // Tables\Actions\DeleteBulkAction::make()
             ]);
     }    
 }
