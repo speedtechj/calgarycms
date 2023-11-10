@@ -33,7 +33,7 @@ class Manilamanifest extends Page implements HasTable, HasForms
     use InteractsWithForms;
     use HasPageShield;
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationGroup = 'Report';
+    protected static ?string $navigationGroup = 'Customer Service';
     protected static string $view = 'filament.pages.manifest';
     public $isedit = true;
     protected function getTableQuery(): Builder

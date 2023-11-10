@@ -12,6 +12,7 @@ class Remarkstatus extends Model
     protected $casts = [
        
         'invoicedoc' => 'array',
+        'assign_to' => 'array',
        
         
     ];
@@ -47,5 +48,9 @@ class Remarkstatus extends Model
     public function assignto()
     {
         return $this->belongsTo(User::class, 'assign_to');
+    }
+    public function searchinvoice()
+    {
+        return $this->belongsTo(Searchinvoice::class, 'booking_id');
     }
 }

@@ -44,7 +44,12 @@ class RemarkstatusResource extends Resource
                                 ->reactive()
                                 ->required()
                                 ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
+                                    $bookinginfo = Booking::where('id', $state)->first();
+                                    $set('sender',$bookinginfo->sender->full_name ?? '');
+                                    $set('receiver',$bookinginfo->receiver->full_name ?? '');
+                                    $set('senderaddress',$bookinginfo->receiveraddress->address ?? '');
                                     $set('manual_invoice', $state);
+                                    
                                 }),
                                 Forms\Components\Select::make('manual_invoice')
                                 ->disabledOn('edit')
@@ -53,9 +58,28 @@ class RemarkstatusResource extends Resource
                                 ->reactive()
                                 ->label('Manual Invoice')
                                ->afterStateUpdated(function (Booking $booking, Closure $set, Closure $get, $state) {
-                                    $set('booking_id', $state);
+                                $bookinginfo = Booking::where('id', $state)->first();
+                                $set('sender',$bookinginfo->sender->full_name ?? '');
+                                $set('receiver',$bookinginfo->receiver->full_name ?? '');
+                                $set('booking_id', $state);
                                 }),
+                            
                         ])->columns(2),
+                    Section::make('Customer Information')
+                    ->schema([
+                        Forms\Components\TextInput::make('sender')
+                            ->label('Sender Name')
+                            ->dehydrated(false),
+                            Forms\Components\TextInput::make('receiver')
+                            ->label('Receiver Name')
+                            ->dehydrated(false),
+                            Forms\Components\TextInput::make('senderaddress')
+                            ->label('Sender Address')
+                            ->dehydrated(false),
+                            Forms\Components\TextInput::make('receiveraddress')
+                            ->label('Receiver Address')
+                            ->dehydrated(false)
+                    ])->columns(2),
                     Section::make('Request Information')
                         ->schema([
                             Forms\Components\Select::make('statuscategory_id')
