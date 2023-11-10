@@ -172,122 +172,122 @@ class BookingRelationManager extends RelationManager
                     }),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    // ->beforeFormFilled(function (Booking $record, array $data) {
-                    //     dump($record->is_agent);
-                    // })
-                    ->after(function (Booking $record, array $data) {
-                        // dump($data); 
-                        if ($record->servicetype_id == 1) {
-                            if ($record->agent->agent_type == 0) {
-                                $record->update([
-                                    'is_agent' => 1,
+                // Tables\Actions\EditAction::make()
+                //     // ->beforeFormFilled(function (Booking $record, array $data) {
+                //     //     dump($record->is_agent);
+                //     // })
+                //     ->after(function (Booking $record, array $data) {
+                //         // dump($data); 
+                //         if ($record->servicetype_id == 1) {
+                //             if ($record->agent->agent_type == 0) {
+                //                 $record->update([
+                //                     'is_agent' => 1,
 
-                                ]);
-                            } else {
-                                $record->update([
-                                    'is_agent' => 0,
+                //                 ]);
+                //             } else {
+                //                 $record->update([
+                //                     'is_agent' => 0,
 
-                                ]);
-                            }
-                        } else {
+                //                 ]);
+                //             }
+                //         } else {
 
-                            $record->update([
-                                'is_agent' => 0,
+                //             $record->update([
+                //                 'is_agent' => 0,
 
-                            ]);
-                        }
-                        if ($record->boxtype_id != 9) {
-                            $record->update([
-                                'total_inches' => null,
-                            ]);
-                        }
-                        if ($record->boxtype_id != 4) {
-                            $record->update([
-                                'irregular_width' => null,
-                                'irregular_length' => null,
-                                'irregular_height' => null,
-                            ]);
-                        };
-                        if ($data['servicetype_id'] == 2) {
-                            $record->update([
-                                'agent_id' => null,
+                //             ]);
+                //         }
+                //         if ($record->boxtype_id != 9) {
+                //             $record->update([
+                //                 'total_inches' => null,
+                //             ]);
+                //         }
+                //         if ($record->boxtype_id != 4) {
+                //             $record->update([
+                //                 'irregular_width' => null,
+                //                 'irregular_length' => null,
+                //                 'irregular_height' => null,
+                //             ]);
+                //         };
+                //         if ($data['servicetype_id'] == 2) {
+                //             $record->update([
+                //                 'agent_id' => null,
 
-                            ]);
-                        }
+                //             ]);
+                //         }
 
-                        if ($record->agent_id != null) {
-                            $agent = Agent::find($record->agent_id);
-                            $agentid = $agent->agent_type;
-                            if ($agentid == 0) {
-                                if ($record->discount_id != null) {
-                                    $record->update([
-                                        'discount_id' => null,
-                                    ]);
-                                }
-                            } else {
-                                if ($record->agentdiscount_id != null) {
-                                    $record->update([
-                                        'agentdiscount_id' => null,
-                                    ]);
-                                }
-                            }
-                        } else {
-                            if ($record->agentdiscount_id != null) {
-                                $record->update([
-                                    'agentdiscount_id' => null,
-                                ]);
-                            }
-                        }
+                //         if ($record->agent_id != null) {
+                //             $agent = Agent::find($record->agent_id);
+                //             $agentid = $agent->agent_type;
+                //             if ($agentid == 0) {
+                //                 if ($record->discount_id != null) {
+                //                     $record->update([
+                //                         'discount_id' => null,
+                //                     ]);
+                //                 }
+                //             } else {
+                //                 if ($record->agentdiscount_id != null) {
+                //                     $record->update([
+                //                         'agentdiscount_id' => null,
+                //                     ]);
+                //                 }
+                //             }
+                //         } else {
+                //             if ($record->agentdiscount_id != null) {
+                //                 $record->update([
+                //                     'agentdiscount_id' => null,
+                //                 ]);
+                //             }
+                //         }
 
-                        $booking_payment = Bookingpayment::where('booking_id', $record->id)->sum('payment_amount');
-                        if ($record->is_paid != 0) {
-                            if ($record->total_price > $booking_payment) {
-                                $payment_balance = $record->total_price - $booking_payment;
-                                $record->update([
-                                    'payment_balance' => $payment_balance,
-                                    'is_paid' => 0
-                                ]);
-                            } else {
-                                $refund_sum = Bookingrefund::where('booking_id', $record->id)->sum('payment_amount');
-                                if (!$refund_sum) {
+                //         $booking_payment = Bookingpayment::where('booking_id', $record->id)->sum('payment_amount');
+                //         if ($record->is_paid != 0) {
+                //             if ($record->total_price > $booking_payment) {
+                //                 $payment_balance = $record->total_price - $booking_payment;
+                //                 $record->update([
+                //                     'payment_balance' => $payment_balance,
+                //                     'is_paid' => 0
+                //                 ]);
+                //             } else {
+                //                 $refund_sum = Bookingrefund::where('booking_id', $record->id)->sum('payment_amount');
+                //                 if (!$refund_sum) {
 
-                                    $record->update([
-                                        'refund_amount' => $booking_payment - $record->total_price,
+                //                     $record->update([
+                //                         'refund_amount' => $booking_payment - $record->total_price,
 
-                                    ]);
-                                } else {
-                                    if ($record->total_price > $booking_payment) {
-                                        $record->update([
-                                            'refund_amount' => $booking_payment - $record->total_price - $refund_sum,
+                //                     ]);
+                //                 } else {
+                //                     if ($record->total_price > $booking_payment) {
+                //                         $record->update([
+                //                             'refund_amount' => $booking_payment - $record->total_price - $refund_sum,
 
-                                        ]);
-                                    } else {
-                                        $payment_balance =  $record->total_price + $refund_sum - $booking_payment;
-                                        $record->update([
-                                            'payment_balance' => $payment_balance,
-                                            'is_paid' => 0
-                                        ]);
-                                    }
-                                }
-                            }
-                        } else {
-                            if ($record->total_price == $booking_payment) {
-                                $record->update([
-                                    'is_paid' => 1
-                                ]);
-                            }
-                            $record->update([
-                                'payment_balance' => $data['total_price'],
-                            ]);
-                        }
-                        if ($record->total_price == 0) {
-                            $record->update([
-                                'is_paid' => 1
-                            ]);
-                        }
-                    }),
-                Tables\Actions\DeleteAction::make(),
+                //                         ]);
+                //                     } else {
+                //                         $payment_balance =  $record->total_price + $refund_sum - $booking_payment;
+                //                         $record->update([
+                //                             'payment_balance' => $payment_balance,
+                //                             'is_paid' => 0
+                //                         ]);
+                //                     }
+                //                 }
+                //             }
+                //         } else {
+                //             if ($record->total_price == $booking_payment) {
+                //                 $record->update([
+                //                     'is_paid' => 1
+                //                 ]);
+                //             }
+                //             $record->update([
+                //                 'payment_balance' => $data['total_price'],
+                //             ]);
+                //         }
+                //         if ($record->total_price == 0) {
+                //             $record->update([
+                //                 'is_paid' => 1
+                //             ]);
+                //         }
+                //     }),
+                // Tables\Actions\DeleteAction::make(),
                 ActionGroup::make([
                     Tables\Actions\Action::make('print')
                         ->label('Print Invoice')

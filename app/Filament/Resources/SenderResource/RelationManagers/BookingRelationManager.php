@@ -725,8 +725,8 @@ class BookingRelationManager extends RelationManager
                 // ToggleColumn::make('is_padi'),
                 Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
-                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent')
-                ->url(fn (Model $record) => AgentResource::getUrl('edit', $record->agent)),
+                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
+                // ->url(fn (Model $record) => AgentResource::getUrl('edit', $record->agent)),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
                 Tables\Columns\TextColumn::make('note')->label('Notes'),
                 Tables\Columns\TextColumn::make('user.id')
