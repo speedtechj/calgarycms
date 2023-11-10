@@ -45,6 +45,7 @@ use Filament\Tables\Actions\EditAction;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Actions\ActionGroup;
+use App\Filament\Resources\AgentResource;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TimePicker;
@@ -724,8 +725,8 @@ class BookingRelationManager extends RelationManager
                 // ToggleColumn::make('is_padi'),
                 Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
-                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
-                // ->url(fn (Agent $record): string => route('agents.edit', ['agent' => $record])),
+                Tables\Columns\TextColumn::make('agent.full_name')->label('Agent')
+                ->url(fn (Model $record) => AgentResource::getUrl('edit', $record->agent)),
                 Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
                 Tables\Columns\TextColumn::make('note')->label('Notes'),
                 Tables\Columns\TextColumn::make('user.id')
