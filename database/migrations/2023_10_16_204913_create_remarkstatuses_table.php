@@ -24,7 +24,7 @@ return new class extends Migration
             $table->boolean('is_resolved')->default(false);
             $table->string('status')->default(Remarkstatus::STATUS['Open']);
             $table->foreignId('assign_by')->reference('id')->on('users');
-            $table->foreignId('assign_to')->reference('id')->on('users');
+            $table->longtext('assign_to');
             $table->longtext('sender_comment')->nullable();
             $table->longtext('receiver_comment')->nullable();
             $table->longText('invoicedoc')->nullable();
