@@ -703,20 +703,21 @@ class BookingRelationManager extends RelationManager
                     }),
                 Tables\Columns\IconColumn::make('is_pickup')
                     ->label('Is Pickup')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('zone.description'),
+                    ->boolean()
+                    ->toggleable(),
+                Tables\Columns\TextColumn::make('zone.description')->toggleable(),
                 Tables\Columns\TextColumn::make('booking_date')->label('Pickup/Dropoff Date'),
                 Tables\Columns\TextColumn::make('start_time')->label('Pickup/Dropoff Time')
                     ->getStateUsing(function (Model $record) {
                         return $record->start_time . " - " . $record->end_time;
                     }),
-                Tables\Columns\TextColumn::make('dimension')->label('Dimension'),
-                Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches'),
+                Tables\Columns\TextColumn::make('dimension')->label('Dimension')->toggleable(),
+                Tables\Columns\TextColumn::make('total_inches')->label('No. of Inches')->toggleable(),
                 Tables\Columns\TextColumn::make('discount.discount_amount')->label('Discount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('agentdiscount.discount_amount')->label('Agent Discount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('extracharge_amount')->money('USD', shouldConvert: true),
                 Tables\Columns\TextColumn::make('total_price')->money('USD', shouldConvert: true),
-                Tables\Columns\TextColumn::make('payment_date')->datetime()->label('Payment Date')->sortable(),
+                Tables\Columns\TextColumn::make('payment_date')->datetime()->label('Payment Date')->sortable()->toggleable(),
                 Tables\Columns\IconColumn::make('is_paid')
                     ->label('Paid')
                     ->boolean()
@@ -724,11 +725,13 @@ class BookingRelationManager extends RelationManager
                 ->falseIcon('heroicon-o-x-circle'),
                 // ToggleColumn::make('is_padi'),
                 Tables\Columns\TextColumn::make('payment_balance')->label('Balance')->money('USD', shouldConvert: true),
-                Tables\Columns\TextColumn::make('refund_amount')->label('Refund'),
+                Tables\Columns\TextColumn::make('refund_amount')->label('Refund')
+                ->toggleable(),
                 Tables\Columns\TextColumn::make('agent.full_name')->label('Agent'),
                 // ->url(fn (Model $record) => AgentResource::getUrl('edit', $record->agent)),
-                Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean(),
-                Tables\Columns\TextColumn::make('note')->label('Notes'),
+                Tables\Columns\IconColumn::make('agent.agent_type')->label('In-House Agent')->boolean()->toggleable(),
+                Tables\Columns\TextColumn::make('note')->label('Notes')
+                ->toggleable(),
                 Tables\Columns\TextColumn::make('user.id')
                     ->label('Encoder')
                     ->searchable()
@@ -765,6 +768,7 @@ class BookingRelationManager extends RelationManager
                     }),
             ])
             ->actions([
+                ActionGroup::make([
                 Tables\Actions\EditAction::make()
                     // ->beforeFormFilled(function (Booking $record, array $data) {
                     //     dump($record->is_agent);
@@ -886,8 +890,9 @@ class BookingRelationManager extends RelationManager
                             ]);
                         }
                     }),
-                Tables\Actions\DeleteAction::make(),
-                ActionGroup::make([
+               
+              
+                    Tables\Actions\DeleteAction::make(),
                     Tables\Actions\Action::make('print')
                         ->label('Print Invoice')
                         ->color('warning')

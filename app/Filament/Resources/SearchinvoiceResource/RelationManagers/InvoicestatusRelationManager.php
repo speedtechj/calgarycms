@@ -36,7 +36,8 @@ class InvoicestatusRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('trackstatus.description')
                 ->label('Invoice Status'),
                 Tables\Columns\TextColumn::make('date_update')
-                ->label('Status Date'),
+                ->label('Status Date')
+                ->sortable(),
                 Tables\Columns\TextColumn::make('location')
                 ->label('Location'),
                 Tables\Columns\TextColumn::make('waybill')
@@ -56,5 +57,9 @@ class InvoicestatusRelationManager extends RelationManager
             ->bulkActions([
                
             ]);
-    }    
+    }  
+    protected function getDefaultTableSortColumn(): ?string
+{
+    return 'date_update';
+}  
 }

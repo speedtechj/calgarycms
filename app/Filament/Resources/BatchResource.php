@@ -10,8 +10,10 @@ use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Toggle;
+use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\BatchResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\BatchResource\RelationManagers;
@@ -55,6 +57,11 @@ class BatchResource extends Resource
                     ->label('Active')
                     ->sortable()
                     ->searchable(),
+                    Tables\Columns\IconColumn::make('is_lock')
+                    ->boolean()
+                    ->label('Lock')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('note'),
                 Tables\Columns\TextColumn::make('user_id')
                 ->label('Encoder')
@@ -74,6 +81,48 @@ class BatchResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                BulkAction::make('Lock')
+                ->color('primary')
+                ->icon('heroicon-o-lock-closed')
+                ->action(function (Collection $records, array $data): void {
+                    foreach ($records as $record) {
+                        $record->update([
+                         'is_lock' => true,
+                        ]);
+                    }
+                }),
+                BulkAction::make('Unlock')
+                ->color('primary')
+    ->icon('heroicon-o-lock-open')
+                ->action(function (Collection $records, array $data): void {
+                    foreach ($records as $record) {
+                        $record->update([
+                         'is_lock' => false,
+                        ]);
+                    }
+                }),
+                BulkAction::make('Activate')
+                ->color('success')
+    ->icon('heroicon-o-eye')
+                ->action(function (Collection $records, array $data): void {
+                    foreach ($records as $record) {
+                        $record->update([
+                         'is_active' => true,
+                        ]);
+                    }
+                }),
+                BulkAction::make('Deactivate')
+                ->color('success')
+    ->icon('heroicon-o-eye-off')
+                ->action(function (Collection $records, array $data): void {
+                    foreach ($records as $record) {
+                        $record->update([
+                         'is_active' => false,
+                        ]);
+                    }
+                })
+    
+                  
             ]);
     }
 

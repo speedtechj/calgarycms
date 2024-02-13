@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Casts\MoneyCast;
+use App\Models\Storecode;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -18,11 +20,22 @@ class Booking extends Model
          ];
     protected static function booted()
     {
+        
         static::creating(function ($invoice) {
-            // Custom invoice number generation logic, e.g., adding a prefix or suffix
+
             $lastbooking = Booking::orderBy('booking_invoice', 'desc')->first();
             $invoice->booking_invoice = $lastbooking ? $lastbooking->booking_invoice + 1 : 1;
             $invoice->booking_invoice =  str_pad($invoice->booking_invoice, 7, '0', STR_PAD_LEFT);
+
+
+
+            // $invprefix = Storecode::get()->first()->storecode;
+            // // Custom invoice number generation logic, e.g., adding a prefix or suffix
+            // $lastbooking = Booking::orderBy('booking_invoice', 'desc')->first();
+            // // dd($lastbooking->booking_invoice);
+            // $invoicetrim = substr($lastbooking->booking_invoice,2);
+            // $invoice->booking_invoice = $lastbooking ? intval($invoicetrim) + 1 : 1;
+            // $invoice->booking_invoice =   $invprefix.str_pad($invoice->booking_invoice, 7, '0', STR_PAD_LEFT);
         });
     }
     public function discount()
