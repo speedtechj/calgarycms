@@ -42,7 +42,10 @@
     <table width="100%"  >
         <tr>
             <td align="center" style="border:none">
-                <img class="logo" src="{{ public_path('/logo.png') }}" alt="logo" />
+                <img class="logo" src="{{ public_path('storage/logo/logo.png') }}" alt="logo" />
+                <p style="margin:0px; padding:0px">{{$companyinfo->company_address}}</p>
+                <p style="margin:0px; padding:0px">Phone: {{$companyinfo->company_phone}}</p>
+                <p style="margin:0px; padding:0px">{{$companyinfo->company_website}}</p>
 
             </td>
 

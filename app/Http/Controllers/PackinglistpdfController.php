@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use data;
 use App\Models\Booking;
-use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
+use App\Models\Companyinfo;
 use Illuminate\Http\Request;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 class PackinglistpdfController extends Controller
 {
     public function index(Booking $record){
-        
+        $companyinfo = Companyinfo::all()->first();
         // $packinglistdata = Packinglist::where('booking_id', $record->id)->get();
         $data['record'] = $record;
+        $data['companyinfo'] = $companyinfo;
         // $data['packinglist'] = $packinglistdata;
         // $data['paymenttype'] = Paymenttype::all();
          
