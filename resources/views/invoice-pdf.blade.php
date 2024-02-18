@@ -166,7 +166,7 @@
         <tr>
             <td width="40%">
                 <img class="logo" src="{{ public_path('storage/logo/logo.png') }}" alt="logo" />
-                <p style="font-size: 14px; text-align: left; color:#50C878">{{$companyinfo->company_slogan}}</p>
+                <p style="font-size:10px; text-align: left; color:#50C878">{{$companyinfo->company_slogan}}</p>
             </td>
             <td width="20%">
                 {!! DNS2D::getBarcodeHTML("$companyinfo->company_tracking$record->booking_invoice", 'QRCODE', 3, 3, 'black', true) !!}
