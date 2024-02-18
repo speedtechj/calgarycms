@@ -172,7 +172,7 @@
                 {!! DNS2D::getBarcodeHTML("$companyinfo->company_tracking$record->booking_invoice", 'QRCODE', 3, 3, 'black', true) !!}
             </td>
             <td width="40%" align="right">
-                <p class="heading-1">{{$companyinfo->company_name}}</p>
+                <p style="font-size:15px">{{$companyinfo->company_name}}</p>
                 <p>{{$companyinfo->company_address}}</p>
                 <p>Phone: {{$companyinfo->company_phone}}</p>
                 <p>{{$companyinfo->company_website}}</p>
