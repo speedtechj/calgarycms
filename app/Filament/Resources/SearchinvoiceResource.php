@@ -15,6 +15,7 @@ use Filament\Forms\Components\Actions\Action;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SearchinvoiceResource\Pages;
 use App\Filament\Resources\SearchinvoiceResource\RelationManagers;
+use App\Filament\Resources\SearchinvoiceResource\RelationManagers\InvattachRelationManager;
 use App\Filament\Resources\SearchinvoiceResource\RelationManagers\RemarkstatusRelationManager;
 use App\Filament\Resources\SearchinvoiceResource\RelationManagers\InvoicestatusRelationManager;
 
@@ -130,6 +131,7 @@ class SearchinvoiceResource extends Resource
         return [
             InvoicestatusRelationManager::class,
             RemarkstatusRelationManager::class,
+            InvattachRelationManager::class,
         ];
     }
     

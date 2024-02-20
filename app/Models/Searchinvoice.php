@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+use App\Models\Invattach;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Searchinvoice extends Model
 {
@@ -47,5 +49,8 @@ class Searchinvoice extends Model
     }
     public function statuscategory(){
         return $this->belongsTo(Statuscategory::class);
+    }
+    public function invattach(){
+        return $this->hasMany(Invattach::class,'booking_id');
     }
 }
