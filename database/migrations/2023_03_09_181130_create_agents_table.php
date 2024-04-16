@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('citycan_id')->constrained();
             $table->string('postal_code');
             $table->string('email')->unique();
+            $table->string('password')->default(Hash::make('password'));
             $table->date('date_of_birth');
             $table->string('filedoc')->nullable();
             $table->string('mobile_no')->unique();
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->date('date_hired');
             $table->text('note')->nullable();
             $table->boolean('agent_type')->default(1);
+             $table->rememberToken();
             $table->timestamps();
         });
     }

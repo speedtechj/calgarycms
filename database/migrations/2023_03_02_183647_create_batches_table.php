@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('batchno');
             $table->year('batch_year');
+            $table->string('batchno_year')->virtualAs('concat(batchno, \' \', batch_year')->unique();
             $table->text('note')->nullable();
             $table->boolean('is_active')->default(0);
             $table->boolean('is_lock')->default(0);
